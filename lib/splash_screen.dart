@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import './screens/login/login.dart';
+import 'package:transition/transition.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -13,7 +15,10 @@ class _SplashScreenState extends State<SplashScreen> {
   void _navigateToLoginPage() async {
     Future.delayed(const Duration(seconds: 3), (){
   Navigator.push(
-      context, MaterialPageRoute(builder: (_) => LoginScreen()));
+      context, Transition(
+      child: LoginScreen(),
+      transitionEffect: TransitionEffect.FADE)
+      );
     });
   }
 

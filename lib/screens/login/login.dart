@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../home/home.dart';
+import 'package:transition/transition.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -36,7 +38,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     GestureDetector(
                       onTap: ()=>{
     Navigator.push(
-    context, MaterialPageRoute(builder: (_) => Home()))
+    context, Transition(
+        child: Home(),
+        transitionEffect: TransitionEffect.FADE))
     },
 
                       child: Container(
