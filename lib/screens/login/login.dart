@@ -32,17 +32,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     SizedBox(height: 200.h,),
                     Center(
-                        child: Image.asset('assets/xhdpi/Ting_logo.png',height: 180.h,)
+                        child: Image.asset('assets/images/Ting_Login_Logo.png',height: 180.h,)
                     ),
                     SizedBox(height: 200.h,),
                     GestureDetector(
                       onTap: ()=>{
-    Navigator.push(
-    context, Transition(
-        child: Home(),
-        transitionEffect: TransitionEffect.FADE))
-    },
-
+                          Navigator.push(
+                          context, Transition(
+                          child: Home(),
+                          transitionEffect: TransitionEffect.FADE))
+                      },
                       child: Container(
                         height: 180.h,
                         width: 300.w,

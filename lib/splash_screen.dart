@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
             child: SizedBox(
                 width: double.infinity,
                 child: Center(
-                    child: Image.asset('assets/xhdpi/Ting_logo.png',height: 100.h,)
+                    child: Image.asset('assets/images/Ting_Logo.png',height: 100.h,)
                 )
             ),
           )
