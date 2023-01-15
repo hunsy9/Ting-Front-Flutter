@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../home/home.dart';
-import 'package:transition/transition.dart';
+
 
 
 class LoginScreen extends StatefulWidget {
@@ -37,10 +36,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 200.h,),
                     GestureDetector(
                       onTap: ()=>{
-                          Navigator.push(
-                          context, Transition(
-                          child: Home(),
-                          transitionEffect: TransitionEffect.FADE))
+                          Navigator.pushNamed(
+                          context, '/home')
                       },
                       child: Container(
                         height: 180.h,
