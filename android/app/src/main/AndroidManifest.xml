@@ -1,9 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.ting_flutter">
    <application
-        android:label="ting_flutter"
+        android:label="Ting"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+       android:hardwareAccelerated="true" >
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -27,14 +29,15 @@
         </activity>
        <activity
            android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity"
-           android:exported="true">
+           android:exported="true"
+           >
            <intent-filter android:label="flutter_web_auth">
                <action android:name="android.intent.action.VIEW" />
                <category android:name="android.intent.category.DEFAULT" />
                <category android:name="android.intent.category.BROWSABLE" />
 
                <!-- Redirect URI, "kakao${YOUR_NATIVE_APP_KEY}://oauth" 형식 -->
-               <data android:scheme="kakao${84817c810115c69866956281b1f115b9}" android:host="oauth"/>
+               <data android:host="oauth" android:scheme="kakao84817c810115c69866956281b1f115b9"/>
            </intent-filter>
        </activity>
 

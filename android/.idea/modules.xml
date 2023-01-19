@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android.iml" filepath="$PROJECT_DIR$/.idea/modules/android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1203860062/android.flutter_web_auth.iml" filepath="$PROJECT_DIR$/.idea/modules/1203860062/android.flutter_web_auth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1203860062/android.flutter_web_auth.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/1203860062/android.flutter_web_auth.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1203860062/android.flutter_web_auth.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1203860062/android.flutter_web_auth.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1203860062/android.flutter_web_auth.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/1203860062/android.flutter_web_auth.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-733691721/android.kakao_flutter_sdk_common.iml" filepath="$PROJECT_DIR$/.idea/modules/-733691721/android.kakao_flutter_sdk_common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-733691721/android.kakao_flutter_sdk_common.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-733691721/android.kakao_flutter_sdk_common.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-733691721/android.kakao_flutter_sdk_common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-733691721/android.kakao_flutter_sdk_common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-733691721/android.kakao_flutter_sdk_common.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-733691721/android.kakao_flutter_sdk_common.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1668583168/android.shared_preferences_android.iml" filepath="$PROJECT_DIR$/.idea/modules/-1668583168/android.shared_preferences_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1668583168/android.shared_preferences_android.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-1668583168/android.shared_preferences_android.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1668583168/android.shared_preferences_android.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1668583168/android.shared_preferences_android.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1668583168/android.shared_preferences_android.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-1668583168/android.shared_preferences_android.unitTest.iml" />
+    </modules>
+  </component>
+</project>
