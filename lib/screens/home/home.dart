@@ -24,10 +24,7 @@ class _HomeState extends State<Home> {
         children: [
           Center(
             child: SizedBox(
-                width: double.infinity,
-                child: Center(
-                    child: Text("home")
-                )
+                width: double.infinity
             ),
           )
         ],
