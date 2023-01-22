@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:ting_flutter/components/myAppBar.dart';
 
 class TestSignUp extends StatefulWidget {
   const TestSignUp({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class _TestSignUpState extends State<TestSignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      appBar: baseAppBar("테스트페이지"),
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -29,7 +30,7 @@ class _TestSignUpState extends State<TestSignUp> {
                 child: Column(
                   children: [
                     SizedBox(height: 500.h,),
-                    ElevatedButton(onPressed: ()async{
+                    ElevatedButton(onPressed: () async{
                       try {
                         AccessTokenInfo tokenInfo = await UserApi.instance.accessTokenInfo();
                         print('토큰 정보 보기 성공'

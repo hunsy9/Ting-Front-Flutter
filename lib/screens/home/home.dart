@@ -37,11 +37,11 @@ class _HomeState extends State<Home> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  smallButton('assets/images/notification.png', 31.32, 29),
+                  smallButton('assets/images/notification.png', 31.32, 29,context),
                   SizedBox(
                     width: 7.68.w,
                   ),
-                  smallButton('assets/images/share.png', 27, 27),
+                  smallButton('assets/images/share.png', 27, 27,context),
                   SizedBox(
                     width: 28.w,
                   ),
@@ -260,10 +260,12 @@ ButtonTheme bigButton(String image, double width, double height , context) {
 }
 
 //  종, 공유, 설정 버튼 //
-ButtonTheme smallButton(String image, double width, double height) {
+ButtonTheme smallButton(String image, double width, double height,context) {
   return ButtonTheme(
     child: TextButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushNamed(context, "/alarm");
+      },
       child: Image.asset(
         image,
         width: width.w,
