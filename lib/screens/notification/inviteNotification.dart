@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ting_flutter/components/myAppBar.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:ting_flutter/components/notificationBox.dart';
-import 'package:ting_flutter/components/customButton.dart';
 
 
 class InvitationNotificationScreen extends StatefulWidget {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ting_flutter/components/customButton.dart';
 
 Widget myNotificationBox(context , String who , String date){
   return Container(

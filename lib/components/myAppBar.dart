@@ -18,12 +18,8 @@ AppBar baseAppBar(String title){
     title: Text(
       title,
       style: const TextStyle(
-          color: Colors.black,
-          fontSize: 18,
-          fontFamily: 'NotoSansKR',
-          fontWeight: FontWeight.w500,
-          fontStyle: FontStyle.normal
-      ),
+          color: Color(0xff414141),
+          fontFamily: 'nanumsquareround', fontSize: 20),
     ),
     backgroundColor: Colors.white,
     elevation: 0.2,
