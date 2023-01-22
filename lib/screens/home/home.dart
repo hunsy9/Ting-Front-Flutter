@@ -43,9 +43,8 @@ class _HomeState extends State<Home> {
                   ),
                   smallButton('assets/images/share.png', 27, 27),
                   SizedBox(
-                    width: 16.w,
+                    width: 28.w,
                   ),
-                  smallButton('assets/images/settings.png', 31, 34),
                 ],
               ),
         
@@ -69,18 +68,18 @@ class _HomeState extends State<Home> {
                   SizedBox(
                     width: 30.w,
                   ),
-                  bigButton('assets/images/timer.png', 71, 71),
+                  bigButton('assets/images/timer.png', 71, 71 , context),
                   SizedBox(
                     width: 25.w,
                   ),
-                  bigButton('assets/images/digital_marketing.png', 69, 69),
+                  bigButton('assets/images/digital_marketing.png', 69, 69,context),
                   SizedBox(
                     width: 25.w,
                   ),
                   bigButton(
                       'assets/images/free-icon-user-profile-7487102 1.png',
                       52,
-                      52),
+                      52,context),
                 ],
               ),
               SizedBox(
@@ -234,10 +233,12 @@ class _HomeState extends State<Home> {
 
 
 // 추천 장소, 공지사항, 내 프로필 버튼 //
-ButtonTheme bigButton(String image, double width, double height) {
+ButtonTheme bigButton(String image, double width, double height , context) {
   return ButtonTheme(
     child: TextButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushNamed(context,'/testAuth');
+      },
       child: Image.asset(
         image,
         width: width.w,

@@ -11,7 +11,7 @@ import '../screens/recommendedPlace/recommendedPlace.dart';
 import '../screens/notice/notice.dart';
 import '../screens/myprofile/myprofile.dart';
 import '../screens/notification/inviteNotification.dart';
-import '../screens/setting/setting.dart';
+import '../screens/kakaoLogin/testAuth.dart';
 
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -32,8 +32,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const FilterScreen());
     case MyProfileViewRoute:
       return MaterialPageRoute(builder: (context) => const MyProfileScreen());
-    case SettingViewRoute:
-      return MaterialPageRoute(builder: (context) => const SettingScreen());
+    case TestAuthViewRoute:
+      return MaterialPageRoute(builder: (context) => const TestSignUp());
     case InvitationNotificationViewRoute:
       return MaterialPageRoute(builder: (context) => const InvitationNotificationScreen());
     default:

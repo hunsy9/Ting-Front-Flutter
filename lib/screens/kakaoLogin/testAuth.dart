@@ -43,7 +43,7 @@ class _TestSignUpState extends State<TestSignUp> {
                       try {
                         await UserApi.instance.logout();
                         print('로그아웃 성공, SDK에서 토큰 삭제');
-                        Navigator.pop(context);
+                        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
                       } catch (error) {
                         print('로그아웃 실패, SDK에서 토큰 삭제 $error');
                       }
@@ -51,7 +51,7 @@ class _TestSignUpState extends State<TestSignUp> {
                     ElevatedButton(onPressed: ()async{
                       try {
                         UserIdResponse userIdResponse=await UserApi.instance.unlink();
-                        Navigator.pop(context);
+                        Navigator.pushNamedAndRemoveUntil(context,'/login',(route)=>false);
                         print('연결 끊기 성공, SDK에서 토큰 삭제 ${userIdResponse}');
                       } catch (error) {
                         print('연결 끊기 실패 $error');

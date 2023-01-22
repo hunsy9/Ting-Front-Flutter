@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -9,16 +10,27 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  void _navigateToLoginPage() async {
+
+  void _isTokenExpired() async{
+
+    try {
+      await UserApi.instance.accessTokenInfo();
+    } catch (error) {
+        Future.delayed(const Duration(seconds: 3), (){
+              Navigator.pushNamed(context, '/login');
+            });
+        return;
+    }
     Future.delayed(const Duration(seconds: 3), (){
-      Navigator.pushNamed(context, '/login');
+      Navigator.pushNamed(context, '/home');
     });
+
   }
 
   @override
   void initState() {
     super.initState();
-    _navigateToLoginPage();
+    _isTokenExpired();
   }
 
   @override

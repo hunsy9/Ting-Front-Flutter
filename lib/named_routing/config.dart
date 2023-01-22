@@ -8,3 +8,4 @@ const String NoticeViewRoute = '/notice';
 const String MyProfileViewRoute = '/myprofile';
 const String SettingViewRoute = '/setting';
 const String InvitationNotificationViewRoute = '/alarm';
+const String TestAuthViewRoute = '/testAuth';
