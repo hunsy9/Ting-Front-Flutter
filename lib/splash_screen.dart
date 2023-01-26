@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:http/http.dart' as http;
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -21,8 +24,12 @@ class _SplashScreenState extends State<SplashScreen> {
             });
         return;
     }
-    Future.delayed(const Duration(seconds: 3), (){
+    Future.delayed(const Duration(seconds: 3), ()async{
       Navigator.pushNamed(context, '/home');
+      var url = 'http://localhost:8080/api/v1/user/signin/2222';
+      final response = await http.get(Uri.parse(url));
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
     });
 
   }

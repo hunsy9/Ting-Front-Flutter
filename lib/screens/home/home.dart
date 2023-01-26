@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ting_flutter/components/homeAppbar.dart';
 import 'package:ting_flutter/named_routing/config.dart';
 
 const String my_profile_image =
@@ -27,31 +28,27 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        extendBodyBehindAppBar: true,
+        appBar: homeAppBar("",context),
         body: RefreshIndicator(
           onRefresh: () => requestNew(),
           child: Column(
             children: [
-              SizedBox(
-                height: 48.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  smallButton('assets/images/notification.png', 31.32, 29,context),
-                  SizedBox(
-                    width: 7.68.w,
-                  ),
-                  smallButton('assets/images/share.png', 27, 27,context),
-                  SizedBox(
-                    width: 28.w,
-                  ),
-                ],
-              ),
-
-              SizedBox(
-                height: 15.h,
-              ),
+              // SizedBox(
+              //   height: 48.h,
+              // ),
+              // // Row(
+              // //   mainAxisAlignment: MainAxisAlignment.end,
+              // //   children: [
+              // //     smallButton('assets/images/notification.png', 31.32, 29,context),
+              // //     SizedBox(
+              // //       width: 7.68.w,
+              // //     ),
+              // //     smallButton('assets/images/share.png', 27, 27,context),
+              // //     SizedBox(
+              // //       width: 28.w,
+              // //     ),
+              // //   ],
+              // // ),
 
               Container(
                 width: 446.w,
@@ -222,6 +219,18 @@ class _HomeState extends State<Home> {
         ));
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 // 추천 장소, 공지사항, 내 프로필 버튼 //
 ButtonTheme bigButton(String image, double width, double height , context , int index) { //임시방편 인덱스넣어둠
