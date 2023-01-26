@@ -13,19 +13,22 @@ import '../screens/myprofile/myprofile.dart';
 import '../screens/notification/inviteNotification.dart';
 import '../screens/setting/setting.dart';
 
-
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case SplashViewRoute:
-      return PageTransition(child: const SplashScreen(), type: PageTransitionType.fade);
+      return PageTransition(
+          child: const SplashScreen(), type: PageTransitionType.fade);
     case KakaoLoginViewRoute:
-      return PageTransition(child: const LoginScreen(), type: PageTransitionType.fade);
+      return PageTransition(
+          child: const LoginScreen(), type: PageTransitionType.fade);
     case AdditionalAuthViewRoute:
-      return PageTransition(child: const AdditionalAuthScreen(), type: PageTransitionType.fade);
+      return PageTransition(
+          child: const AdditionalAuthScreen(), type: PageTransitionType.fade);
     case HomeViewRoute:
       return PageTransition(child: const Home(), type: PageTransitionType.fade);
     case RecommendedPlaceViewRoute:
-      return MaterialPageRoute(builder: (context) => const RecommendedPlaceScreen());
+      return MaterialPageRoute(
+          builder: (context) => const RecommendedPlaceScreen());
     case NoticeViewRoute:
       return MaterialPageRoute(builder: (context) => const NoticeScreen());
     case FilterViewRoute:
@@ -35,7 +38,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case SettingViewRoute:
       return MaterialPageRoute(builder: (context) => const SettingScreen());
     case InvitationNotificationViewRoute:
-      return MaterialPageRoute(builder: (context) => const InvitationNotificationScreen());
+      return MaterialPageRoute(
+          builder: (context) => const InvitationNotificationScreen());
     default:
       return MaterialPageRoute(builder: (context) => const Home());
   }

@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     GestureDetector(
                       onTap: ()=>{
                           Navigator.pushNamed(
-                          context, '/home')
+                          context, '/login/additionalAuth')
                       },
                       child: Container(
                         height: 180.h,
