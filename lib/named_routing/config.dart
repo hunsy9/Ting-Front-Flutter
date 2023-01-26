@@ -1,6 +1,6 @@
 const String SplashViewRoute = '/splash';
 const String KakaoLoginViewRoute = '/login';
-const String AdditionalAuthViewRoute = '/login/addtionalAuth';
+const String AdditionalAuthViewRoute = '/login/additionalAuth';
 const String HomeViewRoute = '/home';
 const String FilterViewRoute = '/home/filter';
 const String RecommendedPlaceViewRoute = '/place';

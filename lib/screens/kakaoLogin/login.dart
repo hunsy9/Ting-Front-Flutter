@@ -38,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(height: 250.h,),
                     GestureDetector(
+
                       onTap:() async{
 
                         if (await isKakaoTalkInstalled()) {
