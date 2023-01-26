@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ting_flutter/named_routing/config.dart';
 
 const String my_profile_image =
     'assets/images/—Pngtree—simple flat character avatar_6202775 1.png';
@@ -47,22 +48,22 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-        
+
               SizedBox(
                 height: 15.h,
               ),
-        
+
               Container(
                 width: 446.w,
                 height: 1.h,
                 color: Color(0xffBEBEBE),
               ),
-        
+
               //
               SizedBox(
                 height: 20.h,
               ),
-        
+
               Row(
                 children: [
                   SizedBox(
@@ -85,7 +86,7 @@ class _HomeState extends State<Home> {
               SizedBox(
                 height: 7.0.h,
               ),
-        
+
               Row(
                 children: [
                   SizedBox(
@@ -126,11 +127,11 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-        
+
               SizedBox(
                 height: 37.61.h,
               ),
-        
+
               Row(
                 children: [
                   SizedBox(
@@ -138,7 +139,9 @@ class _HomeState extends State<Home> {
                   ),
                   ButtonTheme(
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, FilterViewRoute);
+                      },
                       child: Row(
                         children: [
                           Image.asset('assets/images/filter.png'),
@@ -173,12 +176,12 @@ class _HomeState extends State<Home> {
               SizedBox(
                 height: 36.41.h,
               ),
-        
+
               profile_circle(my_profile_image, 1, context),
               SizedBox(
                 height: 91.18.h,
               ),
-        
+
               Row(
                 children: [
                   Expanded(
@@ -195,9 +198,9 @@ class _HomeState extends State<Home> {
                       )),
                 ],
               ),
-        
+
               SizedBox(height: 108.16.h),
-        
+
               TextButton(
                 onPressed: () {},
                 child: Text(
@@ -219,18 +222,6 @@ class _HomeState extends State<Home> {
         ));
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 // 추천 장소, 공지사항, 내 프로필 버튼 //
 ButtonTheme bigButton(String image, double width, double height , context , int index) { //임시방편 인덱스넣어둠
@@ -371,9 +362,7 @@ Stack profile_circle(String image, int type, BuildContext context) {
 }
 
 Future<void> requestNew() async {
-
-	//for test
+  //for test
   await Future.delayed(Duration(milliseconds: 1000));
   //refresh contents
-
 }

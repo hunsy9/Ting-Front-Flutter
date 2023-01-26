@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp>{
         builder: (ctx,child){
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: SplashViewRoute,
+          initialRoute: HomeViewRoute,
           onGenerateRoute: router.generateRoute,
           builder: (context, widget){
             return MediaQuery(
