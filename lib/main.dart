@@ -2,9 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import './named_routing/router.dart' as router;
 import './named_routing/config.dart';
+import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
+
+
 
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  KakaoSdk.init(
+    nativeAppKey: "84817c810115c69866956281b1f115b9",
+    javaScriptAppKey: "8f33d86bf354750433909a35ff18ff19",
+  );
+
+
   runApp(const MyApp());
 }
 
@@ -18,11 +28,11 @@ class _MyAppState extends State<MyApp>{
   @override
   Widget build(BuildContext context){
     return ScreenUtilInit(
-        designSize: const Size(445,965),
+        designSize: const Size(447,965),
         builder: (ctx,child){
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: SplashViewRoute,
+          initialRoute: HomeViewRoute,
           onGenerateRoute: router.generateRoute,
           builder: (context, widget){
             return MediaQuery(
