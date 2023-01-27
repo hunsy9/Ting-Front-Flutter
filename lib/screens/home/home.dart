@@ -242,7 +242,7 @@ ButtonTheme bigButton(String image, double width, double height , context , int 
             Navigator.pushNamed(context,'/place');
             break;
           case 2:
-            Navigator.pushNamed(context,'/notice');
+            Navigator.pushNamed(context,'/login/additionalAuth');
             break;
           case 3:
             Navigator.pushNamed(context,'/testAuth');

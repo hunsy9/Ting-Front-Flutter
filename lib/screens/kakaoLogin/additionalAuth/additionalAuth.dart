@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -309,12 +311,18 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
                   ),
                   style: nanumFontNormal(20.0),
                   controller: univEmailController,
-                  onSubmitted: (value) {
+                  onSubmitted: (value) async{
+
                     setState(() {
-                      univEmail = value + univDomain;
+                      univEmail = value + "@" +univDomain;
                       univEmailVisible = false;
                       emailValidVisible = true;
                     });
+                    var url = Uri.parse('http://localhost:8080/api/v1/univMailAuth/sendMail');
+                    var body = json.encode({"userId": "userId","clientEmail": univEmail});
+                    final response = await http.post(url, headers: {
+                      "Content-Type": "application/json",
+                    }, body: body ); //TODO Response 받아서 이메일 전송중입니다...전송완료도 넣으면 좋을듯 이메일 api가 지연시간이 좀 있음.
                   },
                   textAlign: TextAlign.center,
                 ),
@@ -355,15 +363,21 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
             child: TextField(
               decoration: const InputDecoration(
                 enabledBorder: UnderlineInputBorder(),
-                hintText: '123456',
+                hintText: '인증번호',
               ),
               style: nanumFontNormal(20.0),
               controller: emailValidController,
-              onSubmitted: (value) {
+              onSubmitted: (value) async{
                 setState(() {
                   emailValidVisible = false;
                   departmentVisible = true;
                 });
+                var url = Uri.parse('http://localhost:8080/api/v1/univMailAuth/verifyCode');
+                var body = json.encode({"userId": "userId","code": value});
+                final response = await http.post(url, headers: {
+                  "Content-Type": "application/json",
+                }, body: body ); //TODO response 받아서 분기처리해야함. 아직 서버단에서 customException 만들지 않아서 서버작업 후 작업하겠음
+
               },
               onChanged: (value) {
                 setState(() {});
