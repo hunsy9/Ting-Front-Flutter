@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:bubble/bubble.dart';
 import 'package:ting_flutter/screens/kakaoLogin/additionalAuth/components/basicbutton.dart';
 import 'package:ting_flutter/screens/kakaoLogin/additionalAuth/components/NanumFont.dart';
 import 'components/SchoolInfoAndFetch.dart';
 import 'components/textValidCheck.dart';
 import 'package:lottie/lottie.dart';
+import 'components/customBubbleChat.dart';
 
 // 추가정보 클래스
 class AdditionalAuthScreen extends StatefulWidget {
@@ -23,8 +25,8 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
     super.initState();
     getSchoolInfo();
     setState(() {
-      department = _departmentList[0];
-      schoolClass = _schoolClassList[0];
+      userDepartment = _departmentList[0];
+      userSchoolClass = _schoolClassList[0];
     });
   }
 
@@ -37,8 +39,12 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
   final emailValidController = TextEditingController();
 
   late bool nickNameValid = false;
-  late Row nickNameUnderMessage = Row();
   bool emailValid = false;
+  bool emailValidChecked = true;
+  bool departmentValid = false;
+  bool schoolClassValid = false;
+
+  late Row nickNameUnderMessage = Row();
 
   final _departmentList = [
     '경영/경제',
@@ -76,26 +82,29 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
   bool emailValidVisible = false; // 5번: 학교 이메일 인증
   bool departmentVisible = false; // 6번: 학과, 학번 선택
   bool welcomeVisible = false; // 7번: 환영문구& 홈화면 가기
+  bool cannotReceiveEmailVisible = false;
 
   // user 정보
-  String nickName = "";
-  String university = "";
-  String univEmail = "";
-  String univDomain = "";
-  String department = "";
-  int schoolClass = 23;
+  String userNickName = "";
+  String userUniversity = "";
+  String userEmail = "";
+  String userUnivDomain = "";
+  String userInputEmailToken = "";
+  String userDepartment = "";
+  int userSchoolClass = 23;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(45.0.w, 169.h, 45.0.w, 51.0.h),
-            child: Column(
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(45.0.w, 169.h, 45.0.w, 60.0.h),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Flexible(
+                child: Column(
               children: [
                 // 닉네임 페이지
                 nickNamePage(),
@@ -112,9 +121,10 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
                 // 가입 환영 페이지
                 welcomePage(),
               ],
-            ),
-          ),
-        ],
+            )),
+            navigationBar(),
+          ],
+        ),
       ),
     );
   }
@@ -128,11 +138,153 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
         schoolList.where((element) => (element.name.contains(input))).toList();
   }
 
+  void navigateBefore() {
+    setState(() {
+      if (univSearchVisible) {
+        nickNameVisible = true;
+        univSearchVisible = false;
+      } else if (univEmailVisible) {
+        univEmailVisible = false;
+        univSearchVisible = true;
+      } else if (emailValidVisible) {
+        cannotReceiveEmailVisible = false;
+        emailValidVisible = false;
+        univEmailVisible = true;
+      } else if (departmentVisible) {
+        departmentVisible = false;
+        univEmailVisible = true;
+      }
+    });
+  }
+
+  void navigateNext() {
+    setState(() {
+      if (nickNameVisible) {
+        setUserNickName(nickNameController.text);
+      } else if (univSearchVisible) {
+        univSearchVisible = false;
+        univEmailVisible = true;
+      } else if (univEmailVisible) {
+        setUserEmail('${univEmailController.text}@$userUnivDomain');
+        sendEmailValidCode(userEmail);
+      } else if (emailValidVisible) {
+        setEmailValidationCheck(userInputEmailToken);
+      } else if (departmentVisible) {
+        setState(() {
+          departmentVisible = false;
+          welcomeVisible = true;
+        });
+        debugPrint('닉네임: $userNickName');
+        debugPrint('학교: $userUniversity');
+        debugPrint('이메일: $userEmail');
+        debugPrint('학과: $userDepartment');
+        debugPrint('학번: $userSchoolClass');
+      }
+    });
+  }
+
+  bool canNavigateBefore() {
+    return nickNameVisible ? false : true;
+  }
+
+  bool canNavigateNext() {
+    if (nickNameVisible) {
+      if (nickNameValid) {
+        return true;
+      }
+    } else if (univEmailVisible) {
+      if (emailValid) {
+        return true;
+      }
+    } else if (emailValidVisible) {
+      if (emailValidChecked) {
+        return true;
+      }
+    } else if (departmentVisible) {
+      return true;
+    }
+
+    return false;
+  }
+
+  void sendEmailValidCode(String email) async {
+    var url = Uri.parse('http://localhost:8080/api/v1/univMailAuth/sendMail');
+    var body = json.encode({"userId": "userId", "clientEmail": userEmail});
+    final response = await http.post(url,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body:
+            body); //TODO Response 받아서 이메일 전송중입니다...전송완료도 넣으면 좋을듯 이메일 api가 지연시간이 좀 있음.
+  }
+
+  void checkEmailValidCode(String code) async {
+    var url = Uri.parse('http://localhost:8080/api/v1/univMailAuth/verifyCode');
+    var body = json.encode({"userId": "userId", "code": code});
+    final response = await http.post(url,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body:
+            body); //TODO response 받아서 분기처리해야함. 아직 서버단에서 customException 만들지 않아서 서버작업 후 작업하겠음
+  }
+
+  void setUserNickName(String nickName) {
+    if (nickNameValid) {
+      setState(() {
+        userNickName = nickNameController.text;
+
+        nickNameVisible = false;
+        univSearchVisible = true;
+      });
+      debugPrint('NickName set: $userNickName');
+    }
+  }
+
+  void setUserEmail(String email) {
+    if (emailValid) {
+      setState(() {
+        userEmail = email;
+        univEmailVisible = false;
+        emailValidVisible = true;
+      });
+      debugPrint('Email set: $userEmail');
+    }
+  }
+
+  void setUserUniversityAndDomain(String inputUniversity, String inputDomain) {
+    setState(() {
+      userUniversity = inputUniversity;
+      userUnivDomain = inputDomain;
+      univSearchVisible = false;
+      univEmailVisible = true;
+    });
+    debugPrint('University set: $userUniversity, Domain set: $userUnivDomain');
+  }
+
+  void setNickNameValidation(String inputNickName) {
+    setState(() {
+      Map<String, dynamic> currentNickName = nickNameCheck(inputNickName);
+      nickNameValid = currentNickName['validation'];
+      nickNameUnderMessage = currentNickName['helpMessage'];
+    });
+  }
+
+  void setEmailValidationCheck(String token) {
+    setState(() {
+      setState(() {
+        emailValidVisible = false;
+        departmentVisible = true;
+      });
+    });
+  }
+
   Widget nickNamePage() {
     return Visibility(
       visible: nickNameVisible,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(
             '닉네임을 입력해주세요.',
@@ -153,22 +305,10 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
               cursorHeight: 23,
               controller: nickNameController,
               onSubmitted: (value) {
-                setState(() {
-                  if (nickNameValid) {
-                    nickName = nickNameController.text;
-                    nickNameValid = false;
-
-                    nickNameVisible = false;
-                    univSearchVisible = true;
-                  }
-                });
+                setUserNickName(value);
               },
               onChanged: (value) {
-                setState(() {
-                  Map<String, dynamic> currentNickName = nickNameCheck(value);
-                  nickNameValid = currentNickName['validation'];
-                  nickNameUnderMessage = currentNickName['helpMessage'];
-                });
+                setNickNameValidation(value);
               },
             ),
           ),
@@ -185,36 +325,6 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
     );
   }
 
-  // Widget selectUniversityButtonPage() {
-  //   return Visibility(
-  //     visible: univVisible,
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Text(
-  //           '대학교를 등록해주세요.',
-  //           style: nanumFontBold(24.0),
-  //           textAlign: TextAlign.start,
-  //         ),
-  //         SizedBox(
-  //           height: 60.0.h,
-  //         ),
-  //         BasicButton(
-  //           width: 362.w,
-  //           height: 59.h,
-  //           text: '대학 등록하기',
-  //           onpressed: () {
-  //             setState(() {
-  //               univVisible = false;
-  //               univSearchVisible = true;
-  //             });
-  //           },
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
-
   Widget searchUniversityPage() {
     return Visibility(
       visible: univSearchVisible,
@@ -230,21 +340,20 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
             height: 30.h,
           ),
           SizedBox(
-            width: 362.w,
             child: TextField(
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.search),
               ),
               style: nanumFontNormal(18.0),
               onChanged: (value) {
-                setState(() {});
-                getSchoolSuggestion(schoolNameController.text);
+                setState(() {
+                  getSchoolSuggestion(schoolNameController.text);
+                });
               },
               controller: schoolNameController,
             ),
           ),
-          SizedBox(
-            height: 600.h,
+          Flexible(
             child: Scrollbar(
               thickness: 4.0,
               radius: const Radius.circular(5.0),
@@ -254,30 +363,19 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
                 scrollDirection: Axis.vertical,
                 itemCount: schoolSuggestion.length,
                 itemBuilder: (context, index) {
-                  return SizedBox(
-                      height: 70.h,
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: Text(
-                              schoolSuggestion[index].name,
-                              style: nanumFontNormal(17.0),
-                            ),
-                            contentPadding: EdgeInsets.zero,
-                            // trailing: const Icon(Icons.navigate_next),
-                            shape: const Border(
-                                bottom: BorderSide(color: Colors.grey)),
-                            onTap: () {
-                              setState(() {
-                                university = schoolSuggestion[index].name;
-                                univDomain = schoolSuggestion[index].domain;
-                                univSearchVisible = false;
-                                univEmailVisible = true;
-                              });
-                            },
-                          ),
-                        ],
-                      ));
+                  return ListTile(
+                    title: Text(
+                      schoolSuggestion[index].name,
+                      style: nanumFontNormal(17.0),
+                    ),
+                    contentPadding: EdgeInsets.zero,
+                    leading: const Icon(Icons.school_outlined),
+                    shape: const Border(bottom: BorderSide(color: Colors.grey)),
+                    onTap: () {
+                      setUserUniversityAndDomain(schoolSuggestion[index].name,
+                          schoolSuggestion[index].domain);
+                    },
+                  );
                 },
               ),
             ),
@@ -311,25 +409,21 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
                   ),
                   style: nanumFontNormal(20.0),
                   controller: univEmailController,
-                  onSubmitted: (value) async{
-
+                  onChanged: (value) {
                     setState(() {
-                      univEmail = value + "@" +univDomain;
-                      univEmailVisible = false;
-                      emailValidVisible = true;
+                      emailValid = isEmailValid("$value@$userUnivDomain");
                     });
-                    var url = Uri.parse('http://localhost:8080/api/v1/univMailAuth/sendMail');
-                    var body = json.encode({"userId": "userId","clientEmail": univEmail});
-                    final response = await http.post(url, headers: {
-                      "Content-Type": "application/json",
-                    }, body: body ); //TODO Response 받아서 이메일 전송중입니다...전송완료도 넣으면 좋을듯 이메일 api가 지연시간이 좀 있음.
+                  },
+                  onSubmitted: (value) async {
+                    setUserEmail("${univEmailController.text}@$userUnivDomain");
+                    sendEmailValidCode(userEmail);
                   },
                   textAlign: TextAlign.center,
                 ),
               ),
               SizedBox(
                 child: Text(
-                  '@ $univDomain',
+                  '@ $userUnivDomain',
                   style: nanumFontNormal(20.0),
                 ),
               ),
@@ -367,21 +461,97 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
               ),
               style: nanumFontNormal(20.0),
               controller: emailValidController,
-              onSubmitted: (value) async{
-                setState(() {
-                  emailValidVisible = false;
-                  departmentVisible = true;
-                });
-                var url = Uri.parse('http://localhost:8080/api/v1/univMailAuth/verifyCode');
-                var body = json.encode({"userId": "userId","code": value});
-                final response = await http.post(url, headers: {
-                  "Content-Type": "application/json",
-                }, body: body ); //TODO response 받아서 분기처리해야함. 아직 서버단에서 customException 만들지 않아서 서버작업 후 작업하겠음
-
+              onSubmitted: (value) {
+                setEmailValidationCheck(value);
               },
               onChanged: (value) {
-                setState(() {});
+                setState(() {
+                  userInputEmailToken = value;
+                });
               },
+            ),
+          ),
+          SizedBox(
+            width: 362.w,
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: TextButton(
+                child: Text(
+                  '인증번호가 오지 않나요?',
+                  style: nanumFontNormal(12),
+                ),
+                onPressed: () {
+                  setState(() {
+                    cannotReceiveEmailVisible = true;
+                  });
+                },
+              ),
+            ),
+          ),
+          Visibility(
+            visible: cannotReceiveEmailVisible,
+            child: SizedBox(
+              height: 400.h,
+              child: ListView(
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.support_agent),
+                      Expanded(
+                        child: Bubble(
+                          alignment: Alignment.topLeft,
+                          // nipWidth: 15.w,
+                          nipHeight: 10.h,
+                          nip: BubbleNip.leftCenter,
+                          color: const Color.fromARGB(255, 194, 222, 245),
+                          child: const Text(
+                            '인증 메일 도착까지 최대 3분정도 걸릴 수 있어요.',
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20.h,),
+                  Row(
+                    children: [
+                      const Icon(Icons.support_agent),
+                      Expanded(
+                        child: Bubble(
+                          alignment: Alignment.topLeft,
+                          // nipWidth: 15.w,
+                          nipHeight: 10.h,
+                          nip: BubbleNip.leftCenter,
+                          color: const Color.fromARGB(255, 194, 222, 245),
+                          child: const Text(
+                            '3분이 지나도 오지 않는다면 뒤로 가기를 눌러 이메일 주소를 확인하고 다시 시도해주세요 :)',
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20.h,),
+                  Row(
+                    children: [
+                      const Icon(Icons.support_agent),
+                      Expanded(
+                        child: Bubble(
+                          alignment: Alignment.topLeft,
+                          // nipWidth: 15.w,
+                          nipHeight: 10.h,
+                          nip: BubbleNip.leftCenter,
+                          color: const Color.fromARGB(255, 194, 222, 245),
+                          child: const Text(
+                            '번거롭더라도 더 나은 서비스를 위한 절차이니 이해해 주실거죠?? ㅎㅎ',
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -407,12 +577,12 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
             ),
             SizedBox(
               child: DropdownButton(
-                value: department,
+                value: userDepartment,
                 isExpanded: true,
                 hint: const Text('학과계열'),
                 onChanged: (value) {
                   setState(() {
-                    department = value!;
+                    userDepartment = value!;
                   });
                 },
                 items: _departmentList
@@ -433,12 +603,12 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
               child: SizedBox(
                 width: 107.w,
                 child: DropdownButton(
-                  value: schoolClass,
+                  value: userSchoolClass,
                   isExpanded: true,
                   hint: const Text('학번'),
                   onChanged: (value) {
                     setState(() {
-                      schoolClass = value!;
+                      userSchoolClass = value!;
                     });
                   },
                   items: _schoolClassList
@@ -455,24 +625,6 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
             SizedBox(
               height: 450.h,
             ),
-            Center(
-              child: BasicButton(
-                width: 353.w,
-                height: 70.h,
-                text: '가입 완료',
-                onpressed: () {
-                  setState(() {
-                    departmentVisible = false;
-                    welcomeVisible = true;
-                  });
-                  print('닉네임: $nickName');
-                  print('학교: $university');
-                  print('이메일: $univEmail');
-                  print('학과: $department');
-                  print('학번: $schoolClass');
-                },
-              ),
-            )
           ],
         ),
       ),
@@ -496,6 +648,37 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
     );
   }
 
+  Widget navigationBar() {
+    return Visibility(
+      visible: !welcomeVisible,
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        IconButton(
+          disabledColor: Colors.grey,
+          color: Colors.blue,
+          onPressed: canNavigateBefore() ? (() => navigateBefore()) : null,
+          icon: const Icon(
+            Icons.navigate_before,
+            size: 40,
+          ),
+        ),
+        IconButton(
+          disabledColor: Colors.grey,
+          color: Colors.blue,
+          onPressed: canNavigateNext() ? (() => navigateNext()) : null,
+          icon: departmentVisible
+              ? const Icon(
+                  Icons.done,
+                  size: 40,
+                )
+              : const Icon(
+                  Icons.navigate_next,
+                  size: 40,
+                ),
+        ),
+      ]),
+    );
+  }
+
   @override
   void dispose() {
     nickNameController.dispose();
@@ -505,3 +688,56 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
     super.dispose();
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Widget selectUniversityButtonPage() {
+  //   return Visibility(
+  //     visible: univVisible,
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Text(
+  //           '대학교를 등록해주세요.',
+  //           style: nanumFontBold(24.0),
+  //           textAlign: TextAlign.start,
+  //         ),
+  //         SizedBox(
+  //           height: 60.0.h,
+  //         ),
+  //         BasicButton(
+  //           width: 362.w,
+  //           height: 59.h,
+  //           text: '대학 등록하기',
+  //           onpressed: () {
+  //             setState(() {
+  //               univVisible = false;
+  //               univSearchVisible = true;
+  //             });
+  //           },
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }

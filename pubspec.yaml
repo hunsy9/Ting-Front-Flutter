@@ -46,6 +46,7 @@ dependencies:
   lottie: ^2.2.0
   connectivity_plus: ^3.0.2
   get: ^4.6.5
+  bubble: ^1.2.1
 
 dev_dependencies:
   flutter_test:
@@ -90,7 +91,9 @@ flutter:
     - family: nanumsquareround
       fonts:
         - asset: assets/fonts/NanumSquareRoundEB.ttf
-          weight: 800
+        - asset: assets/fonts/NanumSquareRoundB.ttf
+        - asset: assets/fonts/NanumSquareRoundL.ttf
+        - asset: assets/fonts/NanumSquareRoundR.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import './NanumFont.dart';
 
-
 // 'validation': 유효성 bool, 'helpMessage': 하단에 메세지를 띄워주는 Row
 Map<String, dynamic> nickNameCheck(String inputNickName) {
   Map<String, dynamic> currentNickName = {
@@ -38,7 +37,6 @@ Map<String, dynamic> nickNameCheck(String inputNickName) {
   return currentNickName;
 }
 
-
 // 한국어인지 검사
 bool isKorean(String inputNickName) {
   bool flag = true;
@@ -52,3 +50,13 @@ bool isKorean(String inputNickName) {
   }
   return flag;
 }
+
+bool isEmailValid(String inputEmail) {
+  return RegExp(
+          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+      .hasMatch(inputEmail);
+}
+
+// bool validTokenCheck(String inputToken) {
+  
+// }
