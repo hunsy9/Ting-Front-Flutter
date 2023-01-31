@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bubble/bubble.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:ting_flutter/named_routing/config.dart';
+import 'package:ting_flutter/screens/kakaoLogin/additionalAuth/components/basicbutton.dart';
 import 'package:ting_flutter/screens/kakaoLogin/additionalAuth/components/NanumFont.dart';
 import 'components/SchoolInfoAndFetch.dart';
 import 'components/textValidCheck.dart';
@@ -18,7 +21,7 @@ class AdditionalAuthScreen extends StatefulWidget {
   _AdditionalAuthScreenState createState() => _AdditionalAuthScreenState();
 }
 
-class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
+class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -27,6 +30,8 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
       userDepartment = _departmentList[0];
       userSchoolClass = _schoolClassList[0];
     });
+
+    WidgetsBinding.instance?.addObserver(this);
   }
 
   late List<SchoolInfo> schoolList; // 처음 시작할 때 학교 정보들 다 받아서 저장
@@ -818,11 +823,29 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> {
   }
 
   @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+    switch(state){
+      case AppLifecycleState.resumed:
+        break;
+      case AppLifecycleState.inactive:
+        UserIdResponse userIdResponse=await UserApi.instance.unlink();
+        break;
+      case AppLifecycleState.detached:
+        break;
+      case AppLifecycleState.paused:
+        break;
+    }
+  }
+
+  @override
   void dispose() {
     nickNameController.dispose();
     schoolNameController.dispose();
     univEmailController.dispose();
     emailValidController.dispose();
+
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 }

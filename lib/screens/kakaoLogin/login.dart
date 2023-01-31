@@ -62,10 +62,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                           }
                         } else {
-                          try {
+                          try { //TODO 로그인한사람 서비스 db에 있는지 확인 분기처리
                             OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
                             print('카카오계정으로 로그인 성공 ${token.accessToken}');
-                            Navigator.pushNamed(context, '/home');
+                            Navigator.pushNamed(context, '/login/additionalAuth');
                             User user = await UserApi.instance.me();
                             print(
                                       '\n회원번호: ${user.id}'
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Container(
                         height: 200.h,
                         width: 300.w,
-                        child: Image.asset('assets/xhdpi/kakao_login_large_wide.png',height: 180.h,),),
+                        child: Image.asset('assets/xhdpi/kakao_login_large_wide.png',height: 230.h,),),
                     )
 
                   ],

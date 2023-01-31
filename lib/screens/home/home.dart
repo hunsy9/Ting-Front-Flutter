@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ting_flutter/components/homeAppbar.dart';
@@ -33,22 +36,6 @@ class _HomeState extends State<Home> {
           onRefresh: () => requestNew(),
           child: Column(
             children: [
-              // SizedBox(
-              //   height: 48.h,
-              // ),
-              // // Row(
-              // //   mainAxisAlignment: MainAxisAlignment.end,
-              // //   children: [
-              // //     smallButton('assets/images/notification.png', 31.32, 29,context),
-              // //     SizedBox(
-              // //       width: 7.68.w,
-              // //     ),
-              // //     smallButton('assets/images/share.png', 27, 27,context),
-              // //     SizedBox(
-              // //       width: 28.w,
-              // //     ),
-              // //   ],
-              // // ),
 
               Container(
                 width: 446.w,
@@ -221,33 +208,22 @@ class _HomeState extends State<Home> {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 // 추천 장소, 공지사항, 내 프로필 버튼 //
 ButtonTheme bigButton(String image, double width, double height , context , int index) { //임시방편 인덱스넣어둠
+
   return ButtonTheme(
     child: TextButton(
       onPressed: () {
         switch(index){
           case 1:
-            Navigator.pushNamed(context,'/place');
+            Navigator.pushNamed(context,RecommendedPlaceViewRoute);
             break;
           case 2:
-            Navigator.pushNamed(context,'/login/additionalAuth');
+            Navigator.pushNamed(context,NoticeViewRoute);
             break;
           case 3:
-            Navigator.pushNamed(context,'/testAuth');
+            Navigator.pushNamed(context,TestAuthViewRoute);
         }
-
       },
       child: Image.asset(
         image,

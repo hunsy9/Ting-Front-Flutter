@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,8 +15,6 @@ void main() {
     nativeAppKey: "84817c810115c69866956281b1f115b9",
     javaScriptAppKey: "8f33d86bf354750433909a35ff18ff19",
   );
-
-
   runApp(const MyApp());
 }
 
@@ -82,7 +79,7 @@ class _MyAppState extends State<MyApp>{
         builder: (ctx,child){
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: HomeViewRoute,
+          initialRoute: SplashViewRoute,
           onGenerateRoute: router.generateRoute,
           builder: (context, widget){
             return MediaQuery(
