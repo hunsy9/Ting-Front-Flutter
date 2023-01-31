@@ -21,7 +21,8 @@ class AdditionalAuthScreen extends StatefulWidget {
   _AdditionalAuthScreenState createState() => _AdditionalAuthScreenState();
 }
 
-class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> with WidgetsBindingObserver {
+class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
+    with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -117,21 +118,21 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> with Widget
           children: [
             Flexible(
                 child: Column(
-              children: [
-                // 닉네임 페이지
-                nickNamePage(),
-                // 대학교 선택 페이지
-                universityPage(),
-                // 대학교 이메일 인증 페이지
-                emailPage(),
-                // 대학교 이메일 인증 확인 페이지
-                emailValidPage(),
-                // 학과, 학번 선택 페이지
-                departmentPage(),
-                // 가입 환영 페이지
-                welcomePage(),
-              ],
-            )),
+                  children: [
+                    // 닉네임 페이지
+                    nickNamePage(),
+                    // 대학교 선택 페이지
+                    universityPage(),
+                    // 대학교 이메일 인증 페이지
+                    emailPage(),
+                    // 대학교 이메일 인증 확인 페이지
+                    emailValidPage(),
+                    // 학과, 학번 선택 페이지
+                    departmentPage(),
+                    // 가입 환영 페이지
+                    welcomePage(),
+                  ],
+                )),
             navigationBar(),
           ],
         ),
@@ -164,7 +165,7 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> with Widget
           "Content-Type": "application/json",
         },
         body:
-            body); //TODO Response 받아서 이메일 전송중입니다...전송완료도 넣으면 좋을듯 이메일 api가 지연시간이 좀 있음.
+        body); //TODO Response 받아서 이메일 전송중입니다...전송완료도 넣으면 좋을듯 이메일 api가 지연시간이 좀 있음.
   }
 
   void checkEmailValidCode(String code) async {
@@ -175,7 +176,7 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> with Widget
           "Content-Type": "application/json",
         },
         body:
-            body); //TODO response 받아서 분기처리해야함. 아직 서버단에서 customException 만들지 않아서 서버작업 후 작업하겠음
+        body); //TODO response 받아서 분기처리해야함. 아직 서버단에서 customException 만들지 않아서 서버작업 후 작업하겠음
   }
 
   bool canNavigateBefore() {
@@ -724,7 +725,8 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> with Widget
                     });
                   },
                   items: _departmentList
-                      .map((String e) => DropdownMenuItem(
+                      .map((String e) =>
+                      DropdownMenuItem(
                           value: e,
                           child: Text(
                             e,
@@ -750,7 +752,8 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> with Widget
                       });
                     },
                     items: _schoolClassList
-                        .map((int e) => DropdownMenuItem(
+                        .map((int e) =>
+                        DropdownMenuItem(
                             value: e,
                             child: Text(
                               e.toString(),
@@ -785,6 +788,24 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> with Widget
               height: 100.h,
             ),
             Lottie.asset('assets/images/loading.json'),
+            SizedBox(height: 60.h,),
+            ElevatedButton(onPressed: () => {
+            Navigator.pushNamed(context, HomeViewRoute)
+            }, style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10)
+              ),
+                backgroundColor: const Color(0xfff4f2fb),
+                minimumSize: Size(397.w, 59.h),
+                elevation: 0
+            ), child: const Text(
+              '홈으로 이동하기',
+              style: TextStyle(
+                  color: Color(0xff986cbf),
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'nanumsquareround', fontSize: 18),
+            ),
+            ),
           ],
         ),
       ),
@@ -810,13 +831,13 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> with Widget
           onPressed: canNavigateNext() ? (() => navigateNext()) : null,
           icon: departmentPageVisible
               ? const Icon(
-                  Icons.done,
-                  size: 40,
-                )
+            Icons.done,
+            size: 40,
+          )
               : const Icon(
-                  Icons.navigate_next,
-                  size: 40,
-                ),
+            Icons.navigate_next,
+            size: 40,
+          ),
         ),
       ]),
     );
@@ -825,11 +846,11 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> with Widget
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
-    switch(state){
+    switch (state) {
       case AppLifecycleState.resumed:
         break;
       case AppLifecycleState.inactive:
-        UserIdResponse userIdResponse=await UserApi.instance.unlink();
+        UserIdResponse userIdResponse = await UserApi.instance.unlink();
         break;
       case AppLifecycleState.detached:
         break;
