@@ -32,177 +32,173 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: homeAppBar("",context),
-        body: RefreshIndicator(
-          onRefresh: () => requestNew(),
-          child: Column(
-            children: [
+        body: Column(
+          children: [
+            Container(
+              width: 446.w,
+              height: 1.h,
+              color: Color(0xffBEBEBE),
+            ),
 
-              Container(
-                width: 446.w,
-                height: 1.h,
-                color: Color(0xffBEBEBE),
-              ),
+            //
+            SizedBox(
+              height: 20.h,
+            ),
 
-              //
-              SizedBox(
-                height: 20.h,
-              ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 30.w,
+                ),
+                bigButton('assets/images/timer.png', 71, 71 , context,1),
+                SizedBox(
+                  width: 25.w,
+                ),
+                bigButton('assets/images/digital_marketing.png', 69, 69,context,2),
+                SizedBox(
+                  width: 25.w,
+                ),
+                bigButton(
+                    'assets/images/free-icon-user-profile-7487102 1.png',
+                    52,
+                    52,context,3),
+              ],
+            ),
+            SizedBox(
+              height: 7.0.h,
+            ),
 
-              Row(
-                children: [
-                  SizedBox(
-                    width: 30.w,
+            Row(
+              children: [
+                SizedBox(
+                  width: 57.w,
+                ),
+                SizedBox(
+                  width: 71.63.w,
+                  height: 20.39.h,
+                  child: Text(
+                    '추천 장소',
+                    style: TextStyle(
+                        fontFamily: 'nanumsquareround', fontSize: 14.92),
                   ),
-                  bigButton('assets/images/timer.png', 71, 71 , context,1),
-                  SizedBox(
-                    width: 25.w,
+                ),
+                SizedBox(
+                  width: 67.37.w,
+                ),
+                SizedBox(
+                  width: 71.63.w,
+                  height: 20.39.h,
+                  child: Text(
+                    '공지사항',
+                    style: TextStyle(
+                        fontFamily: 'nanumsquareround', fontSize: 14.92),
                   ),
-                  bigButton('assets/images/digital_marketing.png', 69, 69,context,2),
-                  SizedBox(
-                    width: 25.w,
+                ),
+                SizedBox(
+                  width: 62.37.w,
+                ),
+                SizedBox(
+                  width: 71.63.w,
+                  height: 20.39.h,
+                  child: Text(
+                    '내 프로필',
+                    style: TextStyle(
+                        fontFamily: 'nanumsquareround', fontSize: 14.92),
                   ),
-                  bigButton(
-                      'assets/images/free-icon-user-profile-7487102 1.png',
-                      52,
-                      52,context,3),
-                ],
-              ),
-              SizedBox(
-                height: 7.0.h,
-              ),
+                ),
+              ],
+            ),
 
-              Row(
-                children: [
-                  SizedBox(
-                    width: 57.w,
-                  ),
-                  SizedBox(
-                    width: 71.63.w,
-                    height: 20.39.h,
-                    child: Text(
-                      '추천 장소',
-                      style: TextStyle(
-                          fontFamily: 'nanumsquareround', fontSize: 14.92),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 67.37.w,
-                  ),
-                  SizedBox(
-                    width: 71.63.w,
-                    height: 20.39.h,
-                    child: Text(
-                      '공지사항',
-                      style: TextStyle(
-                          fontFamily: 'nanumsquareround', fontSize: 14.92),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 62.37.w,
-                  ),
-                  SizedBox(
-                    width: 71.63.w,
-                    height: 20.39.h,
-                    child: Text(
-                      '내 프로필',
-                      style: TextStyle(
-                          fontFamily: 'nanumsquareround', fontSize: 14.92),
-                    ),
-                  ),
-                ],
-              ),
+            SizedBox(
+              height: 37.61.h,
+            ),
 
-              SizedBox(
-                height: 37.61.h,
-              ),
-
-              Row(
-                children: [
-                  SizedBox(
-                    width: 316.w,
-                  ),
-                  ButtonTheme(
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, FilterViewRoute);
-                      },
-                      child: Row(
-                        children: [
-                          Image.asset('assets/images/filter.png'),
-                          Flexible(
-                            child: SizedBox(
-                              width: 71.63.w,
-                              height: 20.39.h,
-                              child: Text(
-                                '필터 적용',
-                                style: TextStyle(
-                                  fontFamily: 'nanumsquareround',
-                                  fontSize: 13.92,
-                                  color: Colors.black,
-                                ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 316.w,
+                ),
+                ButtonTheme(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, FilterViewRoute);
+                    },
+                    child: Row(
+                      children: [
+                        Image.asset('assets/images/filter.png'),
+                        Flexible(
+                          child: SizedBox(
+                            width: 71.63.w,
+                            height: 20.39.h,
+                            child: Text(
+                              '필터 적용',
+                              style: TextStyle(
+                                fontFamily: 'nanumsquareround',
+                                fontSize: 13.92,
+                                color: Colors.black,
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Color(0xffD9D9D9)),
-                        fixedSize:
-                            MaterialStateProperty.all(Size(99.98.w, 30.59.h)),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(22.38))),
-                      ),
+                        ),
+                      ],
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor:
+                      MaterialStateProperty.all(Color(0xffD9D9D9)),
+                      fixedSize:
+                      MaterialStateProperty.all(Size(99.98.w, 30.59.h)),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(22.38))),
                     ),
                   ),
-                ],
-              ),
-              SizedBox(
-                height: 36.41.h,
-              ),
-
-              profile_circle(my_profile_image, 1, context),
-              SizedBox(
-                height: 91.18.h,
-              ),
-
-              Row(
-                children: [
-                  Expanded(
-                      flex: 1,
-                      child: Center(
-                        child: profile_circle(second_profile_image,
-                            second_profile_state, context),
-                      )),
-                  Expanded(
-                      flex: 1,
-                      child: Center(
-                        child: profile_circle(
-                            third_profile_image, third_profile_state, context),
-                      )),
-                ],
-              ),
-
-              SizedBox(height: 108.16.h),
-
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  '매칭 신청하기',
-                  style: TextStyle(
-                      fontFamily: 'nanumsquareround',
-                      fontSize: 15,
-                      color: Color(0xffffffff)),
                 ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color(0xff6b42c5)),
-                  fixedSize: MaterialStateProperty.all(Size(392.w, 72.h)),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))),
-                ),
-              )
-            ],
-          ),
+              ],
+            ),
+            SizedBox(
+              height: 36.41.h,
+            ),
+
+            profile_circle(my_profile_image, 1, context),
+            SizedBox(
+              height: 91.18.h,
+            ),
+
+            Row(
+              children: [
+                Expanded(
+                    flex: 1,
+                    child: Center(
+                      child: profile_circle(second_profile_image,
+                          second_profile_state, context),
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: Center(
+                      child: profile_circle(
+                          third_profile_image, third_profile_state, context),
+                    )),
+              ],
+            ),
+
+            SizedBox(height: 108.16.h),
+
+            TextButton(
+              onPressed: () {},
+              child: Text(
+                '매칭 신청하기',
+                style: TextStyle(
+                    fontFamily: 'nanumsquareround',
+                    fontSize: 15,
+                    color: Color(0xffffffff)),
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Color(0xff6b42c5)),
+                fixedSize: MaterialStateProperty.all(Size(392.w, 72.h)),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))),
+              ),
+            )
+          ],
         ));
   }
 }
@@ -232,13 +228,13 @@ ButtonTheme bigButton(String image, double width, double height , context , int 
       ),
       style: ButtonStyle(
         backgroundColor:
-            MaterialStateProperty.all(Color(0xffe1def4).withOpacity(0.38)),
+        MaterialStateProperty.all(Color(0xffe1def4).withOpacity(0.38)),
         fixedSize: MaterialStateProperty.all(Size(112.w, 93.h)),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
-          )),
+                Radius.circular(10.0),
+              )),
         ),
       ),
     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ting_flutter/screens/navigatorBarScaffold/navigatorBarScaffold.dart';
 import './config.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -26,6 +27,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           child: const AdditionalAuthScreen(), type: PageTransitionType.fade);
     case HomeViewRoute:
       return PageTransition(child: const Home(), type: PageTransitionType.fade);
+    case NavigatorViewRoute:
+      return PageTransition(child: const NavigatorBarScaffold(), type: PageTransitionType.fade);
     case RecommendedPlaceViewRoute:
       return MaterialPageRoute(
           builder: (context) => const RecommendedPlaceScreen());

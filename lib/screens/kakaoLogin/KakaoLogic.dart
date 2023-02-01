@@ -41,7 +41,7 @@ void kakaoLogic(context) async {
         User user = await UserApi.instance.me();
         http.Response response = await isSignedUp(user.id.toString());
         (response.body == "true")
-            ? Navigator.pushNamed(context, HomeViewRoute)
+            ? Navigator.pushNamed(context, NavigatorViewRoute)
             : Navigator.pushNamed(context, AdditionalAuthViewRoute);
         print('\n회원번호: ${user.id}'
             '\n이메일: ${user.kakaoAccount?.email}'

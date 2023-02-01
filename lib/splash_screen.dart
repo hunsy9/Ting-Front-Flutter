@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:http/http.dart' as http;
+import 'package:ting_flutter/named_routing/config.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
         return;
     }
     Future.delayed(const Duration(seconds: 3), ()async{
-      Navigator.pushNamed(context, '/home');
+      Navigator.pushNamed(context, NavigatorViewRoute);
       var url = 'http://localhost:8080/api/v1/user/signin/2222';
       final response = await http.get(Uri.parse(url));
       print('Response status: ${response.statusCode}');

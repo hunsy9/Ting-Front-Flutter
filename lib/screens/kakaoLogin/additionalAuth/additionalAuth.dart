@@ -790,7 +790,7 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
             Lottie.asset('assets/images/loading.json'),
             SizedBox(height: 60.h,),
             ElevatedButton(onPressed: () => {
-            Navigator.pushNamed(context, HomeViewRoute)
+            Navigator.pushNamed(context, NavigatorViewRoute)
             }, style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)

@@ -9,3 +9,4 @@ const String MyProfileViewRoute = '/myprofile';
 const String SettingViewRoute = '/setting';
 const String InvitationNotificationViewRoute = '/alarm';
 const String TestAuthViewRoute = '/testAuth';
+const String NavigatorViewRoute = '/navigatorView';
