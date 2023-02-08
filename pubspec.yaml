@@ -49,6 +49,7 @@ dependencies:
   bubble: ^1.2.1
   stomp_dart_client: ^0.4.4
   shared_preferences: ^2.0.17
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -77,7 +78,7 @@ flutter:
     - assets/xhdpi/
     - assets/images/
     - assets/images/filter/
-
+    - assets/images/home/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
