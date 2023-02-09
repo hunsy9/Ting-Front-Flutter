@@ -31,9 +31,14 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: homeAppBar("",context),
+        appBar: homeAppBar("", context),
         body: Column(
           children: [
+            TextButton(
+                onPressed: (() {
+                  Navigator.pushNamed(context, AdditionalAuthViewRoute);
+                }),
+                child: const Text('추가정보입력')),
             Container(
               width: 446.w,
               height: 1.h,
@@ -50,18 +55,17 @@ class _HomeState extends State<Home> {
                 SizedBox(
                   width: 30.w,
                 ),
-                bigButton('assets/images/timer.png', 71, 71 , context,1),
-                SizedBox(
-                  width: 25.w,
-                ),
-                bigButton('assets/images/digital_marketing.png', 69, 69,context,2),
+                bigButton('assets/images/timer.png', 71, 71, context, 1),
                 SizedBox(
                   width: 25.w,
                 ),
                 bigButton(
-                    'assets/images/free-icon-user-profile-7487102 1.png',
-                    52,
-                    52,context,3),
+                    'assets/images/digital_marketing.png', 69, 69, context, 2),
+                SizedBox(
+                  width: 25.w,
+                ),
+                bigButton('assets/images/free-icon-user-profile-7487102 1.png',
+                    52, 52, context, 3),
               ],
             ),
             SizedBox(
@@ -144,9 +148,9 @@ class _HomeState extends State<Home> {
                     ),
                     style: ButtonStyle(
                       backgroundColor:
-                      MaterialStateProperty.all(Color(0xffD9D9D9)),
+                          MaterialStateProperty.all(Color(0xffD9D9D9)),
                       fixedSize:
-                      MaterialStateProperty.all(Size(99.98.w, 30.59.h)),
+                          MaterialStateProperty.all(Size(99.98.w, 30.59.h)),
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(22.38))),
                     ),
@@ -168,8 +172,8 @@ class _HomeState extends State<Home> {
                 Expanded(
                     flex: 1,
                     child: Center(
-                      child: profile_circle(second_profile_image,
-                          second_profile_state, context),
+                      child: profile_circle(
+                          second_profile_image, second_profile_state, context),
                     )),
                 Expanded(
                     flex: 1,
@@ -203,22 +207,23 @@ class _HomeState extends State<Home> {
   }
 }
 
-
 // 추천 장소, 공지사항, 내 프로필 버튼 //
-ButtonTheme bigButton(String image, double width, double height , context , int index) { //임시방편 인덱스넣어둠
+ButtonTheme bigButton(
+    String image, double width, double height, context, int index) {
+  //임시방편 인덱스넣어둠
 
   return ButtonTheme(
     child: TextButton(
       onPressed: () {
-        switch(index){
+        switch (index) {
           case 1:
-            Navigator.pushNamed(context,RecommendedPlaceViewRoute);
+            Navigator.pushNamed(context, RecommendedPlaceViewRoute);
             break;
           case 2:
-            Navigator.pushNamed(context,NoticeViewRoute);
+            Navigator.pushNamed(context, NoticeViewRoute);
             break;
           case 3:
-            Navigator.pushNamed(context,TestAuthViewRoute);
+            Navigator.pushNamed(context, TestAuthViewRoute);
         }
       },
       child: Image.asset(
@@ -228,13 +233,13 @@ ButtonTheme bigButton(String image, double width, double height , context , int 
       ),
       style: ButtonStyle(
         backgroundColor:
-        MaterialStateProperty.all(Color(0xffe1def4).withOpacity(0.38)),
+            MaterialStateProperty.all(Color(0xffe1def4).withOpacity(0.38)),
         fixedSize: MaterialStateProperty.all(Size(112.w, 93.h)),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular(10.0),
-              )),
+            Radius.circular(10.0),
+          )),
         ),
       ),
     ),
@@ -242,7 +247,7 @@ ButtonTheme bigButton(String image, double width, double height , context , int 
 }
 
 //  종, 공유, 설정 버튼 //
-ButtonTheme smallButton(String image, double width, double height,context) {
+ButtonTheme smallButton(String image, double width, double height, context) {
   return ButtonTheme(
     child: TextButton(
       onPressed: () {
