@@ -159,19 +159,16 @@ class _HomeState extends State<Home> {
                   isBoss: true,
                   num: 0,
                 ),
-              ),  
+              ),
             ),
             // <= 자기 프로필
-
 
             // => 선 두개
             Flexible(
               flex: 137,
               child: Center(
                 child: Row(
-                  children: [
-                    
-                  ],
+                  children: [],
                 ),
               ),
             ),
@@ -182,75 +179,188 @@ class _HomeState extends State<Home> {
               flex: 130,
               child: Row(
                 children: [
-                  Spacer(flex: 31,),
-
-                  Flexible(flex:130, child: HomeProfile(isBoss: false, num: 1,),),
-
-                  Spacer(flex: 137,),
-
-                  Flexible(flex:130, child: HomeProfile(isBoss: false, num: 2,),),
-
-                  Spacer(flex: 31,),
-
+                  Spacer(
+                    flex: 31,
+                  ),
+                  Flexible(
+                    flex: 130,
+                    child: Center(
+                        child: HomeProfile(
+                      isBoss: false,
+                      num: 1,
+                    )),
+                  ),
+                  Spacer(
+                    flex: 137,
+                  ),
+                  Flexible(
+                    flex: 130,
+                    child: Center(
+                        child: HomeProfile(
+                      isBoss: false,
+                      num: 2,
+                    )),
+                  ),
+                  Spacer(
+                    flex: 31,
+                  ),
                 ],
               ),
             ),
             // => 프로필 두개
 
+            Spacer(
+              flex: 44,
+            ),
+            // => 매칭버튼
+            Flexible(
+              flex: 120,
+              child: Row(
+                children: [
+                  // 버튼
+                  Image.asset(
+                    'assets/images/home/mainbutton.png',
+                    width: 120.h,
+                    height: 120.h,
+                    fit: BoxFit.fill,
+                  ),
+                  // 버튼
+
+                  // 말풍선
+                  Container(
+                    height: 35.h,
+                    width: 67.w,
+                    child: CustomPaint(
+                      painter: BubblePainter(),
+                    ),
+                  ),
+                  // 말풍선
+                ],
+              ),
+            ),
+            // <= 매칭버튼
 
             Spacer(
-              flex: 223,
+              flex: 60,
             )
           ],
         ));
   }
 }
 
-// 프로필 위젯
-
-class HomeProfile extends StatefulWidget {
+// =>프로필 위젯
+class HomeProfile extends StatelessWidget {
   HomeProfile({required this.isBoss, required this.num});
 
   bool isBoss;
   int num;
-  @override
-  State<StatefulWidget> createState() => _HomeProfileState();
-}
-
-class _HomeProfileState extends State<HomeProfile> {
   final profileController = Get.put(ProfileController());
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          width: 125.89.w,
-          height: 125.89.w,
-          child: GetX<ProfileController>(
-            builder: (controller) { 
-              return Image.asset(
-                controller.profileLinks.elementAt(widget.num),
-                fit: BoxFit.fill,
-              );
-            }
-          ),
-          decoration: BoxDecoration(
-            border: Border.all(
-              width: 6.w,
-              color: Colors.white,
+    return GetX<ProfileController>(builder: ((controller) {
+      Color color;
+      if (controller.isReady.elementAt(num) == true) {
+        print(num);
+        print(controller.isReady.elementAt(num));
+        color = Color(0xffe0e2f3);
+      } else {
+        color = Color(0xffffffff);
+      }
+      return Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            width: 135.h,
+            height: 135.h,
+            child: Image.asset(
+              controller.profileLinks.elementAt(num),
+              fit: BoxFit.fill,
             ),
-            borderRadius: BorderRadius.circular(25.18),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.25), 
-                spreadRadius: 1.0,
-                blurRadius: 1.0,
-                offset: Offset(0, 3), // changes position of shadow
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 6.w,
+                color: color,
               ),
-            ],
-          ), //
-        ),
-      ],
-    );
+              borderRadius: BorderRadius.circular(25.18),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.25),
+                  spreadRadius: 1.0,
+                  blurRadius: 1.0,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ), //
+          ),
+          Visibility(
+            visible: isBoss,
+            child: Positioned(
+                top: -20.h,
+                left: -9.w,
+                child: Image.asset(
+                  'assets/images/home/crown.png',
+                  width: 35.w,
+                  height: 35.h,
+                )),
+          ),
+        ],
+      );
+    }));
+  }
+}
+
+class Point {
+  Point({required this.x, required this.y});
+
+  double x;
+  double y;
+}
+
+class BubblePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final bubbleSize = Size(size.width, size.height * 0.8);
+    final tailSize = Size(size.width * 0.1, size.height - bubbleSize.height);
+    final fillet = bubbleSize.width * 0.14;
+    final tailStartPoint =
+        Point(x: fillet / 5.0, y: bubbleSize.height - fillet * 4.0 / 5.0);
+    //bubble body
+    final bubblePath = Path()
+      ..moveTo(0, fillet)
+      // 왼쪽 위에서 왼쪽 아래 라인
+      ..lineTo(0, bubbleSize.height - fillet)
+      ..quadraticBezierTo(0, bubbleSize.height, fillet, bubbleSize.height)
+      // 왼쪽 아래에서 오른쪽 아래 라인
+      ..lineTo(bubbleSize.width - fillet, bubbleSize.height)
+      ..quadraticBezierTo(bubbleSize.width, bubbleSize.height, bubbleSize.width,
+          bubbleSize.height - fillet)
+      // 오른쪽 아래에서 오른쪽 위 라인
+      ..lineTo(bubbleSize.width, fillet)
+      ..quadraticBezierTo(bubbleSize.width, 0, bubbleSize.width - fillet, 0)
+      // 오른쪽 위에서 왼쪽 위 라인
+      ..lineTo(fillet, 0)
+      ..quadraticBezierTo(0, 0, 0, fillet);
+    // bubble tail
+
+    final myTailPath = Path()
+      ..moveTo(tailStartPoint.x, tailStartPoint.y)
+      ..lineTo(-fillet / 3.0, bubbleSize.height + fillet / 3.0)
+      ..lineTo(fillet * 4.0 / 5.0, bubbleSize.height - fillet / 5.0);
+
+    // add tail to bubble body
+    bubblePath.addPath(myTailPath, Offset(0, 0));
+    // paint setting
+    final paint = Paint()
+      ..color = Color(0xffededed)
+      ..style = PaintingStyle.fill;
+    // draw
+    canvas.drawPath(bubblePath, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    // TODO: implement shouldRepaint
+    return false;
   }
 }

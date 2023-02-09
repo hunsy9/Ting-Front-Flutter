@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:ting_flutter/screens/home/model/myProfileModel.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 
 class ProfileController extends GetxController {
   var profileLinks = <String>[].obs;
+  var isReady = <bool>[].obs;
 
   @override
   void onInit() {
@@ -13,7 +14,14 @@ class ProfileController extends GetxController {
   }
 
   void fetchData() {
-    var links = ['assets/images/home/filter.png', 'assets/images/home/filter.png', 'assets/images/home/teamchat.png'];
+    var links = [
+      'assets/images/home/filter.png',
+      'assets/images/home/filter.png',
+      'assets/images/home/teamchat.png'
+    ];
+
+    var ready = [true, false, false];
     profileLinks.assignAll(links);
+    isReady.assignAll(ready);
   }
 }
