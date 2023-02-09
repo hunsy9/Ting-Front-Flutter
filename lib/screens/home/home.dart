@@ -34,18 +34,12 @@ class _HomeState extends State<Home> {
         appBar: homeAppBar("", context),
         body: Column(
           children: [
-            TextButton(
-                onPressed: (() {
-                  Navigator.pushNamed(context, AdditionalAuthViewRoute);
-                }),
-                child: const Text('추가정보입력')),
             Container(
               width: 446.w,
               height: 1.h,
               color: Color(0xffBEBEBE),
             ),
 
-            //
             SizedBox(
               height: 20.h,
             ),
