@@ -112,7 +112,7 @@ class _HomeState extends State<Home> {
                         child: Image.asset('assets/images/home/teamchat.png')),
                   ),
                   Spacer(
-                    flex: 34,
+                    flex: 30,
                   ),
                 ],
               ),
@@ -125,7 +125,7 @@ class _HomeState extends State<Home> {
               child: Row(
                 children: [
                   Spacer(
-                    flex: 50,
+                    flex: 48,
                   ),
                   Flexible(
                     flex: 50,
@@ -135,7 +135,7 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   Spacer(
-                    flex: 333,
+                    flex: 325,
                   ),
                   Flexible(
                     flex: 50,
@@ -145,7 +145,7 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   Spacer(
-                    flex: 13,
+                    flex: 10,
                   ),
                 ],
               ),
@@ -154,11 +154,42 @@ class _HomeState extends State<Home> {
 
             // => 자기 프로필
             Flexible(
-              flex: 130,
+              flex: 145,
               child: Center(
-                child: HomeProfile(
-                  isBoss: true,
-                  num: 0,
+                child: GestureDetector(
+                  onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return GetX<ProfileController>(
+                                    builder: ((ProfileController controller) {
+                                  String imageLink =
+                                      'assets/images/home/crown.png';
+                                  String nickName =
+                                      controller.nickNames.elementAt(0);
+                                  String school = '내가왕인대 학교';
+                                  String majorField = '왕족 계열';
+                                  String introduction =
+                                      'The below two crowns are my DDaGGari-s';
+                                  int birthYear = 2001;
+                                  int enterYear = 19;
+
+                                  return DetailedProfile(
+                                    imageLink: imageLink,
+                                    nickName: nickName,
+                                    school: school,
+                                    majorField: majorField,
+                                    introduction: introduction,
+                                    birthYear: birthYear,
+                                    enterYear: enterYear,
+                                  );
+                                }));
+                              });
+                        },
+                  child: HomeProfile(
+                    isBoss: true,
+                    num: 0,
+                  ),
                 ),
               ),
             ),
@@ -177,7 +208,7 @@ class _HomeState extends State<Home> {
 
             // => 프로필 두개
             Flexible(
-              flex: 130,
+              flex: 145,
               child: Row(
                 children: [
                   Spacer(
@@ -186,10 +217,42 @@ class _HomeState extends State<Home> {
                   Flexible(
                     flex: 130,
                     child: Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return GetX<ProfileController>(
+                                    builder: ((ProfileController controller) {
+                                  String imageLink =
+                                      'assets/images/home/crown.png';
+                                  String nickName =
+                                      controller.nickNames.elementAt(1);
+                                  String school = '내가왕인대 학교';
+                                  String majorField = '왕족 계열';
+                                  String introduction =
+                                      'I am King Wang JJang Crown.';
+                                  int birthYear = 2001;
+                                  int enterYear = 19;
+
+                                  return DetailedProfile(
+                                    imageLink: imageLink,
+                                    nickName: nickName,
+                                    school: school,
+                                    majorField: majorField,
+                                    introduction: introduction,
+                                    birthYear: birthYear,
+                                    enterYear: enterYear,
+                                  );
+                                }));
+                              });
+                        },
                         child: HomeProfile(
-                      isBoss: false,
-                      num: 1,
-                    )),
+                          isBoss: false,
+                          num: 1,
+                        ),
+                      ),
+                    ),
                   ),
                   Spacer(
                     flex: 137,
@@ -197,10 +260,41 @@ class _HomeState extends State<Home> {
                   Flexible(
                     flex: 130,
                     child: Center(
-                        child: HomeProfile(
-                      isBoss: false,
-                      num: 2,
-                    )),
+                        child: GestureDetector(
+                          onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return GetX<ProfileController>(
+                                    builder: ((ProfileController controller) {
+                                  String imageLink =
+                                      'assets/images/home/crown.png';
+                                  String nickName =
+                                      controller.nickNames.elementAt(2);
+                                  String school = '내가왕인대 학교';
+                                  String majorField = '왕족 계열';
+                                  String introduction =
+                                      'I am Stronger than left JottBab crown1.';
+                                  int birthYear = 2001;
+                                  int enterYear = 19;
+
+                                  return DetailedProfile(
+                                    imageLink: imageLink,
+                                    nickName: nickName,
+                                    school: school,
+                                    majorField: majorField,
+                                    introduction: introduction,
+                                    birthYear: birthYear,
+                                    enterYear: enterYear,
+                                  );
+                                }));
+                              });
+                        },
+                          child: HomeProfile(
+                            isBoss: false,
+                            num: 2,
+                          ),
+                        )),
                   ),
                   Spacer(
                     flex: 31,
@@ -283,13 +377,13 @@ class HomeProfile extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Container(
-            width: 135.h,
-            height: 135.h,
+            width: 140.h,
+            height: 140.h,
             child: Image.asset(
               controller.profileLinks.elementAt(num),
-              fit: BoxFit.fill,
             ),
             decoration: BoxDecoration(
+              color: Color(0xffffffff),
               border: Border.all(
                 width: 6.w,
                 color: color,
@@ -402,5 +496,174 @@ class TextBubble extends StatelessWidget {
             )),
       ]);
     }));
+  }
+}
+
+class DetailedProfile extends StatelessWidget {
+  DetailedProfile({
+    required this.imageLink,
+    required this.nickName,
+    required this.introduction,
+    required this.school,
+    required this.majorField,
+    required int this.birthYear,
+    required int this.enterYear,
+  });
+
+  String imageLink;
+  String nickName;
+  String introduction;
+  String school;
+  String majorField;
+  int birthYear;
+  int enterYear;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            width: 385.w,
+            height: 523.h,
+            decoration: BoxDecoration(
+                color: Color(0xffffffff),
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.25),
+                    spreadRadius: 1.0,
+                    blurRadius: 1.0,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ]),
+          ),
+
+          // 사진
+          Positioned(
+            top: -26.h,
+            left: 35.w,
+            child: Container(
+              width: 228.h,
+              height: 228.h,
+              child: Image.asset(
+                imageLink,
+                fit: BoxFit.fill,
+              ),
+              decoration: BoxDecoration(
+                color: Color(0xffffffff),
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(width: 6.0.w, color: Color(0xfffffff)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.25),
+                    spreadRadius: 1.0,
+                    blurRadius: 1.0,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // 프로필 사진
+
+          // 닉네임
+          Positioned(
+            top: 237.h,
+            left: 49.w,
+            child: Text(
+              nickName,
+              style: TextStyle(
+                fontFamily: 'nanumsquareround',
+                fontSize: 30.w,
+                fontWeight: FontWeight.w800,
+                color: Color(0xff978e9b),
+              ),
+              textAlign: TextAlign.start,
+            ),
+          ),
+
+
+          // 년생, 학번
+          Positioned(
+            top: 249.h,
+            left: 200.w,
+            child: Text(
+              "${birthYear}년생 | ${enterYear}학번",
+              style: TextStyle(
+                fontFamily: 'nanumsquareround',
+                fontSize: 15.w,
+                fontWeight: FontWeight.w800,
+                color: Color(0xff655c69),
+              ),
+              textAlign: TextAlign.start,
+            ),
+          ),
+
+
+          // 한줄소개
+          Positioned(
+            top: 295.h,
+            left: 55.w,
+            child: Text(
+              introduction,
+              style: TextStyle(
+                fontFamily: 'nanumsquareround',
+                fontSize: 15.w,
+                fontWeight: FontWeight.w800,
+                color: Color(0xff978e9b),
+              ),
+              textAlign: TextAlign.start,
+            ),
+          ),
+
+
+          // 대학 로고
+          Positioned(
+            top: 325.h,
+            left: 49.w,
+            child: Image.asset('assets/images/home/crown.png', width: 54.h, height: 54.h,),
+          ),
+
+          // 대학명
+          Positioned(
+            top: 338.h,
+            left: 110.w,
+            child: Text(
+              school,
+              style: TextStyle(
+                fontFamily: 'nanumsquareround',
+                fontSize: 21.w,
+                fontWeight: FontWeight.w800,
+                color: Color(0xff655c69),
+              ),
+            ),
+          ),
+
+          // 계열 배지
+          Positioned(
+            top: 409.h,
+            left: 49.w,
+            child: Image.asset('assets/images/home/crown.png', width: 54.h, height: 54.h,),
+          ),
+
+          // 계열 명
+          Positioned(
+            top: 422.h,
+            left: 110.w,
+            child: Text(
+              majorField,
+              style: TextStyle(
+                fontFamily: 'nanumsquareround',
+                fontSize: 21.w,
+                fontWeight: FontWeight.w800,
+                color: Color(0xff655c69),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
