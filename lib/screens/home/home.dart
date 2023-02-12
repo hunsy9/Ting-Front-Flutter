@@ -125,23 +125,23 @@ class _HomeState extends State<Home> {
               child: Row(
                 children: [
                   Spacer(
-                    flex: 56,
+                    flex: 50,
                   ),
                   Flexible(
                     flex: 50,
                     child: basicText(
                       text: '필터',
-                      fontSize: 11.0,
+                      fontSize: 12.0.w,
                     ),
                   ),
                   Spacer(
-                    flex: 355,
+                    flex: 333,
                   ),
                   Flexible(
                     flex: 50,
                     child: basicText(
                       text: '팀 채팅',
-                      fontSize: 11.0,
+                      fontSize: 12.0.w,
                     ),
                   ),
                   Spacer(
@@ -233,7 +233,9 @@ class _HomeState extends State<Home> {
                   ),
 
                   // 버튼
-                  Spacer(flex: 4,),
+                  Spacer(
+                    flex: 4,
+                  ),
                   // => 말풍선
                   Flexible(
                     flex: 67,
@@ -318,6 +320,7 @@ class HomeProfile extends StatelessWidget {
       );
     }));
   }
+}
 
 class Point {
   Point({required this.x, required this.y});
@@ -325,7 +328,6 @@ class Point {
   double x;
   double y;
 }
-
 
 class BubblePainter extends CustomPainter {
   @override
@@ -376,32 +378,29 @@ class BubblePainter extends CustomPainter {
 }
 
 class TextBubble extends StatelessWidget {
-  
   final mainButtonController = Get.put(MainButtonController());
   @override
   Widget build(BuildContext context) {
     return GetX<MainButtonController>(builder: ((controller) {
-      return Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Positioned(
-            top: -1.h,
-            child: Container(
-              width: 65.w,
-              height: 35.h,
-              child: CustomPaint(
-                painter: BubblePainter(),
-              ),
+      return Stack(clipBehavior: Clip.none, children: [
+        Positioned(
+          top: -1.h,
+          child: Container(
+            width: 65.w,
+            height: 35.h,
+            child: CustomPaint(
+              painter: BubblePainter(),
             ),
           ),
-
-          Positioned(
+        ),
+        Positioned(
             top: 4.h,
             left: 11.h,
-            child: basicText(text: controller.state.toString(), fontSize: 11.0,)
-          ),
-        ] 
-      );
+            child: basicText(
+              text: controller.state.toString(),
+              fontSize: 12.0.w,
+            )),
+      ]);
     }));
   }
 }
