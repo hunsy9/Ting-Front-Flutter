@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class basicText extends StatefulWidget {
-  const basicText({required this.text});
+  basicText({required this.text, this.fontSize=23.2});
 
   final String text;
+  double fontSize = 23.2;
 
   @override
   State<basicText> createState() => _basicTextState();
@@ -17,7 +18,8 @@ class _basicTextState extends State<basicText> {
       widget.text,
       style: TextStyle(
         fontFamily: 'nanumsquareround',
-        fontSize: 23.2,
+        fontSize: widget.fontSize,
+        fontWeight: FontWeight.w800,
       ),
       textAlign: TextAlign.start,
     );
