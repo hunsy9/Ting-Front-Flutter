@@ -7,11 +7,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bubble/bubble.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:ting_flutter/named_routing/config.dart';
-import 'package:ting_flutter/screens/kakaoLogin/additionalAuth/components/basicbutton.dart';
 import 'package:ting_flutter/screens/kakaoLogin/additionalAuth/components/NanumFont.dart';
 import 'components/SchoolInfoAndFetch.dart';
 import 'components/textValidCheck.dart';
 import 'package:lottie/lottie.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/cupertino.dart';
 
 // 추가정보 클래스
 class AdditionalAuthScreen extends StatefulWidget {
@@ -37,17 +40,20 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
 
   late List<SchoolInfo> schoolList; // 처음 시작할 때 학교 정보들 다 받아서 저장
   List<SchoolInfo> schoolSuggestion = [];
+  late Map<String, dynamic> nickNameHelper;
 
   final nickNameController = TextEditingController();
   final schoolNameController = TextEditingController();
   final univEmailController = TextEditingController();
   final emailValidController = TextEditingController();
+  final ImagePicker picker = ImagePicker();
 
   late bool nickNameValid = false;
   bool emailValid = false;
   bool emailValidChecked = true;
   bool departmentValid = false;
   bool schoolClassValid = false;
+  bool profilePicSelected = false;
 
   late Row nickNameUnderMessage = Row();
 
@@ -80,7 +86,9 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
   ];
 
   // visibility 세팅
-  bool nickNamePageVisible = true; // 1번: 닉네임 입력
+  bool startPageVisible = true;
+  bool nickNamePageVisible = false; // 1번: 닉네임 입력
+  bool profilePicPageVisible = false; // 2번: 프로필 사진 등록
   bool universityPageVisible = false; // 3번: 대학교 선택
   bool emailPageVisible = false; // 4번: 대학교 이메일 입력
   bool emailValidPageVisible = false; // 5번: 학교 이메일 인증
@@ -89,7 +97,9 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
   bool cannotReceiveEmailVisible = false; // cf: 인증메일이 가지 않을 때 안내
 
   // animation 세팅
-  bool nickNamePageAnimation = true;
+  bool startPageAnimation = true;
+  bool nickNamePageAnimation = false;
+  bool profilePicPageAnimation = false;
   bool universityPageAnimation = false;
   bool emailPageAnimation = false;
   bool emailValidPageAnimation = false;
@@ -99,12 +109,14 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
 
   // user 정보
   String userNickName = "";
+  String userProfilePic = "";
   String userUniversity = "";
   String userEmail = "";
   String userUnivDomain = "";
   String userInputEmailToken = "";
   String userDepartment = "";
   int userSchoolClass = 23;
+  late File pickedImg;
 
   @override
   Widget build(BuildContext context) {
@@ -118,21 +130,25 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
           children: [
             Flexible(
                 child: Column(
-                  children: [
-                    // 닉네임 페이지
-                    nickNamePage(),
-                    // 대학교 선택 페이지
-                    universityPage(),
-                    // 대학교 이메일 인증 페이지
-                    emailPage(),
-                    // 대학교 이메일 인증 확인 페이지
-                    emailValidPage(),
-                    // 학과, 학번 선택 페이지
-                    departmentPage(),
-                    // 가입 환영 페이지
-                    welcomePage(),
-                  ],
-                )),
+              children: [
+                // 추가정보 입력 시작 페이지
+                startPage(),
+                // 닉네임 페이지
+                nickNamePage(),
+                // 프로필 사진 선택 페이지
+                profilePicPage(),
+                // 대학교 선택 페이지
+                universityPage(),
+                // 대학교 이메일 인증 페이지
+                emailPage(),
+                // 대학교 이메일 인증 확인 페이지
+                emailValidPage(),
+                // 학과, 학번 선택 페이지
+                departmentPage(),
+                // 가입 환영 페이지
+                welcomePage(),
+              ],
+            )),
             navigationBar(),
           ],
         ),
@@ -140,12 +156,14 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
     );
   }
 
-  void setNickNameValidation(String inputNickName) {
-    setState(() {
-      Map<String, dynamic> currentNickName = nickNameCheck(inputNickName);
-      nickNameValid = currentNickName['validation'];
-      nickNameUnderMessage = currentNickName['helpMessage'];
-    });
+  Future getImage() async {
+    final image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        profilePicSelected = true;
+        pickedImg = File(image!.path);
+      });
+    }
   }
 
   void getSchoolSuggestion(String input) {
@@ -165,7 +183,7 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
           "Content-Type": "application/json",
         },
         body:
-        body); //TODO Response 받아서 이메일 전송중입니다...전송완료도 넣으면 좋을듯 이메일 api가 지연시간이 좀 있음.
+            body); //TODO Response 받아서 이메일 전송중입니다...전송완료도 넣으면 좋을듯 이메일 api가 지연시간이 좀 있음.
   }
 
   void checkEmailValidCode(String code) async {
@@ -176,7 +194,7 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
           "Content-Type": "application/json",
         },
         body:
-        body); //TODO response 받아서 분기처리해야함. 아직 서버단에서 customException 만들지 않아서 서버작업 후 작업하겠음
+            body); //TODO response 받아서 분기처리해야함. 아직 서버단에서 customException 만들지 않아서 서버작업 후 작업하겠음
   }
 
   bool canNavigateBefore() {
@@ -188,6 +206,8 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
       if (nickNameValid) {
         return true;
       }
+    } else if (profilePicPageVisible) {
+      return true;
     } else if (emailPageVisible) {
       if (emailValid) {
         return true;
@@ -199,74 +219,88 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
     } else if (departmentPageVisible) {
       return true;
     }
-
     return false;
   }
 
   void navigateBefore() {
-    setState(() {
-      if (universityPageVisible) {
-        universityPageAnimation = false;
-        Timer(const Duration(milliseconds: 300), () {
-          setState(() {
-            universityPageVisible = false;
-          });
+    if (profilePicPageVisible) {
+      profilePicPageAnimation = false;
+      Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          profilePicPageVisible = false;
         });
-        Timer(const Duration(milliseconds: 300), () {
-          setState(() {
-            nickNamePageVisible = true;
-            nickNamePageAnimation = true;
-          });
+      });
+      Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          nickNamePageVisible = true;
+          nickNamePageAnimation = true;
         });
-      } else if (emailPageVisible) {
-        emailPageAnimation = false;
-        Timer(const Duration(milliseconds: 300), () {
-          setState(() {
-            emailPageVisible = false;
-          });
+      });
+    } else if (universityPageVisible) {
+      universityPageAnimation = false;
+      Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          universityPageVisible = false;
         });
-        Timer(const Duration(milliseconds: 300), () {
-          setState(() {
-            universityPageVisible = true;
-            universityPageAnimation = true;
-          });
+      });
+      Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          profilePicPageVisible = true;
+          profilePicPageAnimation = true;
         });
-      } else if (emailValidPageVisible) {
-        cannotReceiveEmailAnimation = false;
-        emailValidPageAnimation = false;
-        Timer(const Duration(milliseconds: 300), () {
-          setState(() {
-            emailValidPageVisible = false;
-            cannotReceiveEmailVisible = false;
-          });
+      });
+    } else if (emailPageVisible) {
+      emailPageAnimation = false;
+      Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          emailPageVisible = false;
         });
-        Timer(const Duration(milliseconds: 300), () {
-          setState(() {
-            emailPageVisible = true;
-            emailPageAnimation = true;
-          });
+      });
+      Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          universityPageVisible = true;
+          universityPageAnimation = true;
         });
-      } else if (departmentPageVisible) {
-        departmentPageAnimation = false;
-        Timer(const Duration(milliseconds: 300), () {
-          setState(() {
-            departmentPageVisible = false;
-          });
+      });
+    } else if (emailValidPageVisible) {
+      cannotReceiveEmailAnimation = false;
+      emailValidPageAnimation = false;
+      Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          emailValidPageVisible = false;
+          cannotReceiveEmailVisible = false;
         });
-        Timer(const Duration(milliseconds: 300), () {
-          setState(() {
-            emailPageVisible = true;
-            emailPageAnimation = true;
-          });
+      });
+      Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          emailPageVisible = true;
+          emailPageAnimation = true;
         });
-      }
-    });
+      });
+    } else if (departmentPageVisible) {
+      departmentPageAnimation = false;
+      Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          departmentPageVisible = false;
+        });
+      });
+      Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          emailPageVisible = true;
+          emailPageAnimation = true;
+        });
+      });
+    }
   }
 
   void navigateNext() {
     setState(() {
-      if (nickNamePageVisible) {
-        moveNickNameToUniversity(nickNameController.text);
+      if (startPageVisible) {
+        moveStartToNickName();
+      } else if (nickNamePageVisible) {
+        moveNickNameToProfile(nickNameController.text);
+      } else if (profilePicPageVisible) {
+        moveProfileToUniversity();
       } else if (universityPageVisible) {
         universityPageVisible = false;
         emailPageVisible = true;
@@ -286,7 +320,24 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
     });
   }
 
-  void moveNickNameToUniversity(String nickName) {
+  void moveStartToNickName() {
+    setState(() {
+      startPageAnimation = false;
+      Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          startPageVisible = false;
+        });
+      });
+      Timer(const Duration(milliseconds: 300), () {
+        setState(() {
+          nickNamePageVisible = true;
+          nickNamePageAnimation = true;
+        });
+      });
+    });
+  }
+
+  void moveNickNameToProfile(String nickName) {
     if (nickNameValid) {
       setState(() {
         userNickName = nickNameController.text;
@@ -298,13 +349,29 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
         });
         Timer(const Duration(milliseconds: 300), () {
           setState(() {
-            universityPageVisible = true;
-            universityPageAnimation = true;
+            profilePicPageVisible = true;
+            profilePicPageAnimation = true;
           });
         });
       });
       debugPrint('NickName set: $userNickName');
     }
+  }
+
+  void moveProfileToUniversity() {
+    userProfilePic = base64Encode(pickedImg.readAsBytesSync());
+    profilePicPageAnimation = false;
+    Timer(const Duration(milliseconds: 300), () {
+      setState(() {
+        profilePicPageVisible = false;
+      });
+    });
+    Timer(const Duration(milliseconds: 300), () {
+      setState(() {
+        universityPageVisible = true;
+        universityPageAnimation = true;
+      });
+    });
   }
 
   void moveUniversityToEmail(String inputUniversity, String inputDomain) {
@@ -382,6 +449,52 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
     });
   }
 
+  Widget startPage() {
+    return AnimatedOpacity(
+      opacity: startPageAnimation ? 1.0 : 0.0,
+      duration: const Duration(milliseconds: 300),
+      child: Visibility(
+        visible: startPageVisible,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '추가 정보를 입력할게요..',
+              style: nanumFontBold(23.0),
+            ),
+            SizedBox(
+              height: 150.h,
+            ),
+            Lottie.asset('assets/images/96954-loading.json'),
+            SizedBox(
+              height: 300.h,
+            ),
+            ElevatedButton(
+              onPressed: (() {
+                moveStartToNickName();
+              }),
+              style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  backgroundColor: const Color(0xfff4f2fb),
+                  minimumSize: Size(397.w, 59.h),
+                  elevation: 0),
+              child: const Text(
+                '입력하기',
+                style: TextStyle(
+                    color: Color(0xff986cbf),
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'nanumsquareround',
+                    fontSize: 18),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget nickNamePage() {
     return AnimatedOpacity(
       opacity: nickNamePageAnimation ? 1.0 : 0.0,
@@ -400,32 +513,129 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
             SizedBox(
               height: 30.0.h,
             ),
-            SizedBox(
-              width: 362.w,
-              child: TextField(
-                decoration: const InputDecoration(
-                  enabledBorder: UnderlineInputBorder(),
-                  hintText: '홍길동',
+            Row(
+              children: [
+                Flexible(
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      hintText: '홍길동',
+                    ),
+                    style: nanumFontNormal(24.0),
+                    cursorHeight: 24,
+                    controller: nickNameController,
+                    onSubmitted: (value) {
+                      print(nickNameValid);
+                      moveNickNameToProfile(value);
+                    },
+                    onChanged: (value) async {
+                      Map<String, dynamic> currentNickName =
+                          nickNameCheck(value);
+                      setState(() {
+                        nickNameValid = currentNickName['validation'];
+                        nickNameUnderMessage = currentNickName['helpMessage'];
+                      });
+
+                      // await isDuplicated(value).then((duplicated) {
+                      //   if (duplicated) {
+                      //     setState(() {
+                      //       nickNameValid = false;
+                      //       currentNickName['helpMessage'] = Row(
+                      //         mainAxisAlignment: MainAxisAlignment.end,
+                      //         children: [
+                      //           SizedBox(width: 2.0.w),
+                      //           const Text(
+                      //             '중복되는 닉네임이 있습니다.',
+                      //             style: TextStyle(
+                      //               fontFamily: 'nanumsquareround',
+                      //               fontSize: 11.0,
+                      //               letterSpacing: 1.0,
+                      //               color: Colors.red,
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       );
+                      //     });
+                      //   }
+                      // });
+                    },
+                  ),
                 ),
-                style: nanumFontNormal(24.0),
-                cursorHeight: 23,
-                controller: nickNameController,
-                onSubmitted: (value) {
-                  moveNickNameToUniversity(value);
-                },
-                onChanged: (value) {
-                  setNickNameValidation(value);
-                },
-              ),
+              ],
             ),
             SizedBox(
-              height: 30.h,
+              height: 20.h,
               width: 362.w,
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: nickNameUnderMessage,
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget profilePicPage() {
+    return AnimatedOpacity(
+      opacity: profilePicPageAnimation ? 1.0 : 0.0,
+      duration: const Duration(milliseconds: 300),
+      child: Visibility(
+        visible: profilePicPageVisible,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              '프로필 사진을 등록해주세요.',
+              style: nanumFontBold(23.0),
+              textAlign: TextAlign.start,
+            ),
+            SizedBox(height: 60.h),
+            DottedBorder(
+              color: Colors.grey,
+              dashPattern: const [5, 3],
+              borderType: BorderType.RRect,
+              radius: const Radius.circular(10),
+              child: Container(
+                width: 200.h,
+                height: 200.h,
+                alignment: Alignment.center,
+                decoration: profilePicSelected
+                    ? BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: FileImage(File(pickedImg.path)),
+                        ))
+                    : null,
+                child: IconButton(
+                  onPressed: () {
+                    getImage();
+                  },
+                  icon: Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.6),
+                        shape: BoxShape.circle),
+                    child: Icon(
+                      CupertinoIcons.camera,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 30.h),
+            Text(
+              '프로필 사진을 지정하지 않으면 기본 프로필이 적용됩니다.',
+              style: nanumFontNormal(9.0),
+            ),
+            Text(
+              '프로필 사진은 언제든지 변경할 수 있습니다.',
+              style: nanumFontNormal(9.0),
+            )
           ],
         ),
       ),
@@ -725,8 +935,7 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
                     });
                   },
                   items: _departmentList
-                      .map((String e) =>
-                      DropdownMenuItem(
+                      .map((String e) => DropdownMenuItem(
                           value: e,
                           child: Text(
                             e,
@@ -752,8 +961,7 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
                       });
                     },
                     items: _schoolClassList
-                        .map((int e) =>
-                        DropdownMenuItem(
+                        .map((int e) => DropdownMenuItem(
                             value: e,
                             child: Text(
                               e.toString(),
@@ -788,23 +996,26 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
               height: 100.h,
             ),
             Lottie.asset('assets/images/loading.json'),
-            SizedBox(height: 60.h,),
-            ElevatedButton(onPressed: () => {
-            Navigator.pushNamed(context, NavigatorViewRoute)
-            }, style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)
-              ),
-                backgroundColor: const Color(0xfff4f2fb),
-                minimumSize: Size(397.w, 59.h),
-                elevation: 0
-            ), child: const Text(
-              '홈으로 이동하기',
-              style: TextStyle(
-                  color: Color(0xff986cbf),
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'nanumsquareround', fontSize: 18),
+            SizedBox(
+              height: 60.h,
             ),
+            ElevatedButton(
+              onPressed: () =>
+                  {Navigator.pushNamed(context, NavigatorViewRoute)},
+              style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  backgroundColor: const Color(0xfff4f2fb),
+                  minimumSize: Size(397.w, 59.h),
+                  elevation: 0),
+              child: const Text(
+                '홈으로 이동하기',
+                style: TextStyle(
+                    color: Color(0xff986cbf),
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'nanumsquareround',
+                    fontSize: 18),
+              ),
             ),
           ],
         ),
@@ -814,7 +1025,7 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
 
   Widget navigationBar() {
     return Visibility(
-      visible: !welcomePageVisible,
+      visible: !(welcomePageVisible || startPageVisible),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         IconButton(
           disabledColor: Colors.grey,
@@ -831,13 +1042,13 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
           onPressed: canNavigateNext() ? (() => navigateNext()) : null,
           icon: departmentPageVisible
               ? const Icon(
-            Icons.done,
-            size: 40,
-          )
+                  Icons.done,
+                  size: 40,
+                )
               : const Icon(
-            Icons.navigate_next,
-            size: 40,
-          ),
+                  Icons.navigate_next,
+                  size: 40,
+                ),
         ),
       ]),
     );
