@@ -318,8 +318,6 @@ class HomeProfile extends StatelessWidget {
       );
     }));
   }
-}
-// <= 프로필 위젯
 
 class Point {
   Point({required this.x, required this.y});
@@ -327,6 +325,7 @@ class Point {
   double x;
   double y;
 }
+
 
 class BubblePainter extends CustomPainter {
   @override
