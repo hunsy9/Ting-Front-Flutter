@@ -10,6 +10,7 @@ import 'package:ting_flutter/components/homeAppbar.dart';
 import 'package:ting_flutter/named_routing/config.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
+import 'package:ting_flutter/screens/home/controller/MainButtonController.dart';
 import 'package:ting_flutter/screens/home/controller/ProfileController.dart';
 
 const String my_profile_image =
@@ -218,23 +219,32 @@ class _HomeState extends State<Home> {
               child: Row(
                 children: [
                   // 버튼
-                  Image.asset(
-                    'assets/images/home/mainbutton.png',
-                    width: 120.h,
-                    height: 120.h,
-                    fit: BoxFit.fill,
+                  Spacer(
+                    flex: 183,
                   ),
-                  // 버튼
 
-                  // 말풍선
-                  Container(
-                    height: 35.h,
-                    width: 67.w,
-                    child: CustomPaint(
-                      painter: BubblePainter(),
+                  Flexible(
+                    flex: 90,
+                    child: Image.asset(
+                      'assets/images/home/mainbutton.png',
+                      width: 120.h,
+                      height: 120.h,
                     ),
                   ),
-                  // 말풍선
+
+                  // 버튼
+                  Spacer(flex: 4,),
+                  // => 말풍선
+                  Flexible(
+                    flex: 67,
+                    child: TextBubble(),
+                  ),
+
+                  // <= 말풍선
+
+                  Spacer(
+                    flex: 112,
+                  ),
                 ],
               ),
             ),
@@ -309,6 +319,7 @@ class HomeProfile extends StatelessWidget {
     }));
   }
 }
+// <= 프로필 위젯
 
 class Point {
   Point({required this.x, required this.y});
@@ -362,5 +373,36 @@ class BubblePainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     // TODO: implement shouldRepaint
     return false;
+  }
+}
+
+class TextBubble extends StatelessWidget {
+  
+  final mainButtonController = Get.put(MainButtonController());
+  @override
+  Widget build(BuildContext context) {
+    return GetX<MainButtonController>(builder: ((controller) {
+      return Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(
+            top: -1.h,
+            child: Container(
+              width: 65.w,
+              height: 35.h,
+              child: CustomPaint(
+                painter: BubblePainter(),
+              ),
+            ),
+          ),
+
+          Positioned(
+            top: 4.h,
+            left: 11.h,
+            child: basicText(text: controller.state.toString(), fontSize: 11.0,)
+          ),
+        ] 
+      );
+    }));
   }
 }

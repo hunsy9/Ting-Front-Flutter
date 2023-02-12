@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 
 class MainButtonController extends GetxController {
-  RxString state = ''.obs;
+  RxString? state = ''.obs;
   RxBool bounce = false.obs;
 
   @override
