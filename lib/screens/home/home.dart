@@ -125,23 +125,23 @@ class _HomeState extends State<Home> {
               child: Row(
                 children: [
                   Spacer(
-                    flex: 56,
+                    flex: 50,
                   ),
                   Flexible(
                     flex: 50,
                     child: basicText(
                       text: '필터',
-                      fontSize: 11.0,
+                      fontSize: 12.0.w,
                     ),
                   ),
                   Spacer(
-                    flex: 355,
+                    flex: 333,
                   ),
                   Flexible(
                     flex: 50,
                     child: basicText(
                       text: '팀 채팅',
-                      fontSize: 11.0,
+                      fontSize: 12.0.w,
                     ),
                   ),
                   Spacer(
@@ -399,7 +399,7 @@ class TextBubble extends StatelessWidget {
           Positioned(
             top: 4.h,
             left: 11.h,
-            child: basicText(text: controller.state.toString(), fontSize: 11.0,)
+            child: basicText(text: controller.state.toString(), fontSize: 12.0.w,)
           ),
         ] 
       );
