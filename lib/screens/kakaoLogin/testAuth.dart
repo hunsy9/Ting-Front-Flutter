@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:ting_flutter/components/myAppBar.dart';
+import 'package:http/http.dart' as http;
 
 class TestSignUp extends StatefulWidget {
   const TestSignUp({Key? key}) : super(key: key);
@@ -48,6 +49,9 @@ class _TestSignUpState extends State<TestSignUp> {
                     ElevatedButton(
                       onPressed: () async {
                         try {
+                          User user = await UserApi.instance.me();
+                          await http.put(
+                              Uri.parse('http://localhost:8080/api/v1/user/test/${user.id}'));
                           await UserApi.instance.logout();
                           print('로그아웃 성공, SDK에서 토큰 삭제');
                           Navigator.pushNamedAndRemoveUntil(
@@ -61,6 +65,7 @@ class _TestSignUpState extends State<TestSignUp> {
                     ElevatedButton(
                       onPressed: () async {
                         try {
+                          print("TestAuth");
                           UserIdResponse userIdResponse =
                               await UserApi.instance.unlink();
                           Navigator.pushNamedAndRemoveUntil(

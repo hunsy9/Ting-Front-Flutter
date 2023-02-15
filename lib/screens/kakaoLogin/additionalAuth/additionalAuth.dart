@@ -24,13 +24,12 @@ class AdditionalAuthScreen extends StatefulWidget {
   _AdditionalAuthScreenState createState() => _AdditionalAuthScreenState();
 }
 
-class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
-    with WidgetsBindingObserver {
+class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> with WidgetsBindingObserver {
   @override
-  void initState() {
+  void initState(){
     super.initState();
     getSchoolInfo();
-    setState(() {
+    setState((){
       userDepartment = _departmentList[0];
       userSchoolClass = _schoolClassList[0];
     });
@@ -130,25 +129,25 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
           children: [
             Flexible(
                 child: Column(
-              children: [
-                // 추가정보 입력 시작 페이지
-                startPage(),
-                // 닉네임 페이지
-                nickNamePage(),
-                // 프로필 사진 선택 페이지
-                profilePicPage(),
-                // 대학교 선택 페이지
-                universityPage(),
-                // 대학교 이메일 인증 페이지
-                emailPage(),
-                // 대학교 이메일 인증 확인 페이지
-                emailValidPage(),
-                // 학과, 학번 선택 페이지
-                departmentPage(),
-                // 가입 환영 페이지
-                welcomePage(),
-              ],
-            )),
+                  children: [
+                    // 추가정보 입력 시작 페이지
+                    startPage(),
+                    // 닉네임 페이지
+                    nickNamePage(),
+                    // 프로필 사진 선택 페이지
+                    profilePicPage(),
+                    // 대학교 선택 페이지
+                    universityPage(),
+                    // 대학교 이메일 인증 페이지
+                    emailPage(),
+                    // 대학교 이메일 인증 확인 페이지
+                    emailValidPage(),
+                    // 학과, 학번 선택 페이지
+                    departmentPage(),
+                    // 가입 환영 페이지
+                    welcomePage(),
+                  ],
+                )),
             navigationBar(),
           ],
         ),
@@ -183,7 +182,7 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
           "Content-Type": "application/json",
         },
         body:
-            body); //TODO Response 받아서 이메일 전송중입니다...전송완료도 넣으면 좋을듯 이메일 api가 지연시간이 좀 있음.
+        body); //TODO Response 받아서 이메일 전송중입니다...전송완료도 넣으면 좋을듯 이메일 api가 지연시간이 좀 있음.
   }
 
   void checkEmailValidCode(String code) async {
@@ -194,7 +193,7 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
           "Content-Type": "application/json",
         },
         body:
-            body); //TODO response 받아서 분기처리해야함. 아직 서버단에서 customException 만들지 않아서 서버작업 후 작업하겠음
+        body); //TODO response 받아서 분기처리해야함. 아직 서버단에서 customException 만들지 않아서 서버작업 후 작업하겠음
   }
 
   bool canNavigateBefore() {
@@ -530,7 +529,7 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
                     },
                     onChanged: (value) async {
                       Map<String, dynamic> currentNickName =
-                          nickNameCheck(value);
+                      nickNameCheck(value);
                       setState(() {
                         nickNameValid = currentNickName['validation'];
                         nickNameUnderMessage = currentNickName['helpMessage'];
@@ -604,11 +603,11 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
                 alignment: Alignment.center,
                 decoration: profilePicSelected
                     ? BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: FileImage(File(pickedImg.path)),
-                        ))
+                    borderRadius: BorderRadius.circular(8),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: FileImage(File(pickedImg.path)),
+                    ))
                     : null,
                 child: IconButton(
                   onPressed: () {
@@ -621,7 +620,10 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
                         shape: BoxShape.circle),
                     child: Icon(
                       CupertinoIcons.camera,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Theme
+                          .of(context)
+                          .colorScheme
+                          .primary,
                     ),
                   ),
                 ),
@@ -935,7 +937,8 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
                     });
                   },
                   items: _departmentList
-                      .map((String e) => DropdownMenuItem(
+                      .map((String e) =>
+                      DropdownMenuItem(
                           value: e,
                           child: Text(
                             e,
@@ -961,7 +964,8 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
                       });
                     },
                     items: _schoolClassList
-                        .map((int e) => DropdownMenuItem(
+                        .map((int e) =>
+                        DropdownMenuItem(
                             value: e,
                             child: Text(
                               e.toString(),
@@ -982,6 +986,23 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
   }
 
   Widget welcomePage() {
+    //String userNickName = "";
+    //   String userProfilePic = "";
+    //   String userUniversity = "";
+    //   String userEmail = "";
+    //   String userUnivDomain = "";
+    //   String userInputEmailToken = "";
+    //   String userDepartment = "";
+    //   int userSchoolClass = 23;
+    //   late File pickedImg;
+
+    dynamic convertToBase64(File file) {
+      List<int> imageBytes = file.readAsBytesSync();
+      String base64Image = base64Encode(imageBytes);
+
+      return 'data:image/jpeg;base64,$base64Image';
+    }
+
     return AnimatedOpacity(
       opacity: welcomePageAnimation ? 1.0 : 0.0,
       duration: const Duration(milliseconds: 600),
@@ -1000,8 +1021,33 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
               height: 60.h,
             ),
             ElevatedButton(
-              onPressed: () =>
-                  {Navigator.pushNamed(context, NavigatorViewRoute)},
+              onPressed: () async
+              {
+                try{
+                  User currentUser = await UserApi.instance.me();
+                  Object signUpObject = {
+                    "userId": currentUser.id,
+                    "kakaoEmail": currentUser.kakaoAccount?.email,
+                    "nickname": userNickName,
+                    "schoolId": 2,
+                    "kakaoName": "유승훈",
+                    "gender": 1,
+                    "age": 21,
+                    "phone": "010-8869-3911",
+                    "major": "",
+                    "imageUrl": "testImage",
+                    "schoolNum": userSchoolClass.toString(),
+                    "birthday": "1243"
+                  };
+                  print(signUpObject);
+                  await http.post(
+                      Uri.parse('http://localhost:8080/api/v1/user'),headers: {'Content-Type':'application/json'},
+                      body: jsonEncode(signUpObject));
+                }catch(e){
+                  print(e);
+                }
+                Navigator.pushNamed(context, NavigatorViewRoute);
+              },
               style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
@@ -1017,9 +1063,12 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
                     fontSize: 18),
               ),
             ),
-          ],
-        ),
-      ),
+          ]
+          ,
+        )
+        ,
+      )
+      ,
     );
   }
 
@@ -1042,13 +1091,13 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
           onPressed: canNavigateNext() ? (() => navigateNext()) : null,
           icon: departmentPageVisible
               ? const Icon(
-                  Icons.done,
-                  size: 40,
-                )
+            Icons.done,
+            size: 40,
+          )
               : const Icon(
-                  Icons.navigate_next,
-                  size: 40,
-                ),
+            Icons.navigate_next,
+            size: 40,
+          ),
         ),
       ]),
     );
@@ -1061,11 +1110,14 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen>
       case AppLifecycleState.resumed:
         break;
       case AppLifecycleState.inactive:
-        UserIdResponse userIdResponse = await UserApi.instance.unlink();
         break;
       case AppLifecycleState.detached:
+        print("여기가왜... ㅜㅜ");
+        await UserApi.instance.unlink();
         break;
       case AppLifecycleState.paused:
+        print("여기가왜... ㅜㅜ");
+        await UserApi.instance.unlink();
         break;
     }
   }
