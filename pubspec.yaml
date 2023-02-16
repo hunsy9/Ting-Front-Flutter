@@ -53,8 +53,11 @@ dependencies:
   fluttertoast: ^8.1.2
   image_picker: ^0.8.6+1
   dotted_border: ^2.0.0+3
+  json_annotation: ^4.8.0
 
 dev_dependencies:
+  json_serializable: ^6.6.1
+  build_runner: ^2.3.3
   flutter_test:
     sdk: flutter
 

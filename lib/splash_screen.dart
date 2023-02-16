@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:ting_flutter/screens/kakaoLogin/initialLogic.dart';
+
+import 'getX/controller/userInfoController.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -22,6 +25,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    Get.put(UserInfoController());
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Stack(

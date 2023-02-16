@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:ting_flutter/components/myAppBar.dart';
 import 'package:http/http.dart' as http;
+import 'package:ting_flutter/getX/controller/userInfoController.dart';
 
 class TestSignUp extends StatefulWidget {
   const TestSignUp({Key? key}) : super(key: key);
@@ -30,8 +32,19 @@ class _TestSignUpState extends State<TestSignUp> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 500.h,
+                      height: 200.h,
                     ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        Get.find<UserInfoController>().changeNickname("이 닉네임으로 바꿨당");
+                      },
+                      child: Text("반응형 확인"),
+                    ),
+                    Text("UserController의 회원정보"),
+                    Obx(() => Text(
+                        '${Get.find<UserInfoController>().user.value.user_id}')),
+                    Obx(() => Text(
+                        '${Get.find<UserInfoController>().user.value.nickname}')),
                     ElevatedButton(
                       onPressed: () async {
                         try {
@@ -50,8 +63,8 @@ class _TestSignUpState extends State<TestSignUp> {
                       onPressed: () async {
                         try {
                           User user = await UserApi.instance.me();
-                          await http.put(
-                              Uri.parse('http://localhost:8080/api/v1/user/test/${user.id}'));
+                          await http.put(Uri.parse(
+                              'http://localhost:8080/api/v1/user/test/${user.id}'));
                           await UserApi.instance.logout();
                           print('로그아웃 성공, SDK에서 토큰 삭제');
                           Navigator.pushNamedAndRemoveUntil(

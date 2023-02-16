@@ -27,10 +27,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             child: Column(
               children: [
                 SizedBox(height: 200.h,),
-
                 ElevatedButton(onPressed: (){
                   Navigator.pushNamed(context, TestAuthViewRoute);
-                }, child: Text("")),
+                }, child: Text("테스트페이지")),
                 Center(
                     child: Image.asset('assets/images/Ting_Login_Logo.png',height: 180.h,)
                 ),
