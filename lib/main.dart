@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp>{
         builder: (ctx,child){
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: NavigatorViewRoute,
+          initialRoute: SplashViewRoute,
           onGenerateRoute: router.generateRoute,
           builder: (context, widget){
             return MediaQuery(

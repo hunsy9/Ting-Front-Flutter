@@ -72,6 +72,8 @@ void kakaoLogic(context) async {
 //   print('사용자 정보 요청 실패 $error');
 // }
       } catch (error) {
+        print("kakaoLogic error");
+        UserApi.instance.unlink();
         print('카카오계정으로 로그인 실패 $error');
       }
     }
