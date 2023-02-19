@@ -10,12 +10,12 @@ AppBar statusBarColor(SystemUiOverlayStyle colors) {
   );
 }
 
-AppBar homeAppBar(String title, context) {
+AppBar friendsListAppBar() {
   return AppBar(
     centerTitle: true,
-    title: Text(
-      title,
-      style: const TextStyle(
+    title: const Text(
+      '친구 목록',
+      style: TextStyle(
           color: Color(0xff414141),
           fontFamily: 'nanumsquareround',
           fontSize: 20),
@@ -25,25 +25,10 @@ AppBar homeAppBar(String title, context) {
     automaticallyImplyLeading: false,
     actions: [
       IconButton(
-        icon: Image.asset(
-          'assets/images/friendsListIcon.png',
-          width: 31.w,
-          height: 27.h,
-        ),
-        onPressed: () {
-          Navigator.pushNamed(context, "/friendsListView");
-        },
-      ),
-      IconButton(
-        icon: Image.asset(
-          'assets/images/notification.png',
-          width: 31.w,
-          height: 27.h,
-        ),
-        onPressed: () {
-          Navigator.pushNamed(context, "/alarm");
-        },
-      ),
+          onPressed: () {
+            print('hello');
+          },
+          icon: const Icon(Icons.search, color: Colors.black))
     ],
   );
 }

@@ -318,6 +318,7 @@ class HomeProfile extends StatelessWidget {
       );
     }));
   }
+}
 
 class Point {
   Point({required this.x, required this.y});

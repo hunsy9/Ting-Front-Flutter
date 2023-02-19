@@ -13,6 +13,7 @@ import '../screens/notice/notice.dart';
 import '../screens/myprofile/myprofile.dart';
 import '../screens/notification/inviteNotification.dart';
 import '../screens/kakaoLogin/testAuth.dart';
+import '../screens/friendsList.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -28,10 +29,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case HomeViewRoute:
       return PageTransition(child: const Home(), type: PageTransitionType.fade);
     case NavigatorViewRoute:
-      return PageTransition(child: const NavigatorBarScaffold(), type: PageTransitionType.fade);
+      return PageTransition(
+          child: const NavigatorBarScaffold(), type: PageTransitionType.fade);
     case RecommendedPlaceViewRoute:
-      return MaterialPageRoute(
-          builder: (context) => const RecommendedPlaceScreen());
+      return MaterialPageRoute(builder: (context) => const RecommendedPlaceScreen());
     case NoticeViewRoute:
       return MaterialPageRoute(builder: (context) => const NoticeScreen());
     case FilterViewRoute:
@@ -41,8 +42,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case TestAuthViewRoute:
       return MaterialPageRoute(builder: (context) => const TestSignUp());
     case InvitationNotificationViewRoute:
-      return MaterialPageRoute(
-          builder: (context) => const InvitationNotificationScreen());
+      return MaterialPageRoute(builder: (context) => const InvitationNotificationScreen());
+    case FriendsListViewRoute:
+      return MaterialPageRoute(builder: (context) => const FriendsList());
     default:
       return MaterialPageRoute(builder: (context) => const Home());
   }
