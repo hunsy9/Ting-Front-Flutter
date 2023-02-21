@@ -20,6 +20,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
       body: Center(
         child: SizedBox(
@@ -30,6 +31,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 ElevatedButton(onPressed: (){
                   Navigator.pushNamed(context, TestAuthViewRoute);
                 }, child: Text("테스트페이지")),
+                ElevatedButton(onPressed: (){
+                  Navigator.pushNamed(context, ChatRoomViewRoute);
+                }, child: Text("채팅 테스트 페이지")),
                 Center(
                     child: Image.asset('assets/images/Ting_Login_Logo.png',height: 180.h,)
                 ),

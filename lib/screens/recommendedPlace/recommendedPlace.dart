@@ -19,6 +19,7 @@ class _RecommendedPlaceScreenState extends State<RecommendedPlaceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
      appBar: baseAppBar("추천 장소"),
       body: Center(
         child: Column(

@@ -21,6 +21,8 @@ class _TestSignUpState extends State<TestSignUp> {
 
   @override
   Widget build(BuildContext context) {
+
+    UserController userController = Get.find<UserController>();
     return Scaffold(
       appBar: baseAppBar("테스트페이지"),
       body: Stack(
@@ -36,15 +38,16 @@ class _TestSignUpState extends State<TestSignUp> {
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        Get.find<UserInfoController>().changeNickname("이 닉네임으로 바꿨당");
                       },
                       child: Text("반응형 확인"),
                     ),
                     Text("UserController의 회원정보"),
-                    Obx(() => Text(
-                        '${Get.find<UserInfoController>().user.value.user_id}')),
-                    Obx(() => Text(
-                        '${Get.find<UserInfoController>().user.value.nickname}')),
+                    Obx(() => Text("user의 회원ID: ${userController.userModel.value.userId}")),
+                    Obx(() => Text("user의 닉네임: ${userController.userModel.value.nickname}")),
+                    Obx(() => Text("user의 전공계열: ${userController.userModel.value.major}")),
+                    Obx(() => Text("user의 팀ID: ${userController.userModel.value.team.value.teamId}")),
+                    Obx(() => Text("friend들의 닉네임: ${userController.userModel.value.friends.value.map((e) => e.nickname)}")),
+                    Obx(() => Text("매칭중인가? ${userController.userModel.value.team.value.isMatching}")),
                     ElevatedButton(
                       onPressed: () async {
                         try {

@@ -10,4 +10,6 @@ const String SettingViewRoute = '/setting';
 const String InvitationNotificationViewRoute = '/alarm';
 const String TestAuthViewRoute = '/testAuth';
 const String NavigatorViewRoute = '/navigatorView';
+const String ChatRoomViewRoute = '/chatRoom';
+
 const String FriendsListViewRoute = '/friendsListView';

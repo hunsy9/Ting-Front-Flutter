@@ -1,8 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ting_flutter/basic_components/basictext.dart';
@@ -36,6 +33,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: homeAppBar("", context),
         body: Column(
           children: [
@@ -158,34 +156,32 @@ class _HomeState extends State<Home> {
               child: Center(
                 child: GestureDetector(
                   onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return GetX<ProfileController>(
-                                    builder: ((ProfileController controller) {
-                                  String imageLink =
-                                      'assets/images/home/crown.png';
-                                  String nickName =
-                                      controller.nickNames.elementAt(0);
-                                  String school = '내가왕인대 학교';
-                                  String majorField = '왕족 계열';
-                                  String introduction =
-                                      'The below two crowns are my DDaGGari-s';
-                                  int birthYear = 2001;
-                                  int enterYear = 19;
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return GetX<ProfileController>(
+                              builder: ((ProfileController controller) {
+                            String imageLink = 'assets/images/home/crown.png';
+                            String nickName = controller.nickNames.elementAt(0);
+                            String school = '내가왕인대 학교';
+                            String majorField = '왕족 계열';
+                            String introduction =
+                                'The below two crowns are my DDaGGari-s';
+                            int birthYear = 2001;
+                            int enterYear = 19;
 
-                                  return DetailedProfile(
-                                    imageLink: imageLink,
-                                    nickName: nickName,
-                                    school: school,
-                                    majorField: majorField,
-                                    introduction: introduction,
-                                    birthYear: birthYear,
-                                    enterYear: enterYear,
-                                  );
-                                }));
-                              });
-                        },
+                            return DetailedProfile(
+                              imageLink: imageLink,
+                              nickName: nickName,
+                              school: school,
+                              majorField: majorField,
+                              introduction: introduction,
+                              birthYear: birthYear,
+                              enterYear: enterYear,
+                            );
+                          }));
+                        });
+                  },
                   child: HomeProfile(
                     isBoss: true,
                     num: 0,
@@ -261,40 +257,40 @@ class _HomeState extends State<Home> {
                     flex: 130,
                     child: Center(
                         child: GestureDetector(
-                          onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return GetX<ProfileController>(
-                                    builder: ((ProfileController controller) {
-                                  String imageLink =
-                                      'assets/images/home/crown.png';
-                                  String nickName =
-                                      controller.nickNames.elementAt(2);
-                                  String school = '내가왕인대 학교';
-                                  String majorField = '왕족 계열';
-                                  String introduction =
-                                      'I am Stronger than left JottBab crown1.';
-                                  int birthYear = 2001;
-                                  int enterYear = 19;
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return GetX<ProfileController>(
+                                  builder: ((ProfileController controller) {
+                                String imageLink =
+                                    'assets/images/home/crown.png';
+                                String nickName =
+                                    controller.nickNames.elementAt(2);
+                                String school = '내가왕인대 학교';
+                                String majorField = '왕족 계열';
+                                String introduction =
+                                    'I am Stronger than left JottBab crown1.';
+                                int birthYear = 2001;
+                                int enterYear = 19;
 
-                                  return DetailedProfile(
-                                    imageLink: imageLink,
-                                    nickName: nickName,
-                                    school: school,
-                                    majorField: majorField,
-                                    introduction: introduction,
-                                    birthYear: birthYear,
-                                    enterYear: enterYear,
-                                  );
-                                }));
-                              });
-                        },
-                          child: HomeProfile(
-                            isBoss: false,
-                            num: 2,
-                          ),
-                        )),
+                                return DetailedProfile(
+                                  imageLink: imageLink,
+                                  nickName: nickName,
+                                  school: school,
+                                  majorField: majorField,
+                                  introduction: introduction,
+                                  birthYear: birthYear,
+                                  enterYear: enterYear,
+                                );
+                              }));
+                            });
+                      },
+                      child: HomeProfile(
+                        isBoss: false,
+                        num: 2,
+                      ),
+                    )),
                   ),
                   Spacer(
                     flex: 31,
@@ -473,6 +469,7 @@ class BubblePainter extends CustomPainter {
 
 class TextBubble extends StatelessWidget {
   final mainButtonController = Get.put(MainButtonController());
+
   @override
   Widget build(BuildContext context) {
     return GetX<MainButtonController>(builder: ((controller) {
@@ -584,7 +581,6 @@ class DetailedProfile extends StatelessWidget {
             ),
           ),
 
-
           // 년생, 학번
           Positioned(
             top: 249.h,
@@ -600,7 +596,6 @@ class DetailedProfile extends StatelessWidget {
               textAlign: TextAlign.start,
             ),
           ),
-
 
           // 한줄소개
           Positioned(
@@ -618,12 +613,15 @@ class DetailedProfile extends StatelessWidget {
             ),
           ),
 
-
           // 대학 로고
           Positioned(
             top: 325.h,
             left: 49.w,
-            child: Image.asset('assets/images/home/crown.png', width: 54.h, height: 54.h,),
+            child: Image.asset(
+              'assets/images/home/crown.png',
+              width: 54.h,
+              height: 54.h,
+            ),
           ),
 
           // 대학명
@@ -645,7 +643,11 @@ class DetailedProfile extends StatelessWidget {
           Positioned(
             top: 409.h,
             left: 49.w,
-            child: Image.asset('assets/images/home/crown.png', width: 54.h, height: 54.h,),
+            child: Image.asset(
+              'assets/images/home/crown.png',
+              width: 54.h,
+              height: 54.h,
+            ),
           ),
 
           // 계열 명

@@ -34,7 +34,7 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> with Widget
       userSchoolClass = _schoolClassList[0];
     });
 
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   late List<SchoolInfo> schoolList; // 처음 시작할 때 학교 정보들 다 받아서 저장
@@ -160,7 +160,7 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> with Widget
     if (image != null) {
       setState(() {
         profilePicSelected = true;
-        pickedImg = File(image!.path);
+        pickedImg = File(image.path);
       });
     }
   }
@@ -1129,7 +1129,7 @@ class _AdditionalAuthScreenState extends State<AdditionalAuthScreen> with Widget
     univEmailController.dispose();
     emailValidController.dispose();
 
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 }

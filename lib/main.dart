@@ -17,7 +17,7 @@ void main() {
     nativeAppKey: "84817c810115c69866956281b1f115b9",
     javaScriptAppKey: "8f33d86bf354750433909a35ff18ff19",
   );
-  runApp(const GetMaterialApp(home: MyApp()));
+  runApp(const GetMaterialApp(home: MyApp() , debugShowCheckedModeBanner: false,));
 }
 
 class MyApp extends StatefulWidget{

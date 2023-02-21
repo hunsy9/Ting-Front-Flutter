@@ -1,92 +1,124 @@
 import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
-import '../customJsonConverter/rxIntConverter.dart';
-import '../customJsonConverter/rxStringConverter.dart';
+
 part 'userInfo.g.dart';
 
-@JsonSerializable(checked: true, createFactory: true, fieldRename: FieldRename.snake )
-class UserInfo {
-  @RxIntConverter()
-  final RxInt? user_id;
+@JsonSerializable()
+class UserModel {
+  int? userId;
+  String? kakaoEmail;
+  int? teamId;
+  int? matchId;
+  List<String>? states;
+  String? nickname;
+  int? schoolId;
+  String? phone;
+  String? major;
+  String? schoolNum;
+  String? birthday;
+  int? success;
+  int? fail;
+  RxList<FriendModel> friends = RxList<FriendModel>();
+  Rx<TeamModel> team = Rx<TeamModel>(TeamModel());
+  RxList<MatchModel> matches = RxList<MatchModel>();
 
-  @RxStringConverter()
-  final RxString? kakao_email;
+  UserModel({
+     this.userId,
+     this.kakaoEmail,
+     this.teamId,
+     this.matchId,
+     this.states,
+     this.nickname,
+     this.schoolId,
+     this.phone,
+     this.major,
+     this.schoolNum,
+     this.birthday,
+     this.success,
+     this.fail,
+     List<FriendModel>? friends,
+     TeamModel? team,
+     List<MatchModel>? matches,
+  }) {
+    this.friends.addAll(friends ?? []);
+    this.team.value = team ?? TeamModel();
+    this.matches.addAll(matches ?? []);
+  }
 
-  @RxIntConverter()
-  final RxInt? team_id;
+  factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
 
-  @RxIntConverter()
-  final RxInt? match_id;
+  Map<String, dynamic> toJson() => _$UserModelToJson(this);
+}
 
-  @RxIntConverter()
-  final RxInt? is_withdrawal;
+@JsonSerializable()
+class TeamModel {
+  int? teamId;
+  int? member1;
+  int? member2;
+  int? member3;
+  List<String>? preference;
+  int? isMatching;
 
-  @RxStringConverter()
-  final RxString? enroll_time;
-
-  @RxStringConverter()
-  final RxString? nickname;
-
-  @RxIntConverter()
-  final RxInt? school_id;
-
-  @RxStringConverter()
-  final RxString? kakao_name;
-
-  @RxIntConverter()
-  final RxInt? gender;
-
-  @RxIntConverter()
-  final RxInt? age;
-
-  @RxStringConverter()
-  final RxString? phone;
-
-  @RxStringConverter()
-  final RxString? major;
-
-  @RxStringConverter()
-  final RxString? image;
-
-  @RxStringConverter()
-  final RxString? school_num;
-
-  @RxStringConverter()
-  final RxString? birthday;
-
-  @RxIntConverter()
-  final RxInt? success;
-
-  @RxIntConverter()
-  final RxInt? fail;
-
-  @RxStringConverter()
-  final RxString? last_update;
-
-  UserInfo({
-    this.user_id,
-    this.kakao_email,
-    this.team_id,
-    this.match_id,
-    this.is_withdrawal,
-    this.enroll_time,
-    this.nickname,
-    this.school_id,
-    this.kakao_name,
-    this.gender,
-    this.age,
-    this.phone,
-    this.major,
-    this.image,
-    this.school_num,
-    this.birthday,
-    this.success,
-    this.fail,
-    this.last_update,
+  TeamModel({
+     this.teamId,
+     this.member1,
+     this.member2,
+     this.member3,
+     this.preference,
+     this.isMatching,
   });
 
-  factory UserInfo.fromJson(Map<String, dynamic> json) => _$UserInfoFromJson(json);
+  factory TeamModel.fromJson(Map<String, dynamic> json) => _$TeamModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UserInfoToJson(this);
+  Map<String, dynamic> toJson() => _$TeamModelToJson(this);
 }
+
+@JsonSerializable()
+class MatchModel {
+  String? nickname;
+  int? gender;
+  int? age;
+  String? major;
+  String? image;
+  String? schoolNum;
+
+  MatchModel({
+     this.nickname,
+     this.gender,
+     this.age,
+     this.major,
+     this.image,
+     this.schoolNum,
+  });
+
+  factory MatchModel.fromJson(Map<String, dynamic> json) => _$MatchModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MatchModelToJson(this);
+}
+
+@JsonSerializable()
+class FriendModel {
+  String? nickname;
+  int? gender;
+  int? age;
+  String? major;
+  String? image;
+  String? schoolNum;
+  int? isHidden;
+
+  FriendModel({
+     this.nickname,
+     this.gender,
+     this.age,
+     this.major,
+     this.image,
+     this.schoolNum,
+     this.isHidden,
+  });
+
+  factory FriendModel.fromJson(Map<String, dynamic> json) => _$FriendModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FriendModelToJson(this);
+}
+
 

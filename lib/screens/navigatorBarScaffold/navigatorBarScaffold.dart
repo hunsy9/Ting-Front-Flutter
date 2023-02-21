@@ -13,7 +13,8 @@ class NavigatorBarScaffold extends StatefulWidget {
   _NavigatorBarScaffoldState createState() => _NavigatorBarScaffoldState();
 }
 
-class _NavigatorBarScaffoldState extends State<NavigatorBarScaffold> with SingleTickerProviderStateMixin {
+class _NavigatorBarScaffoldState extends State<NavigatorBarScaffold>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   List<bool> _trigger = [false, true, false];
   int lastIndex = 1;
@@ -21,27 +22,29 @@ class _NavigatorBarScaffoldState extends State<NavigatorBarScaffold> with Single
 
   @override
   void initState() {
-    _tabController = TabController(vsync: this, length: 3,initialIndex: 1)..addListener(() {
-      setState(() {
-        tabindex = _tabController.index;
+    _tabController = TabController(vsync: this, length: 3, initialIndex: 1)
+      ..addListener(() {
+        setState(() {
+          tabindex = _tabController.index;
+        });
+        if (lastIndex != tabindex) {
+          _trigger[lastIndex] = !_trigger[lastIndex];
+          _trigger[tabindex] = !_trigger[tabindex];
+          lastIndex = tabindex;
+        }
       });
-      if (lastIndex != tabindex) {
-        _trigger[lastIndex] = !_trigger[lastIndex];
-        _trigger[tabindex] = !_trigger[tabindex];
-        lastIndex = tabindex;
-      }
-    });
     super.initState();
   }
 
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         bottomNavigationBar: Theme(
           data: ThemeData(
             highlightColor: Colors.transparent,
@@ -58,8 +61,7 @@ class _NavigatorBarScaffoldState extends State<NavigatorBarScaffold> with Single
                 // }
               })
             },
-            indicator:
-                CircleTabIndicator(color: Color(0xffe1def4), radius: 3),
+            indicator: CircleTabIndicator(color: Color(0xffe1def4), radius: 3),
             indicatorPadding: EdgeInsetsDirectional.only(bottom: 30.h),
             tabs: [
               TabContainer(_trigger[0], 'assets/images/recommendedPlace.png',
@@ -74,7 +76,6 @@ class _NavigatorBarScaffoldState extends State<NavigatorBarScaffold> with Single
         body: TabBarView(
           physics: BouncingScrollPhysics(),
           controller: _tabController,
-
           children: <Widget>[
             RecommendedPlaceScreen(),
             Home(),

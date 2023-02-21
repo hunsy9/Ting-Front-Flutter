@@ -13,6 +13,7 @@ import '../screens/notice/notice.dart';
 import '../screens/myprofile/myprofile.dart';
 import '../screens/notification/inviteNotification.dart';
 import '../screens/kakaoLogin/testAuth.dart';
+import '../screens/chat/view/chatRoom.dart';
 import '../screens/friendsList.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -41,6 +42,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const MyProfileScreen());
     case TestAuthViewRoute:
       return MaterialPageRoute(builder: (context) => const TestSignUp());
+    case ChatRoomViewRoute:
+      return MaterialPageRoute(builder: (context) => const ChatRoomScreen());
     case InvitationNotificationViewRoute:
       return MaterialPageRoute(builder: (context) => const InvitationNotificationScreen());
     case FriendsListViewRoute:

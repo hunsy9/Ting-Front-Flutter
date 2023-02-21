@@ -26,8 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
 
-    Get.put(UserInfoController());
-
+    final UserController controller = Get.put(UserController());
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Stack(

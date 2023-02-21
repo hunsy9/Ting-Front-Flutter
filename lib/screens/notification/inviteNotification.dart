@@ -30,6 +30,7 @@ class _InvitationNotificationScreenState extends State<InvitationNotificationScr
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: baseAppBar("알림"),
       body: SmartRefresher(enablePullDown: true, enablePullUp: false, header: WaterDropHeader(),controller: _refreshController,onRefresh: _onRefresh,
       child: Column( //LISTVIEW로 바꿔야함
