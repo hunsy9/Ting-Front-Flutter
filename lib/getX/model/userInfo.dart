@@ -11,7 +11,7 @@ class UserModel {
   int? matchId;
   List<String>? states;
   String? nickname;
-  int? schoolId;
+  String? schoolName;
   String? phone;
   String? major;
   String? schoolNum;
@@ -23,29 +23,30 @@ class UserModel {
   RxList<MatchModel> matches = RxList<MatchModel>();
 
   UserModel({
-     this.userId,
-     this.kakaoEmail,
-     this.teamId,
-     this.matchId,
-     this.states,
-     this.nickname,
-     this.schoolId,
-     this.phone,
-     this.major,
-     this.schoolNum,
-     this.birthday,
-     this.success,
-     this.fail,
-     List<FriendModel>? friends,
-     TeamModel? team,
-     List<MatchModel>? matches,
+    this.userId,
+    this.kakaoEmail,
+    this.teamId,
+    this.matchId,
+    this.states,
+    this.nickname,
+    this.schoolName,
+    this.phone,
+    this.major,
+    this.schoolNum,
+    this.birthday,
+    this.success,
+    this.fail,
+    List<FriendModel>? friends,
+    TeamModel? team,
+    List<MatchModel>? matches,
   }) {
     this.friends.addAll(friends ?? []);
     this.team.value = team ?? TeamModel();
     this.matches.addAll(matches ?? []);
   }
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 }
@@ -60,15 +61,16 @@ class TeamModel {
   int? isMatching;
 
   TeamModel({
-     this.teamId,
-     this.member1,
-     this.member2,
-     this.member3,
-     this.preference,
-     this.isMatching,
+    this.teamId,
+    this.member1,
+    this.member2,
+    this.member3,
+    this.preference,
+    this.isMatching,
   });
 
-  factory TeamModel.fromJson(Map<String, dynamic> json) => _$TeamModelFromJson(json);
+  factory TeamModel.fromJson(Map<String, dynamic> json) =>
+      _$TeamModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$TeamModelToJson(this);
 }
@@ -83,15 +85,16 @@ class MatchModel {
   String? schoolNum;
 
   MatchModel({
-     this.nickname,
-     this.gender,
-     this.age,
-     this.major,
-     this.image,
-     this.schoolNum,
+    this.nickname,
+    this.gender,
+    this.age,
+    this.major,
+    this.image,
+    this.schoolNum,
   });
 
-  factory MatchModel.fromJson(Map<String, dynamic> json) => _$MatchModelFromJson(json);
+  factory MatchModel.fromJson(Map<String, dynamic> json) =>
+      _$MatchModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$MatchModelToJson(this);
 }
@@ -99,26 +102,29 @@ class MatchModel {
 @JsonSerializable()
 class FriendModel {
   String? nickname;
+  String? kakaoName;
   int? gender;
   int? age;
+  String? birthday;
   String? major;
   String? image;
   String? schoolNum;
   int? isHidden;
 
   FriendModel({
-     this.nickname,
-     this.gender,
-     this.age,
-     this.major,
-     this.image,
-     this.schoolNum,
-     this.isHidden,
+    this.nickname,
+    this.kakaoName,
+    this.gender,
+    this.age,
+    this.birthday,
+    this.major,
+    this.image,
+    this.schoolNum,
+    this.isHidden,
   });
 
-  factory FriendModel.fromJson(Map<String, dynamic> json) => _$FriendModelFromJson(json);
+  factory FriendModel.fromJson(Map<String, dynamic> json) =>
+      _$FriendModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$FriendModelToJson(this);
 }
-
-

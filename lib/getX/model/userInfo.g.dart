@@ -14,7 +14,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       states:
           (json['states'] as List<dynamic>?)?.map((e) => e as String).toList(),
       nickname: json['nickname'] as String?,
-      schoolId: json['schoolId'] as int?,
+      schoolName: json['schoolName'] as String?,
       phone: json['phone'] as String?,
       major: json['major'] as String?,
       schoolNum: json['schoolNum'] as String?,
@@ -39,7 +39,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'matchId': instance.matchId,
       'states': instance.states,
       'nickname': instance.nickname,
-      'schoolId': instance.schoolId,
+      'schoolName': instance.schoolName,
       'phone': instance.phone,
       'major': instance.major,
       'schoolNum': instance.schoolNum,
@@ -92,8 +92,10 @@ Map<String, dynamic> _$MatchModelToJson(MatchModel instance) =>
 
 FriendModel _$FriendModelFromJson(Map<String, dynamic> json) => FriendModel(
       nickname: json['nickname'] as String?,
+      kakaoName: json['kakaoName'] as String?,
       gender: json['gender'] as int?,
       age: json['age'] as int?,
+      birthday: json['birthday'] as String?,
       major: json['major'] as String?,
       image: json['image'] as String?,
       schoolNum: json['schoolNum'] as String?,
@@ -103,8 +105,10 @@ FriendModel _$FriendModelFromJson(Map<String, dynamic> json) => FriendModel(
 Map<String, dynamic> _$FriendModelToJson(FriendModel instance) =>
     <String, dynamic>{
       'nickname': instance.nickname,
+      'kakaoName': instance.kakaoName,
       'gender': instance.gender,
       'age': instance.age,
+      'birthday': instance.birthday,
       'major': instance.major,
       'image': instance.image,
       'schoolNum': instance.schoolNum,

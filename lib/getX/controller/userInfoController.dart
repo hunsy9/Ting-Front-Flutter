@@ -23,7 +23,8 @@ class UserController extends GetxController {
     if (response.body == null) {
       throw Exception('Failed to load user data');
     }
-    final data = jsonDecode(response.body);
+    final utf8decodedBody = utf8.decode(response.bodyBytes);
+    final data = jsonDecode(utf8decodedBody);
     userModel.value = UserModel.fromJson(data['userDto']);
     userModel.value.friends = List<FriendModel>.from(data['friends'].map((friends) => FriendModel.fromJson(friends))).obs;
     userModel.value.team = TeamModel.fromJson(data['team']).obs;

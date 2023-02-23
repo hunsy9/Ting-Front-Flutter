@@ -48,6 +48,12 @@ class _TestSignUpState extends State<TestSignUp> {
                     Obx(() => Text("user의 팀ID: ${userController.userModel.value.team.value.teamId}")),
                     Obx(() => Text("friend들의 닉네임: ${userController.userModel.value.friends.value.map((e) => e.nickname)}")),
                     Obx(() => Text("매칭중인가? ${userController.userModel.value.team.value.isMatching}")),
+                    Obx(() => Text("user의 생일 : ${userController.userModel.value.birthday}")),
+                    Obx(() => Text("user의 학번 : ${userController.userModel.value.schoolNum}")),
+                    Obx(() => Text("user의 학교이름 : ${userController.userModel.value.schoolName}")),
+
+
+
                     ElevatedButton(
                       onPressed: () async {
                         try {
