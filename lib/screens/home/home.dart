@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ting_flutter/basic_components/basictext.dart';
 import 'package:ting_flutter/components/homeAppbar.dart';
+import 'package:ting_flutter/getX/controller/userInfoController.dart';
 import 'package:ting_flutter/named_routing/config.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:ting_flutter/screens/home/controller/MainButtonController.dart';
 import 'package:ting_flutter/screens/home/controller/ProfileController.dart';
+import 'package:ting_flutter/getX/model/userInfo.dart';
 
 const String my_profile_image =
     'assets/images/—Pngtree—simple flat character avatar_6202775 1.png';
@@ -151,36 +153,38 @@ class _HomeState extends State<Home> {
             // <= 필터, 팀채팅 텍스트
 
             // => 자기 프로필
-            Flexible(
+            Obx(() {
+
+              UserController userController = Get.find<UserController>();
+              return Flexible(
               flex: 145,
               child: Center(
                 child: GestureDetector(
                   onTap: () {
-                    showDialog(
+                    
+                    if (userController.userModel.value.friends.length >= 0) {
+                      showDialog(
                         context: context,
-                        builder: (context) {
-                          return GetX<ProfileController>(
-                              builder: ((ProfileController controller) {
-                            String imageLink = 'assets/images/home/crown.png';
-                            String nickName = controller.nickNames.elementAt(0);
-                            String school = '내가왕인대 학교';
-                            String majorField = '왕족 계열';
-                            String introduction =
-                                'The below two crowns are my DDaGGari-s';
-                            int birthYear = 2001;
-                            int enterYear = 19;
+                        builder: (context,) {
+                          String nickName = userController.userModel.value.nickname!;
+                          int schoolId = userController.userModel.value.schoolId!;
+                          String majorField = userController.userModel.value.major!;
+                          String birthYear = userController.userModel.value.birthday!;
+                          String enterYear = userController.userModel.value.schoolNum!;
 
-                            return DetailedProfile(
-                              imageLink: imageLink,
-                              nickName: nickName,
-                              school: school,
-                              majorField: majorField,
-                              introduction: introduction,
-                              birthYear: birthYear,
-                              enterYear: enterYear,
-                            );
-                          }));
-                        });
+
+                          
+                          return DetailedProfile(imageLink: 'assets/images/home/crown.png', 
+                            nickName: nickName, 
+                            introduction: "", 
+                            school: schoolId.toString(), 
+                            majorField: majorField, 
+                            birthYear: birthYear, 
+                            enterYear: enterYear,
+                          );
+                        }
+                      );
+                    } 
                   },
                   child: HomeProfile(
                     isBoss: true,
@@ -188,7 +192,8 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-            ),
+            );
+            }),
             // <= 자기 프로필
 
             // => 선 두개
@@ -203,101 +208,99 @@ class _HomeState extends State<Home> {
             // <= 선 두개
 
             // => 프로필 두개
-            Flexible(
-              flex: 145,
-              child: Row(
-                children: [
-                  Spacer(
-                    flex: 31,
-                  ),
-                  Flexible(
-                    flex: 130,
-                    child: Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return GetX<ProfileController>(
-                                    builder: ((ProfileController controller) {
-                                  String imageLink =
-                                      'assets/images/home/crown.png';
-                                  String nickName =
-                                      controller.nickNames.elementAt(1);
-                                  String school = '내가왕인대 학교';
-                                  String majorField = '왕족 계열';
-                                  String introduction =
-                                      'I am King Wang JJang Crown.';
-                                  int birthYear = 2001;
-                                  int enterYear = 19;
+            
+            Obx(() {
+              UserController userController = Get.find<UserController>();
+              return Flexible(
+                flex: 145,
+                child: Row(
+                  children: [
+                    Spacer(
+                      flex: 31,
+                    ),
+                    Flexible(
+                      flex: 130,
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            if (userController.userModel.value.friends.length > 0) {
+                              showDialog(
+                                context: context,
+                                builder: (context,) {
+                                  
+                                  FriendModel friendModel = userController.userModel.value.friends.elementAt(0);
+                                  String nickName = friendModel.nickname!;
+                                  int schoolId = userController.userModel.value.schoolId!;
+                                  String majorField = friendModel.major!;
+                                  int birthYear = friendModel.age!;
+                                  String enterYear = friendModel.schoolNum!;
 
-                                  return DetailedProfile(
-                                    imageLink: imageLink,
-                                    nickName: nickName,
-                                    school: school,
-                                    majorField: majorField,
-                                    introduction: introduction,
-                                    birthYear: birthYear,
+                                  return DetailedProfile(imageLink: 'assets/images/home/crown.png', 
+                                    nickName: nickName, 
+                                    introduction: "", 
+                                    school: schoolId.toString(), 
+                                    majorField: majorField, 
+                                    birthYear: birthYear.toString(), 
                                     enterYear: enterYear,
                                   );
-                                }));
-                              });
-                        },
-                        child: HomeProfile(
-                          isBoss: false,
-                          num: 1,
+                                }
+                              );
+                            }
+                            
+                          },
+                          child: HomeProfile(
+                            isBoss: false,
+                            num: 1,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Spacer(
-                    flex: 137,
-                  ),
-                  Flexible(
-                    flex: 130,
-                    child: Center(
-                        child: GestureDetector(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return GetX<ProfileController>(
-                                  builder: ((ProfileController controller) {
-                                String imageLink =
-                                    'assets/images/home/crown.png';
-                                String nickName =
-                                    controller.nickNames.elementAt(2);
-                                String school = '내가왕인대 학교';
-                                String majorField = '왕족 계열';
-                                String introduction =
-                                    'I am Stronger than left JottBab crown1.';
-                                int birthYear = 2001;
-                                int enterYear = 19;
 
-                                return DetailedProfile(
-                                  imageLink: imageLink,
-                                  nickName: nickName,
-                                  school: school,
-                                  majorField: majorField,
-                                  introduction: introduction,
-                                  birthYear: birthYear,
-                                  enterYear: enterYear,
-                                );
-                              }));
-                            });
-                      },
-                      child: HomeProfile(
-                        isBoss: false,
-                        num: 2,
-                      ),
-                    )),
-                  ),
-                  Spacer(
-                    flex: 31,
-                  ),
-                ],
-              ),
-            ),
+                    Spacer(
+                      flex: 137,
+                    ),
+                    Flexible(
+                      flex: 130,
+                      child: Center(
+                          child: GestureDetector(
+                        onTap: () {
+                          if (userController.userModel.value.friends.length > 1) {
+                            showDialog(
+                                context: context,
+                                builder: (context,) {
+                                  FriendModel friendModel = userController.userModel.value.friends.elementAt(1);
+                                  String nickName = friendModel.nickname!;
+                                  int schoolId = userController.userModel.value.schoolId!;
+                                  String majorField = friendModel.major!;
+                                  int birthYear = friendModel.age!;
+                                  String enterYear = friendModel.schoolNum!;
+
+                                  return DetailedProfile(imageLink: 'assets/images/home/crown.png', 
+                                    nickName: nickName, 
+                                    introduction: "", 
+                                    school: schoolId.toString(), 
+                                    majorField: majorField, 
+                                    birthYear: birthYear.toString(), 
+                                    enterYear: enterYear,
+                                  );
+                                }
+                            );
+                          }
+                          
+                        },
+                        child: HomeProfile(
+                          isBoss: false,
+                          num: 2,
+                        ),
+                      )),
+                    ),
+                    Spacer(
+                      flex: 31,
+                    ),
+                  ],
+                ),
+              );
+            }),
             // => 프로필 두개
 
             Spacer(
@@ -503,8 +506,8 @@ class DetailedProfile extends StatelessWidget {
     required this.introduction,
     required this.school,
     required this.majorField,
-    required int this.birthYear,
-    required int this.enterYear,
+    required this.birthYear,
+    required this.enterYear,
   });
 
   String imageLink;
@@ -512,8 +515,8 @@ class DetailedProfile extends StatelessWidget {
   String introduction;
   String school;
   String majorField;
-  int birthYear;
-  int enterYear;
+  String birthYear;
+  String enterYear;
 
   @override
   Widget build(BuildContext context) {
