@@ -54,17 +54,17 @@ class UserModel {
 @JsonSerializable()
 class TeamModel {
   int? teamId;
-  int? member1;
-  int? member2;
-  int? member3;
+  String? leaderNickname;
+  String? member1Nickname;
+  String? member2Nickname;
   List<String>? preference;
   int? isMatching;
 
   TeamModel({
     this.teamId,
-    this.member1,
-    this.member2,
-    this.member3,
+    this.leaderNickname,
+    this.member1Nickname,
+    this.member2Nickname,
     this.preference,
     this.isMatching,
   });

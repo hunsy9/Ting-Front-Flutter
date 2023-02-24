@@ -53,9 +53,9 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
 
 TeamModel _$TeamModelFromJson(Map<String, dynamic> json) => TeamModel(
       teamId: json['teamId'] as int?,
-      member1: json['member1'] as int?,
-      member2: json['member2'] as int?,
-      member3: json['member3'] as int?,
+      leaderNickname: json['leaderNickname'] as String?,
+      member1Nickname: json['member1Nickname'] as String?,
+      member2Nickname: json['member2Nickname'] as String?,
       preference: (json['preference'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -64,9 +64,9 @@ TeamModel _$TeamModelFromJson(Map<String, dynamic> json) => TeamModel(
 
 Map<String, dynamic> _$TeamModelToJson(TeamModel instance) => <String, dynamic>{
       'teamId': instance.teamId,
-      'member1': instance.member1,
-      'member2': instance.member2,
-      'member3': instance.member3,
+      'leaderNickname': instance.leaderNickname,
+      'member1Nickname': instance.member1Nickname,
+      'member2Nickname': instance.member2Nickname,
       'preference': instance.preference,
       'isMatching': instance.isMatching,
     };
