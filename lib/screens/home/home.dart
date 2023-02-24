@@ -41,7 +41,7 @@ class _HomeState extends State<Home> {
           children: [
             // 캐러셀 슬라이더
             Flexible(
-              flex: 130,
+              flex: 103,
               fit: FlexFit.tight,
               child: Center(
                 child: Container(
@@ -83,16 +83,16 @@ class _HomeState extends State<Home> {
             // 캐러셀 슬라이더
 
             Spacer(
-              flex: 21,
+              flex: 17,
             ),
 
             // 필터, 팀채팅 버튼
             Flexible(
-              flex: 50,
+              flex: 55,
               child: Row(
                 children: [
                   Spacer(
-                    flex: 34,
+                    flex: 27,
                   ),
                   Flexible(
                     flex: 50,
@@ -100,7 +100,7 @@ class _HomeState extends State<Home> {
                         onTap: () {
                           Navigator.pushNamed(context, FilterViewRoute);
                         },
-                        child: Image.asset('assets/images/home/filter.png')),
+                        child: Image.asset('assets/images/home/filter.png', width: 50.w, height: 50.w)),
                   ),
                   Spacer(
                     flex: 289,
@@ -109,7 +109,7 @@ class _HomeState extends State<Home> {
                     flex: 40,
                     child: GestureDetector(
                         onTap: () {},
-                        child: Image.asset('assets/images/home/teamchat.png')),
+                        child: Image.asset('assets/images/home/teamchat.png', width: 40.w, height: 40.w)),
                   ),
                   Spacer(
                     flex: 30,
@@ -121,43 +121,44 @@ class _HomeState extends State<Home> {
 
             // => 필터, 팀채팅 텍스트
             Flexible(
-              flex: 20,
+              flex: 14,
               child: Row(
                 children: [
                   Spacer(
-                    flex: 48,
+                    flex: 47,
                   ),
                   Flexible(
                     flex: 50,
                     child: basicText(
                       text: '필터',
-                      fontSize: 12.0.w,
+                      fontSize: 12.0.h,
                     ),
                   ),
                   Spacer(
-                    flex: 325,
+                    flex: 350,
                   ),
                   Flexible(
                     flex: 50,
                     child: basicText(
                       text: '팀 채팅',
-                      fontSize: 12.0.w,
+                      fontSize: 12.0.h,
                     ),
                   ),
                   Spacer(
-                    flex: 10,
+                    flex: 5,
                   ),
                 ],
               ),
             ),
             // <= 필터, 팀채팅 텍스트
 
+            Spacer(flex: 11,),
             // => 자기 프로필
             Obx(() {
 
-              UserController userController = Get.find<UserController>();
+              UserController userController = Get.put(UserController());
               return Flexible(
-              flex: 145,
+              flex: 130,
               child: Center(
                 child: GestureDetector(
                   onTap: () {
@@ -167,17 +168,15 @@ class _HomeState extends State<Home> {
                         context: context,
                         builder: (context,) {
                           String nickName = userController.userModel.value.nickname!;
-                          int schoolId = userController.userModel.value.schoolId!;
+                          String schoolName = userController.userModel.value.schoolName!;
                           String majorField = userController.userModel.value.major!;
                           String birthYear = userController.userModel.value.birthday!;
                           String enterYear = userController.userModel.value.schoolNum!;
 
-
-                          
                           return DetailedProfile(imageLink: 'assets/images/home/crown.png', 
                             nickName: nickName, 
                             introduction: "", 
-                            school: schoolId.toString(), 
+                            school: schoolName, 
                             majorField: majorField, 
                             birthYear: birthYear, 
                             enterYear: enterYear,
@@ -210,9 +209,9 @@ class _HomeState extends State<Home> {
             // => 프로필 두개
             
             Obx(() {
-              UserController userController = Get.find<UserController>();
+              UserController userController = Get.put(UserController());
               return Flexible(
-                flex: 145,
+                flex: 130,
                 child: Row(
                   children: [
                     Spacer(
@@ -223,14 +222,14 @@ class _HomeState extends State<Home> {
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
-                            if (userController.userModel.value.friends.length > 0) {
+                            if (userController.userModel.value.team.value.member2 != 0) {
                               showDialog(
                                 context: context,
                                 builder: (context,) {
                                   
                                   FriendModel friendModel = userController.userModel.value.friends.elementAt(0);
                                   String nickName = friendModel.nickname!;
-                                  int schoolId = userController.userModel.value.schoolId!;
+                                  String schoolName= userController.userModel.value.schoolName!;
                                   String majorField = friendModel.major!;
                                   int birthYear = friendModel.age!;
                                   String enterYear = friendModel.schoolNum!;
@@ -238,7 +237,7 @@ class _HomeState extends State<Home> {
                                   return DetailedProfile(imageLink: 'assets/images/home/crown.png', 
                                     nickName: nickName, 
                                     introduction: "", 
-                                    school: schoolId.toString(), 
+                                    school: schoolName, 
                                     majorField: majorField, 
                                     birthYear: birthYear.toString(), 
                                     enterYear: enterYear,
@@ -264,13 +263,13 @@ class _HomeState extends State<Home> {
                       child: Center(
                           child: GestureDetector(
                         onTap: () {
-                          if (userController.userModel.value.friends.length > 1) {
+                          if (userController.userModel.value.team.value.member3 != 0) {
                             showDialog(
                                 context: context,
                                 builder: (context,) {
                                   FriendModel friendModel = userController.userModel.value.friends.elementAt(1);
                                   String nickName = friendModel.nickname!;
-                                  int schoolId = userController.userModel.value.schoolId!;
+                                  String schoolName = userController.userModel.value.schoolName!;
                                   String majorField = friendModel.major!;
                                   int birthYear = friendModel.age!;
                                   String enterYear = friendModel.schoolNum!;
@@ -278,7 +277,7 @@ class _HomeState extends State<Home> {
                                   return DetailedProfile(imageLink: 'assets/images/home/crown.png', 
                                     nickName: nickName, 
                                     introduction: "", 
-                                    school: schoolId.toString(), 
+                                    school: schoolName, 
                                     majorField: majorField, 
                                     birthYear: birthYear.toString(), 
                                     enterYear: enterYear,
@@ -304,8 +303,62 @@ class _HomeState extends State<Home> {
             // => 프로필 두개
 
             Spacer(
-              flex: 44,
+              flex: 6,
             ),
+
+            Obx(() {
+              UserController userController = Get.put(UserController());
+              return Flexible(
+                flex: 20, 
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Spacer(flex: 31,),
+
+                    Flexible(
+                      flex:126, 
+                      child: Container(
+                        width: 126.w,
+                        height: 20.h,
+                        child: Center(
+                          child: basicText(
+                            text: 'PostMan2',
+                            fontSize: 14.h,
+                          ),
+                        ),
+                      ),
+                    ),
+                    
+
+                    Spacer(flex: 137,),
+
+                    Flexible(
+                      flex:126, 
+                      child: Container(
+                        width: 126.w,
+                        height: 20.h,
+                        child: Center(
+                          child: basicText(
+                            text: 'PostMan3',
+                            fontSize: 14.h,
+                          ),
+                        ),
+                      ),
+                    ),
+                   
+                    Spacer(flex: 31,),
+                  ],
+                )
+              );
+            }),
+
+
+            
+            Spacer(
+              flex: 13,
+            ),
+
+
             // => 매칭버튼
             Flexible(
               flex: 120,
@@ -313,15 +366,15 @@ class _HomeState extends State<Home> {
                 children: [
                   // 버튼
                   Spacer(
-                    flex: 183,
+                    flex: 181,
                   ),
 
                   Flexible(
                     flex: 90,
                     child: Image.asset(
                       'assets/images/home/mainbutton.png',
-                      width: 120.h,
-                      height: 120.h,
+                      width: 80.w,
+                      height: 80.w,
                     ),
                   ),
 
@@ -331,14 +384,14 @@ class _HomeState extends State<Home> {
                   ),
                   // => 말풍선
                   Flexible(
-                    flex: 67,
+                    flex: 53,
                     child: TextBubble(),
                   ),
 
                   // <= 말풍선
 
                   Spacer(
-                    flex: 112,
+                    flex: 110,
                   ),
                 ],
               ),
@@ -346,7 +399,7 @@ class _HomeState extends State<Home> {
             // <= 매칭버튼
 
             Spacer(
-              flex: 60,
+              flex: 41,
             )
           ],
         ));
@@ -376,8 +429,8 @@ class HomeProfile extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Container(
-            width: 140.h,
-            height: 140.h,
+            width: 125.89.h,
+            height: 125.89.h,
             child: Image.asset(
               controller.profileLinks.elementAt(num),
             ),
@@ -475,7 +528,9 @@ class TextBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<MainButtonController>(builder: ((controller) {
+    return Obx(() {
+      UserController userController = Get.put(UserController());
+      List<String> matchingState = ['매칭 시작', '매칭 중...', '매칭 완료', '매칭 실패'];
       return Stack(clipBehavior: Clip.none, children: [
         Positioned(
           top: -1.h,
@@ -488,14 +543,14 @@ class TextBubble extends StatelessWidget {
           ),
         ),
         Positioned(
-            top: 4.h,
-            left: 11.h,
+            top: 6.6.h,
+            left: 9.8.h,
             child: basicText(
-              text: controller.state.toString(),
+              text: matchingState.elementAt(1),
               fontSize: 12.0.w,
             )),
       ]);
-    }));
+    },);
   }
 }
 
