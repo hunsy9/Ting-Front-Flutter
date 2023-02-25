@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:ting_flutter/getX/customJsonConverter/rxStringConverter.dart';
 
 import '../model/userInfo.dart';
 import 'package:http/http.dart' as http;
@@ -31,8 +32,4 @@ class UserController extends GetxController {
     userModel.value.matches = List<MatchModel>.from(data['match'].map((matchModel) => MatchModel.fromJson(matchModel))).obs;
   }
 
-  void updateUserNickName(String newNickName) {
-    // userModel.value에 저장된 값 중 하나를 변경
-    userModel.value.nickname = newNickName;
-  }
 }
