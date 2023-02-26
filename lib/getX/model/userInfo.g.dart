@@ -13,6 +13,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       matchId: json['matchId'] as int?,
       states:
           (json['states'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      image: json['image'] as String?,
       nickname: json['nickname'] as String?,
       schoolName: json['schoolName'] as String?,
       phone: json['phone'] as String?,
@@ -38,6 +39,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'teamId': instance.teamId,
       'matchId': instance.matchId,
       'states': instance.states,
+      'image': instance.image,
       'nickname': instance.nickname,
       'schoolName': instance.schoolName,
       'phone': instance.phone,

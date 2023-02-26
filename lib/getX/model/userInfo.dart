@@ -10,6 +10,7 @@ class UserModel {
   int? teamId;
   int? matchId;
   List<String>? states;
+  String? image;
   String? nickname;
   String? schoolName;
   String? phone;
@@ -28,6 +29,7 @@ class UserModel {
     this.teamId,
     this.matchId,
     this.states,
+    this.image,
     this.nickname,
     this.schoolName,
     this.phone,
