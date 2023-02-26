@@ -157,13 +157,15 @@ class _HomeState extends State<Home> {
             Obx(() {
 
               UserController userController = Get.put(UserController());
+              bool isBoss =  
+                            userController.userModel.value.nickname == userController.userModel.value.team.value.leaderNickname;
               return Flexible(
               flex: 130,
               child: Center(
                 child: GestureDetector(
                   onTap: () {
                     
-                    if (userController.userModel.value.friends.length >= 0) {
+                    if (true) {
                       showDialog(
                         context: context,
                         builder: (context,) {
@@ -186,7 +188,8 @@ class _HomeState extends State<Home> {
                     } 
                   },
                   child: HomeProfile(
-                    isBoss: true,
+                    imageNumber: '0',
+                    isBoss: isBoss,
                     num: 0,
                   ),
                 ),
@@ -210,6 +213,41 @@ class _HomeState extends State<Home> {
             
             Obx(() {
               UserController userController = Get.put(UserController());
+              bool leftIsBoss = true;
+              String leftFriend ='';
+              String rightFriend=''; 
+              String leftImage ='';
+              String rightImage =''; 
+              if (userController.userModel.value.team != null) {
+                if(userController.userModel.value.team.value.leaderNickname == userController.userModel.value.nickname) {
+                  leftFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+                  rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+                  leftIsBoss = false;
+                } else if (userController.userModel.value.team.value.member1Nickname == userController.userModel.value.nickname) {
+                  leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
+                  rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+                } else if (userController.userModel.value.team.value.member2Nickname == userController.userModel.value.nickname) {
+                  leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
+                  rightFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+                }
+              }
+              FriendModel? friendModel1;
+              for (FriendModel friendModel3 in userController.userModel.value.friends) {
+                if (friendModel3.nickname == leftFriend) {
+                  friendModel1 = friendModel3;
+                  leftImage = friendModel1.image ?? '7';
+                  break;
+                }
+              }
+
+              FriendModel? friendModel2;
+              for (FriendModel friendModel3 in userController.userModel.value.friends) {
+                if (friendModel3.nickname == rightFriend) {
+                  friendModel2 = friendModel3;
+                  rightImage = friendModel2.image ?? '7';
+                  break;   
+                }
+              }
               return Flexible(
                 flex: 130,
                 child: Row(
@@ -222,19 +260,19 @@ class _HomeState extends State<Home> {
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
-                            if (userController.userModel.value.team.value.member2 != 0) {
+                            
+                            if (leftFriend != '') {
                               showDialog(
                                 context: context,
                                 builder: (context,) {
                                   
-                                  FriendModel friendModel = userController.userModel.value.friends.elementAt(0);
-                                  String nickName = friendModel.nickname!;
+                                  String nickName = friendModel1!.nickname!;
                                   String schoolName= userController.userModel.value.schoolName!;
-                                  String majorField = friendModel.major!;
-                                  int birthYear = friendModel.age!;
-                                  String enterYear = friendModel.schoolNum!;
+                                  String majorField = friendModel1.major!;
+                                  int birthYear = friendModel1.age!;
+                                  String enterYear = friendModel1.schoolNum!;
 
-                                  return DetailedProfile(imageLink: 'assets/images/home/crown.png', 
+                                  return DetailedProfile(imageLink: 'assets/profile/${friendModel1.image}.png', 
                                     nickName: nickName, 
                                     introduction: "", 
                                     school: schoolName, 
@@ -246,9 +284,11 @@ class _HomeState extends State<Home> {
                               );
                             }
                             
+                            
                           },
                           child: HomeProfile(
-                            isBoss: false,
+                            imageNumber: leftImage,
+                            isBoss: leftIsBoss,
                             num: 1,
                           ),
                         ),
@@ -263,18 +303,18 @@ class _HomeState extends State<Home> {
                       child: Center(
                           child: GestureDetector(
                         onTap: () {
-                          if (userController.userModel.value.team.value.member3 != 0) {
+                          
+                          if (rightFriend != '') {
                             showDialog(
                                 context: context,
                                 builder: (context,) {
-                                  FriendModel friendModel = userController.userModel.value.friends.elementAt(1);
-                                  String nickName = friendModel.nickname!;
+                                  String nickName = friendModel2!.nickname!;
                                   String schoolName = userController.userModel.value.schoolName!;
-                                  String majorField = friendModel.major!;
-                                  int birthYear = friendModel.age!;
-                                  String enterYear = friendModel.schoolNum!;
+                                  String majorField = friendModel2.major!;
+                                  int birthYear = friendModel2.age!;
+                                  String enterYear = friendModel2.schoolNum!;
 
-                                  return DetailedProfile(imageLink: 'assets/images/home/crown.png', 
+                                  return DetailedProfile(imageLink: 'assets/profile/${friendModel2.image}.png', 
                                     nickName: nickName, 
                                     introduction: "", 
                                     school: schoolName, 
@@ -288,6 +328,7 @@ class _HomeState extends State<Home> {
                           
                         },
                         child: HomeProfile(
+                          imageNumber: rightImage,
                           isBoss: false,
                           num: 2,
                         ),
@@ -408,23 +449,15 @@ class _HomeState extends State<Home> {
 
 // =>프로필 위젯
 class HomeProfile extends StatelessWidget {
-  HomeProfile({required this.isBoss, required this.num});
+  HomeProfile({required this.isBoss, required this.num, required this.imageNumber});
 
   bool isBoss;
   int num;
-  final profileController = Get.put(ProfileController());
-
+  String imageNumber;
   @override
   Widget build(BuildContext context) {
-    return GetX<ProfileController>(builder: ((controller) {
-      Color color;
-      if (controller.isReady.elementAt(num) == true) {
-        print(num);
-        print(controller.isReady.elementAt(num));
-        color = Color(0xffe0e2f3);
-      } else {
-        color = Color(0xffffffff);
-      }
+      Color color = Color(0xffffffff);
+  
       return Stack(
         clipBehavior: Clip.none,
         children: [
@@ -432,7 +465,7 @@ class HomeProfile extends StatelessWidget {
             width: 125.89.h,
             height: 125.89.h,
             child: Image.asset(
-              controller.profileLinks.elementAt(num),
+              'assets/profile/${imageNumber}.png', width: 60.h, height: 60.h,
             ),
             decoration: BoxDecoration(
               color: Color(0xffffffff),
@@ -464,7 +497,6 @@ class HomeProfile extends StatelessWidget {
           ),
         ],
       );
-    }));
   }
 }
 
