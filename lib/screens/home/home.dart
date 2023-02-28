@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ting_flutter/basic_components/basictext.dart';
 import 'package:ting_flutter/components/homeAppbar.dart';
+import 'package:ting_flutter/getX/controller/userInfoController.dart';
 import 'package:ting_flutter/named_routing/config.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:ting_flutter/screens/home/controller/MainButtonController.dart';
 import 'package:ting_flutter/screens/home/controller/ProfileController.dart';
+import 'package:ting_flutter/getX/model/userInfo.dart';
 
 const String my_profile_image =
     'assets/images/—Pngtree—simple flat character avatar_6202775 1.png';
@@ -39,7 +41,7 @@ class _HomeState extends State<Home> {
           children: [
             // 캐러셀 슬라이더
             Flexible(
-              flex: 130,
+              flex: 103,
               fit: FlexFit.tight,
               child: Center(
                 child: Container(
@@ -81,16 +83,16 @@ class _HomeState extends State<Home> {
             // 캐러셀 슬라이더
 
             Spacer(
-              flex: 21,
+              flex: 17,
             ),
 
             // 필터, 팀채팅 버튼
             Flexible(
-              flex: 50,
+              flex: 55,
               child: Row(
                 children: [
                   Spacer(
-                    flex: 34,
+                    flex: 27,
                   ),
                   Flexible(
                     flex: 50,
@@ -98,7 +100,7 @@ class _HomeState extends State<Home> {
                         onTap: () {
                           Navigator.pushNamed(context, FilterViewRoute);
                         },
-                        child: Image.asset('assets/images/home/filter.png')),
+                        child: Image.asset('assets/images/home/filter.png', width: 50.w, height: 50.w)),
                   ),
                   Spacer(
                     flex: 289,
@@ -107,7 +109,7 @@ class _HomeState extends State<Home> {
                     flex: 40,
                     child: GestureDetector(
                         onTap: () {},
-                        child: Image.asset('assets/images/home/teamchat.png')),
+                        child: Image.asset('assets/images/home/teamchat.png', width: 40.w, height: 40.w)),
                   ),
                   Spacer(
                     flex: 30,
@@ -119,76 +121,81 @@ class _HomeState extends State<Home> {
 
             // => 필터, 팀채팅 텍스트
             Flexible(
-              flex: 20,
+              flex: 14,
               child: Row(
                 children: [
                   Spacer(
-                    flex: 48,
+                    flex: 47,
                   ),
                   Flexible(
                     flex: 50,
                     child: basicText(
                       text: '필터',
-                      fontSize: 12.0.w,
+                      fontSize: 12.0.h,
                     ),
                   ),
                   Spacer(
-                    flex: 325,
+                    flex: 350,
                   ),
                   Flexible(
                     flex: 50,
                     child: basicText(
                       text: '팀 채팅',
-                      fontSize: 12.0.w,
+                      fontSize: 12.0.h,
                     ),
                   ),
                   Spacer(
-                    flex: 10,
+                    flex: 5,
                   ),
                 ],
               ),
             ),
             // <= 필터, 팀채팅 텍스트
 
+            Spacer(flex: 11,),
             // => 자기 프로필
-            Flexible(
-              flex: 145,
+            Obx(() {
+
+              UserController userController = Get.put(UserController());
+              bool isBoss =  
+                            userController.userModel.value.nickname == userController.userModel.value.team.value.leaderNickname;
+              return Flexible(
+              flex: 130,
               child: Center(
                 child: GestureDetector(
                   onTap: () {
-                    showDialog(
+                    
+                    if (true) {
+                      showDialog(
                         context: context,
-                        builder: (context) {
-                          return GetX<ProfileController>(
-                              builder: ((ProfileController controller) {
-                            String imageLink = 'assets/images/home/crown.png';
-                            String nickName = controller.nickNames.elementAt(0);
-                            String school = '내가왕인대 학교';
-                            String majorField = '왕족 계열';
-                            String introduction =
-                                'The below two crowns are my DDaGGari-s';
-                            int birthYear = 2001;
-                            int enterYear = 19;
+                        builder: (context,) {
+                          String nickName = userController.userModel.value.nickname!;
+                          String schoolName = userController.userModel.value.schoolName!;
+                          String majorField = userController.userModel.value.major!;
+                          String birthYear = userController.userModel.value.birthday!;
+                          String enterYear = userController.userModel.value.schoolNum!;
 
-                            return DetailedProfile(
-                              imageLink: imageLink,
-                              nickName: nickName,
-                              school: school,
-                              majorField: majorField,
-                              introduction: introduction,
-                              birthYear: birthYear,
-                              enterYear: enterYear,
-                            );
-                          }));
-                        });
+                          return DetailedProfile(imageLink: 'assets/images/home/crown.png', 
+                            nickName: nickName, 
+                            introduction: "", 
+                            school: schoolName, 
+                            majorField: majorField, 
+                            birthYear: birthYear, 
+                            enterYear: enterYear,
+                          );
+                        }
+                      );
+                    } 
                   },
                   child: HomeProfile(
-                    isBoss: true,
+                    imageNumber: '0',
+                    isBoss: isBoss,
                     num: 0,
                   ),
                 ),
               ),
-            ),
+            );
+            }),
             // <= 자기 프로필
 
             // => 선 두개
@@ -203,106 +210,196 @@ class _HomeState extends State<Home> {
             // <= 선 두개
 
             // => 프로필 두개
-            Flexible(
-              flex: 145,
-              child: Row(
-                children: [
-                  Spacer(
-                    flex: 31,
-                  ),
-                  Flexible(
-                    flex: 130,
-                    child: Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return GetX<ProfileController>(
-                                    builder: ((ProfileController controller) {
-                                  String imageLink =
-                                      'assets/images/home/crown.png';
-                                  String nickName =
-                                      controller.nickNames.elementAt(1);
-                                  String school = '내가왕인대 학교';
-                                  String majorField = '왕족 계열';
-                                  String introduction =
-                                      'I am King Wang JJang Crown.';
-                                  int birthYear = 2001;
-                                  int enterYear = 19;
+            
+            Obx(() {
+              UserController userController = Get.put(UserController());
+              bool leftIsBoss = true;
+              String leftFriend ='';
+              String rightFriend=''; 
+              String leftImage ='';
+              String rightImage =''; 
+              if (userController.userModel.value.team != null) {
+                if(userController.userModel.value.team.value.leaderNickname == userController.userModel.value.nickname) {
+                  leftFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+                  rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+                  leftIsBoss = false;
+                } else if (userController.userModel.value.team.value.member1Nickname == userController.userModel.value.nickname) {
+                  leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
+                  rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+                } else if (userController.userModel.value.team.value.member2Nickname == userController.userModel.value.nickname) {
+                  leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
+                  rightFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+                }
+              }
+              FriendModel? friendModel1;
+              for (FriendModel friendModel3 in userController.userModel.value.friends) {
+                if (friendModel3.nickname == leftFriend) {
+                  friendModel1 = friendModel3;
+                  leftImage = friendModel1.image ?? '7';
+                  break;
+                }
+              }
 
-                                  return DetailedProfile(
-                                    imageLink: imageLink,
-                                    nickName: nickName,
-                                    school: school,
-                                    majorField: majorField,
-                                    introduction: introduction,
-                                    birthYear: birthYear,
+              FriendModel? friendModel2;
+              for (FriendModel friendModel3 in userController.userModel.value.friends) {
+                if (friendModel3.nickname == rightFriend) {
+                  friendModel2 = friendModel3;
+                  rightImage = friendModel2.image ?? '7';
+                  break;   
+                }
+              }
+              return Flexible(
+                flex: 130,
+                child: Row(
+                  children: [
+                    Spacer(
+                      flex: 31,
+                    ),
+                    Flexible(
+                      flex: 130,
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            
+                            if (leftFriend != '') {
+                              showDialog(
+                                context: context,
+                                builder: (context,) {
+                                  
+                                  String nickName = friendModel1!.nickname!;
+                                  String schoolName= userController.userModel.value.schoolName!;
+                                  String majorField = friendModel1.major!;
+                                  int birthYear = friendModel1.age!;
+                                  String enterYear = friendModel1.schoolNum!;
+
+                                  return DetailedProfile(imageLink: 'assets/profile/${friendModel1.image}.png', 
+                                    nickName: nickName, 
+                                    introduction: "", 
+                                    school: schoolName, 
+                                    majorField: majorField, 
+                                    birthYear: birthYear.toString(), 
                                     enterYear: enterYear,
                                   );
-                                }));
-                              });
-                        },
-                        child: HomeProfile(
-                          isBoss: false,
-                          num: 1,
+                                }
+                              );
+                            }
+                            
+                            
+                          },
+                          child: HomeProfile(
+                            imageNumber: leftImage,
+                            isBoss: leftIsBoss,
+                            num: 1,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Spacer(
-                    flex: 137,
-                  ),
-                  Flexible(
-                    flex: 130,
-                    child: Center(
-                        child: GestureDetector(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return GetX<ProfileController>(
-                                  builder: ((ProfileController controller) {
-                                String imageLink =
-                                    'assets/images/home/crown.png';
-                                String nickName =
-                                    controller.nickNames.elementAt(2);
-                                String school = '내가왕인대 학교';
-                                String majorField = '왕족 계열';
-                                String introduction =
-                                    'I am Stronger than left JottBab crown1.';
-                                int birthYear = 2001;
-                                int enterYear = 19;
 
-                                return DetailedProfile(
-                                  imageLink: imageLink,
-                                  nickName: nickName,
-                                  school: school,
-                                  majorField: majorField,
-                                  introduction: introduction,
-                                  birthYear: birthYear,
-                                  enterYear: enterYear,
-                                );
-                              }));
-                            });
-                      },
-                      child: HomeProfile(
-                        isBoss: false,
-                        num: 2,
-                      ),
-                    )),
-                  ),
-                  Spacer(
-                    flex: 31,
-                  ),
-                ],
-              ),
-            ),
+                    Spacer(
+                      flex: 137,
+                    ),
+                    Flexible(
+                      flex: 130,
+                      child: Center(
+                          child: GestureDetector(
+                        onTap: () {
+                          
+                          if (rightFriend != '') {
+                            showDialog(
+                                context: context,
+                                builder: (context,) {
+                                  String nickName = friendModel2!.nickname!;
+                                  String schoolName = userController.userModel.value.schoolName!;
+                                  String majorField = friendModel2.major!;
+                                  int birthYear = friendModel2.age!;
+                                  String enterYear = friendModel2.schoolNum!;
+
+                                  return DetailedProfile(imageLink: 'assets/profile/${friendModel2.image}.png', 
+                                    nickName: nickName, 
+                                    introduction: "", 
+                                    school: schoolName, 
+                                    majorField: majorField, 
+                                    birthYear: birthYear.toString(), 
+                                    enterYear: enterYear,
+                                  );
+                                }
+                            );
+                          }
+                          
+                        },
+                        child: HomeProfile(
+                          imageNumber: rightImage,
+                          isBoss: false,
+                          num: 2,
+                        ),
+                      )),
+                    ),
+                    Spacer(
+                      flex: 31,
+                    ),
+                  ],
+                ),
+              );
+            }),
             // => 프로필 두개
 
             Spacer(
-              flex: 44,
+              flex: 6,
             ),
+
+            Obx(() {
+              UserController userController = Get.put(UserController());
+              return Flexible(
+                flex: 20, 
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Spacer(flex: 31,),
+
+                    Flexible(
+                      flex:126, 
+                      child: Container(
+                        width: 126.w,
+                        height: 20.h,
+                        child: Center(
+                          child: basicText(
+                            text: 'PostMan2',
+                            fontSize: 14.h,
+                          ),
+                        ),
+                      ),
+                    ),
+                    
+
+                    Spacer(flex: 137,),
+
+                    Flexible(
+                      flex:126, 
+                      child: Container(
+                        width: 126.w,
+                        height: 20.h,
+                        child: Center(
+                          child: basicText(
+                            text: 'PostMan3',
+                            fontSize: 14.h,
+                          ),
+                        ),
+                      ),
+                    ),
+                   
+                    Spacer(flex: 31,),
+                  ],
+                )
+              );
+            }),
+
+
+            
+            Spacer(
+              flex: 13,
+            ),
+
+
             // => 매칭버튼
             Flexible(
               flex: 120,
@@ -310,15 +407,15 @@ class _HomeState extends State<Home> {
                 children: [
                   // 버튼
                   Spacer(
-                    flex: 183,
+                    flex: 181,
                   ),
 
                   Flexible(
                     flex: 90,
                     child: Image.asset(
                       'assets/images/home/mainbutton.png',
-                      width: 120.h,
-                      height: 120.h,
+                      width: 80.w,
+                      height: 80.w,
                     ),
                   ),
 
@@ -328,14 +425,14 @@ class _HomeState extends State<Home> {
                   ),
                   // => 말풍선
                   Flexible(
-                    flex: 67,
+                    flex: 53,
                     child: TextBubble(),
                   ),
 
                   // <= 말풍선
 
                   Spacer(
-                    flex: 112,
+                    flex: 110,
                   ),
                 ],
               ),
@@ -343,7 +440,7 @@ class _HomeState extends State<Home> {
             // <= 매칭버튼
 
             Spacer(
-              flex: 60,
+              flex: 41,
             )
           ],
         ));
@@ -352,31 +449,23 @@ class _HomeState extends State<Home> {
 
 // =>프로필 위젯
 class HomeProfile extends StatelessWidget {
-  HomeProfile({required this.isBoss, required this.num});
+  HomeProfile({required this.isBoss, required this.num, required this.imageNumber});
 
   bool isBoss;
   int num;
-  final profileController = Get.put(ProfileController());
-
+  String imageNumber;
   @override
   Widget build(BuildContext context) {
-    return GetX<ProfileController>(builder: ((controller) {
-      Color color;
-      if (controller.isReady.elementAt(num) == true) {
-        print(num);
-        print(controller.isReady.elementAt(num));
-        color = Color(0xffe0e2f3);
-      } else {
-        color = Color(0xffffffff);
-      }
+      Color color = Color(0xffffffff);
+  
       return Stack(
         clipBehavior: Clip.none,
         children: [
           Container(
-            width: 140.h,
-            height: 140.h,
+            width: 125.89.h,
+            height: 125.89.h,
             child: Image.asset(
-              controller.profileLinks.elementAt(num),
+              'assets/profile/${imageNumber}.png', width: 60.h, height: 60.h,
             ),
             decoration: BoxDecoration(
               color: Color(0xffffffff),
@@ -408,7 +497,6 @@ class HomeProfile extends StatelessWidget {
           ),
         ],
       );
-    }));
   }
 }
 
@@ -472,7 +560,9 @@ class TextBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<MainButtonController>(builder: ((controller) {
+    return Obx(() {
+      UserController userController = Get.put(UserController());
+      List<String> matchingState = ['매칭 시작', '매칭 중...', '매칭 완료', '매칭 실패'];
       return Stack(clipBehavior: Clip.none, children: [
         Positioned(
           top: -1.h,
@@ -485,14 +575,14 @@ class TextBubble extends StatelessWidget {
           ),
         ),
         Positioned(
-            top: 4.h,
-            left: 11.h,
+            top: 6.6.h,
+            left: 9.8.h,
             child: basicText(
-              text: controller.state.toString(),
+              text: matchingState.elementAt(1),
               fontSize: 12.0.w,
             )),
       ]);
-    }));
+    },);
   }
 }
 
@@ -503,8 +593,8 @@ class DetailedProfile extends StatelessWidget {
     required this.introduction,
     required this.school,
     required this.majorField,
-    required int this.birthYear,
-    required int this.enterYear,
+    required this.birthYear,
+    required this.enterYear,
   });
 
   String imageLink;
@@ -512,8 +602,8 @@ class DetailedProfile extends StatelessWidget {
   String introduction;
   String school;
   String majorField;
-  int birthYear;
-  int enterYear;
+  String birthYear;
+  String enterYear;
 
   @override
   Widget build(BuildContext context) {
