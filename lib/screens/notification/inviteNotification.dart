@@ -39,7 +39,6 @@ class _InvitationNotificationScreenState extends State<InvitationNotificationScr
           myNotificationBox(context,"한재안어디가","2023-01-20"),
           myNotificationBox(context,"주누주누","2023-01-19"),
           myNotificationBox(context,"창민창민","2023-01-18"),
-
         ],
       ),)
     );

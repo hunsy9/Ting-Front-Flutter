@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ting_flutter/components/chatRoomAppbar.dart';
-import 'package:ting_flutter/screens/chat/controller/chatBubbleController.dart';
-import '../model/chatBubble.dart';
+import '../controller/chatBubbleListController.dart';
 import 'package:http/http.dart' as http;
+import '../model/chatBubbleWithProfile.dart';
 
 class ChatRoomScreen extends StatefulWidget {
   const ChatRoomScreen({Key? key}) : super(key: key);
@@ -15,8 +15,8 @@ class ChatRoomScreen extends StatefulWidget {
 }
 
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
-  final ChatBubbleController _chatBubbleController =
-      Get.put(ChatBubbleController());
+  final ChatBubbleListController _chatBubbleListController =
+      Get.put(ChatBubbleListController());
 
   // 텍스트필드 제어용 컨트롤러
   final TextEditingController _textController = TextEditingController();
@@ -32,14 +32,33 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       body: Container(
         child: Column(
           children: <Widget>[
+
+            Center(
+              child: Container(
+                padding: EdgeInsetsDirectional.only(top: 15.h),
+                child: Container(
+                  width: 176.w,
+                  height: 18.h,
+                  decoration: BoxDecoration(color: const Color(0xffd9d9d9),
+                      borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Center(
+                    child: const Text("매칭이 시작되었습니다.", style: TextStyle(
+                        fontFamily: 'nanumsquareround',
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600),),
+                  ),
+                ),
+              )
+            ),
             // 리스트뷰를 Flexible로 추가.
             Obx(()=>Flexible(
                 // 리스트뷰 추가
                 child: ListView.builder(
                   padding: const EdgeInsets.all(8.0),
-                  itemCount: _chatBubbleController.getList().length,
+                  itemCount: _chatBubbleListController.getList().length,
                   itemBuilder: (context, index) =>
-                      _chatBubbleController.getList()[index],
+                      _chatBubbleListController.getList()[index],
                 ),
               ),
             ),
@@ -119,15 +138,17 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       _isComposing = false;
     });
     // 입력받은 텍스트를 이용해서 리스트에 추가할 메시지 생성
-    // NickNameWithChatBubbleChunk message = NickNameWithChatBubbleChunk(
-    //   nickName: "유승훈",
-    // );
+    ChatBubbleWithProfile message = ChatBubbleWithProfile(
+      nickName: "유승훈",
+      message: text,
+    );
     // 리스트에 메시지 추가
+    _chatBubbleListController.addNewChunk(message);
 
-    if (_chatBubbleController.getList().isEmpty) {
-      _chatBubbleController
-          .addNewChunk(new NickNameWithChatBubbleChunk(nickName: "유승훈"));
-    }
+    // if (_chatBubbleWithProfileController.getList().isEmpty) {
+    //   _chatBubbleController
+    //       .addNewChunk(new chatBubbleWithProfile(nickName: "유승훈"));
+    // }
     // _chatBubbleController.getList()[0].appendNewChat(text);
   }
 
