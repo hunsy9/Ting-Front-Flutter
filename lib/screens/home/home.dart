@@ -12,12 +12,7 @@ import 'package:ting_flutter/screens/home/controller/MainButtonController.dart';
 import 'package:ting_flutter/screens/home/controller/ProfileController.dart';
 import 'package:ting_flutter/getX/model/userInfo.dart';
 
-const String my_profile_image =
-    'assets/images/—Pngtree—simple flat character avatar_6202775 1.png';
-String second_profile_image = 'assets/images/plus-01.png';
-String third_profile_image = 'assets/images/plus-01.png';
-int second_profile_state = 2;
-int third_profile_state = 2;
+enum MatchState { success, fail, none }
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -159,6 +154,7 @@ class _HomeState extends State<Home> {
               UserController userController = Get.put(UserController());
               bool isBoss =  
                             userController.userModel.value.nickname == userController.userModel.value.team.value.leaderNickname;
+              String myImage = userController.userModel.value.image ?? '0';
               return Flexible(
               flex: 130,
               child: Center(
@@ -175,7 +171,7 @@ class _HomeState extends State<Home> {
                           String birthYear = userController.userModel.value.birthday!;
                           String enterYear = userController.userModel.value.schoolNum!;
 
-                          return DetailedProfile(imageLink: 'assets/images/home/crown.png', 
+                          return DetailedProfile(imageLink: 'assets/profile/${myImage}.png', 
                             nickName: nickName, 
                             introduction: "", 
                             school: schoolName, 
@@ -188,7 +184,7 @@ class _HomeState extends State<Home> {
                     } 
                   },
                   child: HomeProfile(
-                    imageNumber: '0',
+                    imageNumber: myImage,
                     isBoss: isBoss,
                     num: 0,
                   ),
@@ -200,7 +196,7 @@ class _HomeState extends State<Home> {
 
             // => 선 두개
             Flexible(
-              flex: 137,
+              flex: 130,
               child: Center(
                 child: Row(
                   children: [],
@@ -441,11 +437,33 @@ class _HomeState extends State<Home> {
 
             Spacer(
               flex: 41,
-            )
+            ),
+
+            GestureDetector(onTap: () { showDialog(context: context, builder: (context,) {
+                return Center(child: successModal());
+              });
+            },child: basicText(text: '모달 실험'))
+
+            
+
           ],
         ));
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // =>프로필 위젯
 class HomeProfile extends StatelessWidget {
@@ -755,6 +773,82 @@ class DetailedProfile extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+
+
+
+
+class successModal extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 385.w,
+      height: 349.h,
+      decoration: BoxDecoration(
+        color: Color(0xffffffff),
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xff000000).withOpacity(0.25),
+            spreadRadius: 0.3,
+            blurRadius: 20.0,
+            offset: Offset(0, 13),
+          ),
+        ]
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Spacer(flex: 2,),
+
+          Flexible(
+            flex: 40,
+            child: Row(
+              children: [
+                Spacer(flex: 240,),
+                Flexible(flex:40, child: GestureDetector(
+                  onTap:() {
+                    Navigator.of(context).pop(context);
+                  },
+                  child: Image.asset('assets/modal/close.png', width: 40.h, height: 40.h,))
+                ),
+              ],
+            )
+          ),
+
+          Spacer(flex: 20,),
+
+          Flexible(
+            flex: 89,
+            child: Row(
+              children: [
+                Spacer(flex: 50,),
+                Flexible(flex:50, child: Image.asset('assets/modal/congratulation.png', width: 89.h, height: 89.h,)),
+                Spacer(flex: 22,),
+              ],
+            )
+          ),
+
+          Spacer(flex: 55,),
+
+          Flexible( 
+            flex:25,
+            child: basicText(text: '매칭이 성공했어요 !', fontSize: 20.h,)
+          ),
+
+          Spacer(flex: 25,),
+
+          Flexible(
+            flex:25,
+            child: basicText(text: '상대방과 채팅을 해보세요 !', fontSize: 20.h,)
+          ),
+
+          Spacer(flex: 45,)
+        ]
       ),
     );
   }
