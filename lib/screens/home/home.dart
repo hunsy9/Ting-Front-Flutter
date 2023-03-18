@@ -1,7 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
+import 'dart:typed_data';
+import 'dart:math';
+import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:ting_flutter/basic_components/basictext.dart';
 import 'package:ting_flutter/components/homeAppbar.dart';
 import 'package:ting_flutter/getX/controller/userInfoController.dart';
@@ -199,14 +203,44 @@ class _HomeState extends State<Home> {
               flex: 130,
               child: Center(
                 child: Row(
-                  children: [],
+                  children: [
+                    Spacer(flex: 114,),
+
+                    Flexible(
+                      flex:30,
+                      child: Center(
+                        child: Transform.rotate(
+                          angle: 30 * pi / 180,
+                          child: FriendLine(start: Point(x:220.w , y:400.h), end: Point(x:150.w, y:540.h))
+                        ),
+                      )
+                    ),
+
+                    Spacer(flex: 70,),
+
+                    Flexible(
+                      flex:70,
+                      child: Center(
+                        child: Transform.rotate(
+                          angle: 330 * pi / 180,
+                          child: FriendLine(start: Point(x:220.w , y:400.h), end: Point(x:150.w, y:540.h))
+                        ),
+                      )
+                    ),
+
+                    Spacer(flex: 114,),
+                  ],
                 ),
               ),
             ),
             // <= 선 두개
 
+
+
+
+
+
             // => 프로필 두개
-            
             Obx(() {
               UserController userController = Get.put(UserController());
               bool leftIsBoss = true;
@@ -343,8 +377,48 @@ class _HomeState extends State<Home> {
               flex: 6,
             ),
 
+
+
+
+            // 프로필 텍스트 두개 //
             Obx(() {
               UserController userController = Get.put(UserController());
+              bool leftIsBoss = true;
+              String leftFriend ='';
+              String rightFriend=''; 
+              String leftImage ='';
+              String rightImage =''; 
+              if (userController.userModel.value.team != null) {
+                if(userController.userModel.value.team.value.leaderNickname == userController.userModel.value.nickname) {
+                  leftFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+                  rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+                  leftIsBoss = false;
+                } else if (userController.userModel.value.team.value.member1Nickname == userController.userModel.value.nickname) {
+                  leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
+                  rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+                } else if (userController.userModel.value.team.value.member2Nickname == userController.userModel.value.nickname) {
+                  leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
+                  rightFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+                }
+              }
+              FriendModel? friendModel1;
+              for (FriendModel friendModel3 in userController.userModel.value.friends) {
+                if (friendModel3.nickname == leftFriend) {
+                  friendModel1 = friendModel3;
+                  leftImage = friendModel1.image ?? '7';
+                  break;
+                }
+              }
+
+              FriendModel? friendModel2;
+              for (FriendModel friendModel3 in userController.userModel.value.friends) {
+                if (friendModel3.nickname == rightFriend) {
+                  friendModel2 = friendModel3;
+                  rightImage = friendModel2.image ?? '7';
+                  break;   
+                }
+              }
+              
               return Flexible(
                 flex: 20, 
                 child: Row(
@@ -359,7 +433,7 @@ class _HomeState extends State<Home> {
                         height: 20.h,
                         child: Center(
                           child: basicText(
-                            text: 'PostMan2',
+                            text: leftFriend,
                             fontSize: 14.h,
                           ),
                         ),
@@ -376,7 +450,7 @@ class _HomeState extends State<Home> {
                         height: 20.h,
                         child: Center(
                           child: basicText(
-                            text: 'PostMan3',
+                            text: rightFriend,
                             fontSize: 14.h,
                           ),
                         ),
@@ -390,7 +464,6 @@ class _HomeState extends State<Home> {
             }),
 
 
-            
             Spacer(
               flex: 13,
             ),
@@ -572,6 +645,78 @@ class BubblePainter extends CustomPainter {
     return false;
   }
 }
+
+class LinePainter extends CustomPainter {
+
+  LinePainter({required this.start, required this.end});
+  Point start;
+  Point end;
+
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    double length = sqrt((start.x-end.x)*(start.x-end.x) + (start.y-end.y)*(start.y-end.y));
+    double horizontal = 2.w;
+    double vertical = 2.h;
+    int standard = 20;
+    
+    //bubble body
+    final bubblePath = Path()
+      ..quadraticBezierTo(-horizontal, 0, -horizontal, vertical)
+      ..lineTo(-horizontal, vertical+length/standard)
+      ..quadraticBezierTo(-horizontal, vertical+length/standard+vertical, 0, vertical+length/standard+vertical)
+      ..quadraticBezierTo(horizontal, vertical+length/standard+vertical, horizontal, vertical+length/standard)
+      ..lineTo(horizontal, vertical)
+      ..quadraticBezierTo(horizontal, 0, 0, 0)
+      // 왼쪽 위
+      ..moveTo(0, length*2.5/standard)
+      ..quadraticBezierTo(-horizontal, length*2.5/standard, -horizontal, vertical+length*2.5/standard)
+      ..lineTo(-horizontal, vertical+length*4.0/standard)
+      ..quadraticBezierTo(-horizontal, vertical+length*4.0/standard+vertical, 0, vertical+length*4.0/standard+vertical)
+      ..quadraticBezierTo(horizontal, vertical+length*4.0/standard+vertical, horizontal, vertical+length*4.0/standard)
+      ..lineTo(horizontal, vertical+length*2.5/standard)
+      ..quadraticBezierTo(horizontal, length*2.5/standard, 0, length*2.5/standard)
+      // 왼쪽 위
+      ..moveTo(0, length*5.5/standard)
+      ..quadraticBezierTo(-horizontal, length*5.5/standard, -horizontal, vertical+length*5.5/standard)
+      ..lineTo(-horizontal, vertical+length*7.0/standard)
+      ..quadraticBezierTo(-horizontal, vertical+length*7.0/standard+vertical, 0, vertical+length*7.0/standard+vertical)
+      ..quadraticBezierTo(horizontal, vertical+length*7.0/standard+vertical, horizontal, vertical+length*7.0/standard)
+      ..lineTo(horizontal, vertical+length*5.5/standard)
+      ..quadraticBezierTo(horizontal, length*5.5/standard, 0, length*5.5/standard);
+
+    // paint setting
+    final paint = Paint()
+      ..color = Color(0xff272238)
+      ..style = PaintingStyle.fill;
+    // draw
+    canvas.drawPath(bubblePath, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    // TODO: implement shouldRepaint
+    return false;
+  }
+}
+
+class FriendLine extends StatelessWidget {
+
+  FriendLine({required this.start, required this.end});
+  Point start;
+  Point end;
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return CustomPaint(
+      painter:LinePainter(start: start, end: end)
+    );
+  }
+
+
+}
+
+
 
 class TextBubble extends StatelessWidget {
   final mainButtonController = Get.put(MainButtonController());
