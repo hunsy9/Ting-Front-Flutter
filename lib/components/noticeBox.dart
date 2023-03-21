@@ -18,10 +18,8 @@ Widget myNoticeBox(context,String date,String summarize){
       padding: EdgeInsets.only(left:32.w , right: 10.h),
       child: Column(
         children: [
-
           SizedBox(height: 18.h,),
           Row(
-
             children: [
               const Text(
                 '공지사항',
@@ -55,8 +53,8 @@ Widget myNoticeBox(context,String date,String summarize){
                     fontFamily: 'nanumsquareround', fontSize: 13),
               ),
             ),
-          ],)
-
+          ],
+          )
         ],
       ),
     )

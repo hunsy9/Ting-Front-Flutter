@@ -444,8 +444,6 @@ class _HomeState extends State<Home> {
               });
             },child: basicText(text: '모달 실험'))
 
-            
-
           ],
         ));
   }
@@ -475,7 +473,6 @@ class HomeProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
       Color color = Color(0xffffffff);
-  
       return Stack(
         clipBehavior: Clip.none,
         children: [

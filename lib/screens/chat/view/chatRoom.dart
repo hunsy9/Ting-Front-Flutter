@@ -137,10 +137,17 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     setState(() {
       _isComposing = false;
     });
+
+    DateTime dt = DateTime.now();
+    final String halfTime = dt.hour > 12 ? "오후" : "오전";
+    final int hour = halfTime == "오후" ? (dt.hour - 12) : dt.hour;
+    final int minute = dt.minute;
+    final String currTime = "${halfTime} ${hour}시 ${minute}분";
     // 입력받은 텍스트를 이용해서 리스트에 추가할 메시지 생성
     ChatBubbleWithProfile message = ChatBubbleWithProfile(
       nickName: "유승훈",
       message: text,
+      currTime: currTime,
     );
     // 리스트에 메시지 추가
     _chatBubbleListController.addNewChunk(message);
