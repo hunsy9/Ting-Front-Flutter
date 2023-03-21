@@ -1,3 +1,5 @@
+import '../model/startMatching.dart';
+
 import 'package:get/get.dart';
 import '../model/chatBubbleWithProfile.dart';
 
