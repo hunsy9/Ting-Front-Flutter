@@ -198,21 +198,20 @@ class _HomeState extends State<Home> {
             }),
             // <= 자기 프로필
 
+            Spacer(flex: 5,),
             // => 선 두개
             Flexible(
-              flex: 130,
+              flex: 1,
               child: Center(
                 child: Row(
                   children: [
-                    Spacer(flex: 114,),
+                    Spacer(flex: 216,),
 
                     Flexible(
                       flex:30,
-                      child: Center(
-                        child: Transform.rotate(
-                          angle: 30 * pi / 180,
-                          child: FriendLine(start: Point(x:220.w , y:400.h), end: Point(x:150.w, y:540.h))
-                        ),
+                      child: Transform.rotate(
+                        angle: 30 * pi / 180,
+                        child: FriendLine(start: Point(x:220.w , y:400.h), end: Point(x:150.w, y:540.h))
                       )
                     ),
 
@@ -220,11 +219,9 @@ class _HomeState extends State<Home> {
 
                     Flexible(
                       flex:70,
-                      child: Center(
-                        child: Transform.rotate(
-                          angle: 330 * pi / 180,
-                          child: FriendLine(start: Point(x:220.w , y:400.h), end: Point(x:150.w, y:540.h))
-                        ),
+                      child: Transform.rotate(
+                        angle: 330 * pi / 180,
+                        child: FriendLine(start: Point(x:220.w , y:400.h), end: Point(x:150.w, y:540.h))
                       )
                     ),
 
@@ -235,6 +232,7 @@ class _HomeState extends State<Home> {
             ),
             // <= 선 두개
 
+            Spacer(flex: 130,),
 
 
 
@@ -658,7 +656,7 @@ class LinePainter extends CustomPainter {
     double length = sqrt((start.x-end.x)*(start.x-end.x) + (start.y-end.y)*(start.y-end.y));
     double horizontal = 2.w;
     double vertical = 2.h;
-    int standard = 20;
+    int standard = 22;
     
     //bubble body
     final bubblePath = Path()
@@ -683,7 +681,43 @@ class LinePainter extends CustomPainter {
       ..quadraticBezierTo(-horizontal, vertical+length*7.0/standard+vertical, 0, vertical+length*7.0/standard+vertical)
       ..quadraticBezierTo(horizontal, vertical+length*7.0/standard+vertical, horizontal, vertical+length*7.0/standard)
       ..lineTo(horizontal, vertical+length*5.5/standard)
-      ..quadraticBezierTo(horizontal, length*5.5/standard, 0, length*5.5/standard);
+      ..quadraticBezierTo(horizontal, length*5.5/standard, 0, length*5.5/standard)
+      // 왼쪽 위
+      ..moveTo(0, length*8.5/standard)
+      ..quadraticBezierTo(-horizontal, length*8.5/standard, -horizontal, vertical+length*8.5/standard)
+      ..lineTo(-horizontal, vertical+length*10.0/standard)
+      ..quadraticBezierTo(-horizontal, vertical+length*10.0/standard+vertical, 0, vertical+length*10.0/standard+vertical)
+      ..quadraticBezierTo(horizontal, vertical+length*10.0/standard+vertical, horizontal, vertical+length*10.0/standard)
+      ..lineTo(horizontal, vertical+length*8.5/standard)
+      ..quadraticBezierTo(horizontal, length*8.5/standard, 0, length*8.5/standard)
+      // 왼쪽 위
+      ..moveTo(0, length*11.5/standard)
+      ..quadraticBezierTo(-horizontal, length*11.5/standard, -horizontal, vertical+length*11.5/standard)
+      ..lineTo(-horizontal, vertical+length*13.0/standard)
+      ..quadraticBezierTo(-horizontal, vertical+length*13.0/standard+vertical, 0, vertical+length*13.0/standard+vertical)
+      ..quadraticBezierTo(horizontal, vertical+length*13.0/standard+vertical, horizontal, vertical+length*13.0/standard)
+      ..lineTo(horizontal, vertical+length*11.5/standard)
+      ..quadraticBezierTo(horizontal, length*11.5/standard, 0, length*11.5/standard)
+      // 왼쪽 위
+      ..moveTo(0, length*14.5/standard)
+      ..quadraticBezierTo(-horizontal, length*14.5/standard, -horizontal, vertical+length*14.5/standard)
+      ..lineTo(-horizontal, vertical+length*16.0/standard)
+      ..quadraticBezierTo(-horizontal, vertical+length*16.0/standard+vertical, 0, vertical+length*16.0/standard+vertical)
+      ..quadraticBezierTo(horizontal, vertical+length*16.0/standard+vertical, horizontal, vertical+length*16.0/standard)
+      ..lineTo(horizontal, vertical+length*14.5/standard)
+      ..quadraticBezierTo(horizontal, length*14.5/standard, 0, length*14.5/standard)
+       // 왼쪽 위
+      ..moveTo(0, length*17.5/standard)
+      ..quadraticBezierTo(-horizontal, length*17.5/standard, -horizontal, vertical+length*17.5/standard)
+      ..lineTo(-horizontal, vertical+length*18.5/standard)
+      ..quadraticBezierTo(-horizontal, vertical+length*18.5/standard+vertical, 0, vertical+length*18.5/standard+vertical)
+      ..quadraticBezierTo(horizontal, vertical+length*18.5/standard+vertical, horizontal, vertical+length*18.5/standard)
+      ..lineTo(horizontal, vertical+length*17.5/standard)
+      ..quadraticBezierTo(horizontal, length*17.5/standard, 0, length*17.5/standard);
+      
+      
+
+
 
     // paint setting
     final paint = Paint()
