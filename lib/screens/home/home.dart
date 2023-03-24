@@ -1021,7 +1021,12 @@ class DetailedProfile extends StatelessWidget {
 
 
 
-class Invitaion extends StatelessWidget {
+class Invitaion extends StatefulWidget {
+  @override
+  State<Invitaion> createState() => _InvitaionState();
+}
+
+class _InvitaionState extends State<Invitaion> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -1030,24 +1035,24 @@ class Invitaion extends StatelessWidget {
         children: [
           Container(
             width: 385.w,
-            height: 523.h,
+            height: 80.h,
             decoration: BoxDecoration(
-                color: Color(0xffffffff),
-                borderRadius: BorderRadius.circular(30),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.25),
-                    spreadRadius: 1.0,
-                    blurRadius: 1.0,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ]),
+              color: Color(0xffffffff),
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.25),
+                  spreadRadius: 1.0,
+                  blurRadius: 1.0,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ]
+            ),
           ),
         ],
       ),
     );
   }
-
 }
 
 
