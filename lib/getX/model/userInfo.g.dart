@@ -55,25 +55,28 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
 
 TeamModel _$TeamModelFromJson(Map<String, dynamic> json) => TeamModel(
       teamId: json['teamId'] as int?,
-      leaderNickname: json['leaderNickname'] as String?,
-      member1Nickname: json['member1Nickname'] as String?,
-      member2Nickname: json['member2Nickname'] as String?,
+      leaderId: json['leaderId'] as int?,
+      member1Id: json['member1Id'] as int?,
+      member2Id: json['member2Id'] as int?,
       preference: (json['preference'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
       isMatching: json['isMatching'] as int?,
+      teamMatchState: json['teamMatchState'] as String?,
     );
 
 Map<String, dynamic> _$TeamModelToJson(TeamModel instance) => <String, dynamic>{
       'teamId': instance.teamId,
-      'leaderNickname': instance.leaderNickname,
-      'member1Nickname': instance.member1Nickname,
-      'member2Nickname': instance.member2Nickname,
+      'leaderId': instance.leaderId,
+      'member1Id': instance.member1Id,
+      'member2Id': instance.member2Id,
       'preference': instance.preference,
       'isMatching': instance.isMatching,
+      'teamMatchState': instance.teamMatchState,
     };
 
 MatchModel _$MatchModelFromJson(Map<String, dynamic> json) => MatchModel(
+      userId: json['userId'] as int?,
       nickname: json['nickname'] as String?,
       gender: json['gender'] as int?,
       age: json['age'] as int?,
@@ -84,6 +87,7 @@ MatchModel _$MatchModelFromJson(Map<String, dynamic> json) => MatchModel(
 
 Map<String, dynamic> _$MatchModelToJson(MatchModel instance) =>
     <String, dynamic>{
+      'userId': instance.userId,
       'nickname': instance.nickname,
       'gender': instance.gender,
       'age': instance.age,
@@ -93,6 +97,7 @@ Map<String, dynamic> _$MatchModelToJson(MatchModel instance) =>
     };
 
 FriendModel _$FriendModelFromJson(Map<String, dynamic> json) => FriendModel(
+      userId: json['userId'] as String?,
       nickname: json['nickname'] as String?,
       kakaoName: json['kakaoName'] as String?,
       gender: json['gender'] as int?,
@@ -106,6 +111,7 @@ FriendModel _$FriendModelFromJson(Map<String, dynamic> json) => FriendModel(
 
 Map<String, dynamic> _$FriendModelToJson(FriendModel instance) =>
     <String, dynamic>{
+      'userId': instance.userId,
       'nickname': instance.nickname,
       'kakaoName': instance.kakaoName,
       'gender': instance.gender,

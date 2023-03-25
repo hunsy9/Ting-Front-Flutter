@@ -156,8 +156,10 @@ class _HomeState extends State<Home> {
             Obx(() {
 
               UserController userController = Get.put(UserController());
+              print("리더아이디: ${userController.userModel.value.team.value.leaderId}");
+              print("유저아이디 :${userController.userModel.value.userId}",);
               bool isBoss =  
-                            userController.userModel.value.nickname == userController.userModel.value.team.value.leaderNickname;
+                            userController.userModel.value.userId == userController.userModel.value.team.value.leaderId;
               String myImage = userController.userModel.value.image ?? '0';
               return Flexible(
               flex: 130,
@@ -234,31 +236,43 @@ class _HomeState extends State<Home> {
 
             Spacer(flex: 130,),
 
-
-
-
-
             // => 프로필 두개
             Obx(() {
               UserController userController = Get.put(UserController());
-              bool leftIsBoss = true;
+              bool leftIsBoss = false;
               String leftFriend ='';
-              String rightFriend=''; 
-              String leftImage ='';
-              String rightImage =''; 
-              if (userController.userModel.value.team != null) {
-                if(userController.userModel.value.team.value.leaderNickname == userController.userModel.value.nickname) {
-                  leftFriend = userController.userModel.value.team.value.member1Nickname ?? '';
-                  rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
-                  leftIsBoss = false;
-                } else if (userController.userModel.value.team.value.member1Nickname == userController.userModel.value.nickname) {
-                  leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
-                  rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
-                } else if (userController.userModel.value.team.value.member2Nickname == userController.userModel.value.nickname) {
-                  leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
-                  rightFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+              String rightFriend='';
+              String leftImage ='7';
+              String rightImage ='7';
+
+              int? member1Id = userController.userModel.value.team.value.member1Id;
+              int? member2Id = userController.userModel.value.team.value.member2Id;
+
+              print(member1Id);
+              print(member2Id);
+
+              for (FriendModel friendModel in userController.userModel.value.friends) {
+                if (friendModel.userId == member1Id) {
+                  leftFriend = friendModel.nickname ?? '';
+                } else if (friendModel.userId == member2Id) {
+                  rightFriend = friendModel.nickname ?? '';
                 }
               }
+
+
+              // if (userController.userModel.value.team != null) {
+              //   if(userController.userModel.value.team.value.leaderNickname == userController.userModel.value.nickname) {
+              //     leftFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+              //     rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+              //     leftIsBoss = false;
+              //   } else if (userController.userModel.value.team.value.member1Nickname == userController.userModel.value.nickname) {
+              //     leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
+              //     rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+              //   } else if (userController.userModel.value.team.value.member2Nickname == userController.userModel.value.nickname) {
+              //     leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
+              //     rightFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+              //   }
+              // }
               FriendModel? friendModel1;
               for (FriendModel friendModel3 in userController.userModel.value.friends) {
                 if (friendModel3.nickname == leftFriend) {
@@ -273,9 +287,10 @@ class _HomeState extends State<Home> {
                 if (friendModel3.nickname == rightFriend) {
                   friendModel2 = friendModel3;
                   rightImage = friendModel2.image ?? '7';
-                  break;   
+                  break;
                 }
               }
+
               return Flexible(
                 flex: 130,
                 child: Row(
@@ -381,24 +396,37 @@ class _HomeState extends State<Home> {
             // 프로필 텍스트 두개 //
             Obx(() {
               UserController userController = Get.put(UserController());
-              bool leftIsBoss = true;
+              bool leftIsBoss = false;
               String leftFriend ='';
               String rightFriend=''; 
               String leftImage ='';
-              String rightImage =''; 
-              if (userController.userModel.value.team != null) {
-                if(userController.userModel.value.team.value.leaderNickname == userController.userModel.value.nickname) {
-                  leftFriend = userController.userModel.value.team.value.member1Nickname ?? '';
-                  rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
-                  leftIsBoss = false;
-                } else if (userController.userModel.value.team.value.member1Nickname == userController.userModel.value.nickname) {
-                  leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
-                  rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
-                } else if (userController.userModel.value.team.value.member2Nickname == userController.userModel.value.nickname) {
-                  leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
-                  rightFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+              String rightImage ='';
+
+              int? member1Id = userController.userModel.value.team.value.member1Id;
+              int? member2Id = userController.userModel.value.team.value.member2Id;
+
+              for (FriendModel friendModel in userController.userModel.value.friends) {
+                if (friendModel.userId == member1Id) {
+                  leftFriend = friendModel.nickname ?? '';
+                } else if (friendModel.userId == member2Id) {
+                  rightFriend = friendModel.nickname ?? '';
                 }
               }
+
+
+              // if (userController.userModel.value.team != null) {
+              //   if(userController.userModel.value.team.value.leaderNickname == userController.userModel.value.nickname) {
+              //     leftFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+              //     rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+              //     leftIsBoss = false;
+              //   } else if (userController.userModel.value.team.value.member1Nickname == userController.userModel.value.nickname) {
+              //     leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
+              //     rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+              //   } else if (userController.userModel.value.team.value.member2Nickname == userController.userModel.value.nickname) {
+              //     leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
+              //     rightFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+              //   }
+              // }
               FriendModel? friendModel1;
               for (FriendModel friendModel3 in userController.userModel.value.friends) {
                 if (friendModel3.nickname == leftFriend) {
