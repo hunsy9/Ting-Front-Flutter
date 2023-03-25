@@ -33,6 +33,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    double angle = 0;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: homeAppBar("", context),
@@ -200,38 +201,78 @@ class _HomeState extends State<Home> {
             }),
             // <= 자기 프로필
 
-            Spacer(flex: 5,),
+            Spacer(flex: 7,),
             // => 선 두개
-            Flexible(
-              flex: 1,
-              child: Center(
-                child: Row(
-                  children: [
-                    Spacer(flex: 216,),
 
-                    Flexible(
-                      flex:30,
-                      child: Transform.rotate(
-                        angle: 30 * pi / 180,
-                        child: FriendLine(start: Point(x:220.w , y:400.h), end: Point(x:150.w, y:540.h))
-                      )
-                    ),
+            Obx(() {
+              UserController userController = Get.put(UserController());
+              bool leftIsBoss = true;
+              String leftFriend ='';
+              String rightFriend=''; 
+              String leftImage ='';
+              String rightImage =''; 
+              if (userController.userModel.value.team != null) {
+                if(userController.userModel.value.team.value.leaderNickname == userController.userModel.value.nickname) {
+                  leftFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+                  rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+                  leftIsBoss = false;
+                } else if (userController.userModel.value.team.value.member1Nickname == userController.userModel.value.nickname) {
+                  leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
+                  rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+                } else if (userController.userModel.value.team.value.member2Nickname == userController.userModel.value.nickname) {
+                  leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
+                  rightFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+                }
+              }
+              FriendModel? friendModel1;
+              for (FriendModel friendModel3 in userController.userModel.value.friends) {
+                if (friendModel3.nickname == leftFriend) {
+                  friendModel1 = friendModel3;
+                  leftImage = friendModel1.image ?? '7';
+                  break;
+                }
+              }
 
-                    Spacer(flex: 70,),
+              FriendModel? friendModel2;
+              for (FriendModel friendModel3 in userController.userModel.value.friends) {
+                if (friendModel3.nickname == rightFriend) {
+                  friendModel2 = friendModel3;
+                  rightImage = friendModel2.image ?? '7';
+                  break;   
+                }
+              }
+              return Flexible(
+                flex: 1,
+                child: Center(
+                  child: Row(
+                    children: [
+                      Spacer(flex: 216,),
 
-                    Flexible(
-                      flex:70,
-                      child: Transform.rotate(
-                        angle: 330 * pi / 180,
-                        child: FriendLine(start: Point(x:220.w , y:400.h), end: Point(x:150.w, y:540.h))
-                      )
-                    ),
+                      Flexible(
+                        flex:30,
+                        child: Transform.rotate(
+                          angle: 30 * pi / 180,
+                          child: Visibility(visible: isNotEmpty(leftFriend),child: FriendLine(start: Point(x:220.w , y:400.h), end: Point(x:150.w, y:540.h)))
+                        )
+                      ),
 
-                    Spacer(flex: 114,),
-                  ],
+                      Spacer(flex: 70,),
+
+                      Flexible(
+                        flex:70,
+                        child: Transform.rotate(
+                          angle: 330 * pi / 180,
+                          child: Visibility(visible: isNotEmpty(rightFriend), child: FriendLine(start: Point(x:220.w , y:400.h), end: Point(x:150.w, y:540.h)))
+                        )
+                      ),
+
+                      Spacer(flex: 114,),
+                    ],
+                  ),
                 ),
-              ),
-            ),
+              );
+            }),
+            
             // <= 선 두개
 
             Spacer(flex: 130,),
@@ -326,6 +367,15 @@ class _HomeState extends State<Home> {
                                 }
                               );
                             }
+                            // else는 초대창을 띄워야함
+                            else {
+                              showDialog(
+                                context: context, 
+                                builder: (context,) {
+                                  return Invitaion();
+                                }
+                              );
+                            }
                             
                             
                           },
@@ -366,6 +416,15 @@ class _HomeState extends State<Home> {
                                     enterYear: enterYear,
                                   );
                                 }
+                            );
+                          }
+                          // else는 초대창을 띄워야함
+                          else {
+                            showDialog(
+                              context: context, 
+                              builder: (context,) {
+                                return Invitaion();
+                              }
                             );
                           }
                           
@@ -543,6 +602,8 @@ class _HomeState extends State<Home> {
               });
             },child: basicText(text: '모달 실험'))
 
+            
+
           ],
         ));
   }
@@ -559,7 +620,12 @@ class _HomeState extends State<Home> {
 
 
 
-
+bool isNotEmpty(String str) {
+  if (str == '') {
+    return false;
+  }
+  return true;
+}
 
 
 // =>프로필 위젯
@@ -572,6 +638,7 @@ class HomeProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
       Color color = Color(0xffffffff);
+  
       return Stack(
         clipBehavior: Clip.none,
         children: [
@@ -681,7 +748,7 @@ class LinePainter extends CustomPainter {
     double length = sqrt((start.x-end.x)*(start.x-end.x) + (start.y-end.y)*(start.y-end.y));
     double horizontal = 2.w;
     double vertical = 2.h;
-    int standard = 22;
+    int standard = 22 ;
     
     //bubble body
     final bubblePath = Path()
@@ -981,6 +1048,42 @@ class DetailedProfile extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+class Invitaion extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            width: 385.w,
+            height: 523.h,
+            decoration: BoxDecoration(
+                color: Color(0xffffffff),
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.25),
+                    spreadRadius: 1.0,
+                    blurRadius: 1.0,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ]),
+          ),
+        ],
+      ),
+    );
+  }
+
+}
+
+
+
 
 
 
