@@ -157,7 +157,6 @@ class _HomeState extends State<Home> {
             Spacer(flex: 11,),
             // => 자기 프로필
             Obx(() {
-
               bool isBoss =  
                             userController.userModel.value.userId == userController.userModel.value.team.value.leaderId;
               String myImage = userController.userModel.value.image ?? '0';
@@ -293,8 +292,24 @@ class _HomeState extends State<Home> {
                 } else if (userController.userModel.value.team.value.member2Id == userController.userModel.value.userId) {
                   leftFriend = findNicknameById(userController.userModel.value.team.value.leaderId, userController);
                   rightFriend = findNicknameById(userController.userModel.value.team.value.member1Id, userController);
+
                 }
               }
+
+
+              // if (userController.userModel.value.team != null) {
+              //   if(userController.userModel.value.team.value.leaderNickname == userController.userModel.value.nickname) {
+              //     leftFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+              //     rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+              //     leftIsBoss = false;
+              //   } else if (userController.userModel.value.team.value.member1Nickname == userController.userModel.value.nickname) {
+              //     leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
+              //     rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+              //   } else if (userController.userModel.value.team.value.member2Nickname == userController.userModel.value.nickname) {
+              //     leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
+              //     rightFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+              //   }
+              // }
               FriendModel? friendModel1;
               for (FriendModel friendModel3 in userController.userModel.value.friends) {
                 if (friendModel3.nickname == leftFriend) {
@@ -309,9 +324,10 @@ class _HomeState extends State<Home> {
                 if (friendModel3.nickname == rightFriend) {
                   friendModel2 = friendModel3;
                   rightImage = friendModel2.image ?? '7';
-                  break;   
+                  break;
                 }
               }
+
               return Flexible(
                 flex: 130,
                 child: Row(
@@ -452,6 +468,21 @@ class _HomeState extends State<Home> {
                   rightFriend = findNicknameById(userController.userModel.value.team.value.member1Id, userController);
                 }
               }
+
+
+              // if (userController.userModel.value.team != null) {
+              //   if(userController.userModel.value.team.value.leaderNickname == userController.userModel.value.nickname) {
+              //     leftFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+              //     rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+              //     leftIsBoss = false;
+              //   } else if (userController.userModel.value.team.value.member1Nickname == userController.userModel.value.nickname) {
+              //     leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
+              //     rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+              //   } else if (userController.userModel.value.team.value.member2Nickname == userController.userModel.value.nickname) {
+              //     leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
+              //     rightFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+              //   }
+              // }
               FriendModel? friendModel1;
               for (FriendModel friendModel3 in userController.userModel.value.friends) {
                 if (friendModel3.nickname == leftFriend) {

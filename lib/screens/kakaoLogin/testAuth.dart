@@ -56,6 +56,7 @@ class _TestSignUpState extends State<TestSignUp> {
                     Obx(() => Text("user의 팀의 member1 : ${userController.userModel.value.team.value.member1Id}")),
                     Obx(() => Text("user의 팀의 member2 : ${userController.userModel.value.team.value.member2Id}")),
 
+
                     ElevatedButton(
                       onPressed: () async {
                         try {
