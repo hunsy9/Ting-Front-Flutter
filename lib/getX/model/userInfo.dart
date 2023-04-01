@@ -56,19 +56,21 @@ class UserModel {
 @JsonSerializable()
 class TeamModel {
   int? teamId;
-  String? leaderNickname;
-  String? member1Nickname;
-  String? member2Nickname;
+  int? leaderId;
+  int? member1Id;
+  int? member2Id;
   List<String>? preference;
   int? isMatching;
+  String? teamMatchState;
 
   TeamModel({
     this.teamId,
-    this.leaderNickname,
-    this.member1Nickname,
-    this.member2Nickname,
+    this.leaderId,
+    this.member1Id,
+    this.member2Id,
     this.preference,
     this.isMatching,
+    this.teamMatchState
   });
 
   factory TeamModel.fromJson(Map<String, dynamic> json) =>
@@ -79,6 +81,7 @@ class TeamModel {
 
 @JsonSerializable()
 class MatchModel {
+  int? userId;
   String? nickname;
   int? gender;
   int? age;
@@ -87,6 +90,7 @@ class MatchModel {
   String? schoolNum;
 
   MatchModel({
+    this.userId,
     this.nickname,
     this.gender,
     this.age,
@@ -103,6 +107,7 @@ class MatchModel {
 
 @JsonSerializable()
 class FriendModel {
+  int? userId;
   String? nickname;
   String? kakaoName;
   int? gender;
@@ -114,6 +119,7 @@ class FriendModel {
   int? isHidden;
 
   FriendModel({
+    this.userId,
     this.nickname,
     this.kakaoName,
     this.gender,
