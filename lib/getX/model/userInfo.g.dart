@@ -97,7 +97,7 @@ Map<String, dynamic> _$MatchModelToJson(MatchModel instance) =>
     };
 
 FriendModel _$FriendModelFromJson(Map<String, dynamic> json) => FriendModel(
-      userId: json['userId'] as String?,
+      userId: json['userId'] as int?,
       nickname: json['nickname'] as String?,
       kakaoName: json['kakaoName'] as String?,
       gender: json['gender'] as int?,

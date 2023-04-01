@@ -33,6 +33,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+
+    UserController userController = Get.put(UserController());
     double angle = 0;
     return Scaffold(
         backgroundColor: Colors.white,
@@ -155,10 +157,6 @@ class _HomeState extends State<Home> {
             Spacer(flex: 11,),
             // => 자기 프로필
             Obx(() {
-
-              UserController userController = Get.put(UserController());
-              print("리더아이디: ${userController.userModel.value.team.value.leaderId}");
-              print("유저아이디 :${userController.userModel.value.userId}",);
               bool isBoss =  
                             userController.userModel.value.userId == userController.userModel.value.team.value.leaderId;
               String myImage = userController.userModel.value.image ?? '0';
@@ -202,26 +200,25 @@ class _HomeState extends State<Home> {
             // <= 자기 프로필
 
             Spacer(flex: 7,),
+            
             // => 선 두개
-
             Obx(() {
-              UserController userController = Get.put(UserController());
               bool leftIsBoss = true;
               String leftFriend ='';
               String rightFriend=''; 
               String leftImage ='';
               String rightImage =''; 
               if (userController.userModel.value.team != null) {
-                if(userController.userModel.value.team.value.leaderNickname == userController.userModel.value.nickname) {
-                  leftFriend = userController.userModel.value.team.value.member1Nickname ?? '';
-                  rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
+                if(userController.userModel.value.team.value.leaderId == userController.userModel.value.userId) {
+                  leftFriend = findNicknameById(userController.userModel.value.team.value.member1Id, userController);
+                  rightFriend = findNicknameById(userController.userModel.value.team.value.member2Id, userController);
                   leftIsBoss = false;
-                } else if (userController.userModel.value.team.value.member1Nickname == userController.userModel.value.nickname) {
-                  leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
-                  rightFriend = userController.userModel.value.team.value.member2Nickname ?? '';
-                } else if (userController.userModel.value.team.value.member2Nickname == userController.userModel.value.nickname) {
-                  leftFriend = userController.userModel.value.team.value.leaderNickname ?? '';
-                  rightFriend = userController.userModel.value.team.value.member1Nickname ?? '';
+                } else if (userController.userModel.value.team.value.member1Id == userController.userModel.value.userId) {
+                  leftFriend = findNicknameById(userController.userModel.value.team.value.leaderId, userController);
+                  rightFriend = findNicknameById(userController.userModel.value.team.value.member2Id, userController);
+                } else if (userController.userModel.value.team.value.member2Id == userController.userModel.value.userId) {
+                  leftFriend = findNicknameById(userController.userModel.value.team.value.leaderId, userController);
+                  rightFriend = findNicknameById(userController.userModel.value.team.value.member1Id, userController);
                 }
               }
               FriendModel? friendModel1;
@@ -279,24 +276,23 @@ class _HomeState extends State<Home> {
 
             // => 프로필 두개
             Obx(() {
-              UserController userController = Get.put(UserController());
-              bool leftIsBoss = false;
+              bool leftIsBoss = true;
               String leftFriend ='';
-              String rightFriend='';
-              String leftImage ='7';
-              String rightImage ='7';
+              String rightFriend=''; 
+              String leftImage ='';
+              String rightImage =''; 
+              if (userController.userModel.value.team != null) {
+                if(userController.userModel.value.team.value.leaderId == userController.userModel.value.userId) {
+                  leftFriend = findNicknameById(userController.userModel.value.team.value.member1Id, userController);
+                  rightFriend = findNicknameById(userController.userModel.value.team.value.member2Id, userController);
+                  leftIsBoss = false;
+                } else if (userController.userModel.value.team.value.member1Id == userController.userModel.value.userId) {
+                  leftFriend = findNicknameById(userController.userModel.value.team.value.leaderId, userController);
+                  rightFriend = findNicknameById(userController.userModel.value.team.value.member2Id, userController);
+                } else if (userController.userModel.value.team.value.member2Id == userController.userModel.value.userId) {
+                  leftFriend = findNicknameById(userController.userModel.value.team.value.leaderId, userController);
+                  rightFriend = findNicknameById(userController.userModel.value.team.value.member1Id, userController);
 
-              int? member1Id = userController.userModel.value.team.value.member1Id;
-              int? member2Id = userController.userModel.value.team.value.member2Id;
-
-              print(member1Id);
-              print(member2Id);
-
-              for (FriendModel friendModel in userController.userModel.value.friends) {
-                if (friendModel.userId == member1Id) {
-                  leftFriend = friendModel.nickname ?? '';
-                } else if (friendModel.userId == member2Id) {
-                  rightFriend = friendModel.nickname ?? '';
                 }
               }
 
@@ -454,21 +450,22 @@ class _HomeState extends State<Home> {
 
             // 프로필 텍스트 두개 //
             Obx(() {
-              UserController userController = Get.put(UserController());
-              bool leftIsBoss = false;
+              bool leftIsBoss = true;
               String leftFriend ='';
               String rightFriend=''; 
               String leftImage ='';
-              String rightImage ='';
-
-              int? member1Id = userController.userModel.value.team.value.member1Id;
-              int? member2Id = userController.userModel.value.team.value.member2Id;
-
-              for (FriendModel friendModel in userController.userModel.value.friends) {
-                if (friendModel.userId == member1Id) {
-                  leftFriend = friendModel.nickname ?? '';
-                } else if (friendModel.userId == member2Id) {
-                  rightFriend = friendModel.nickname ?? '';
+              String rightImage =''; 
+              if (userController.userModel.value.team != null) {
+                if(userController.userModel.value.team.value.leaderId == userController.userModel.value.userId) {
+                  leftFriend = findNicknameById(userController.userModel.value.team.value.member1Id, userController);
+                  rightFriend = findNicknameById(userController.userModel.value.team.value.member2Id, userController);
+                  leftIsBoss = false;
+                } else if (userController.userModel.value.team.value.member1Id == userController.userModel.value.userId) {
+                  leftFriend = findNicknameById(userController.userModel.value.team.value.leaderId, userController);
+                  rightFriend = findNicknameById(userController.userModel.value.team.value.member2Id, userController);
+                } else if (userController.userModel.value.team.value.member2Id == userController.userModel.value.userId) {
+                  leftFriend = findNicknameById(userController.userModel.value.team.value.leaderId, userController);
+                  rightFriend = findNicknameById(userController.userModel.value.team.value.member1Id, userController);
                 }
               }
 
@@ -617,7 +614,16 @@ class _HomeState extends State<Home> {
 
 
 
-
+String findNicknameById(int? id, UserController userController) {
+  if (id != null) {
+    for (FriendModel friendModel in userController.userModel.value.friends) {
+      if (friendModel.userId == id) {
+        return friendModel.nickname ?? '';
+      }
+    }
+  }
+  return '';
+}
 
 
 bool isNotEmpty(String str) {
@@ -1053,7 +1059,12 @@ class DetailedProfile extends StatelessWidget {
 
 
 
-class Invitaion extends StatelessWidget {
+class Invitaion extends StatefulWidget {
+  @override
+  State<Invitaion> createState() => _InvitaionState();
+}
+
+class _InvitaionState extends State<Invitaion> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -1062,24 +1073,24 @@ class Invitaion extends StatelessWidget {
         children: [
           Container(
             width: 385.w,
-            height: 523.h,
+            height: 80.h,
             decoration: BoxDecoration(
-                color: Color(0xffffffff),
-                borderRadius: BorderRadius.circular(30),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.25),
-                    spreadRadius: 1.0,
-                    blurRadius: 1.0,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ]),
+              color: Color(0xffffffff),
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.25),
+                  spreadRadius: 1.0,
+                  blurRadius: 1.0,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ]
+            ),
           ),
         ],
       ),
     );
   }
-
 }
 
 

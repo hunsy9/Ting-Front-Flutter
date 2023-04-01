@@ -107,7 +107,7 @@ class MatchModel {
 
 @JsonSerializable()
 class FriendModel {
-  String? userId;
+  int? userId;
   String? nickname;
   String? kakaoName;
   int? gender;
