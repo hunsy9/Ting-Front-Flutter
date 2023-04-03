@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-import 'package:ting_flutter/components/myAppBar.dart';
+import 'package:ting_flutter/components/appBar/myAppBar.dart';
 import 'package:http/http.dart' as http;
 import 'package:ting_flutter/getX/controller/userInfoController.dart';
 

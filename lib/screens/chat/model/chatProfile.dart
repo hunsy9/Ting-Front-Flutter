@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import './chatProfileModal.dart';
+import 'package:ting_flutter/components/modal/profileModal.dart';
 import '../../../getX/controller/userInfoController.dart';
 
 Widget chatProfile(BuildContext context) {
   UserController userController = Get.find<UserController>();
+  int? userId = userController.userModel.value.userId;
   return GestureDetector(
     onTap: () {
       showDialog(
@@ -14,7 +15,7 @@ Widget chatProfile(BuildContext context) {
           builder: (
             context,
           ) {
-            return Center(child: chatProfileModal(context));
+            return Center(child: ProfileModal(context, false, false, userId));
           });
     },
     child: Container(

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ting_flutter/components/chatRoomAppbar.dart';
+import 'package:ting_flutter/components/appBar/chatRoomAppbar.dart';
 import '../controller/chatBubbleListController.dart';
 import 'package:http/http.dart' as http;
 import '../model/chatBubbleWithProfile.dart';

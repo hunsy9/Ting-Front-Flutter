@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ting_flutter/components/myAppBar.dart';
-import 'package:ting_flutter/components/noticeBox.dart';
+import 'package:ting_flutter/components/appBar/myAppBar.dart';
+import 'package:ting_flutter/components/box/noticeBox.dart';
 
 class NoticeScreen extends StatefulWidget {
   const NoticeScreen({Key? key}) : super(key: key);

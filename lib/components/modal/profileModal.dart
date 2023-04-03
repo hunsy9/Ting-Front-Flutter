@@ -1,12 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:ting_flutter/getX/model/userInfo.dart';
 
 import '../../../getX/controller/userInfoController.dart';
 
-Widget chatProfileModal(BuildContext context) {
+Widget ProfileModal(BuildContext context , bool isFriends, bool isMatchingPeople , int? userId) {
 
   UserController userController = Get.find<UserController>();
+
+  String? imageIndex = '';
+  String? nickName = '';
+  String? birthday = '';
+  String? schoolNum = '';
+  String? univ = '';
+  String? major = '';
+
+  try{
+    if(isFriends){
+      Set<FriendModel> targetFriend = userController.friends.value.where((e) => e.userId == userId).toSet();
+      imageIndex = targetFriend.first.image;
+      nickName = targetFriend.first.nickname;
+      birthday = targetFriend.first.birthday;
+      schoolNum = targetFriend.first.schoolNum;
+      univ = "부산대학교";
+      major = targetFriend.first.major;
+
+    }
+    else if(isMatchingPeople){
+      Set<MatchModel> targetMatchModel = userController.userModel.value.matches.value.where((e) => e.userId == userId).toSet();
+      imageIndex = targetMatchModel.first.image;
+      nickName = targetMatchModel.first.nickname;
+      // birthday = targetMatchModel.birthday;
+      birthday = "테스트";
+      schoolNum = targetMatchModel.first.schoolNum;
+      univ = "부산대학교";
+      major = targetMatchModel.first.major;
+    }
+    else{
+      imageIndex = userController.userModel.value.image;
+      nickName = userController.userModel.value.nickname;
+      birthday = userController.userModel.value.birthday;
+      schoolNum = userController.userModel.value.schoolNum;
+      univ = userController.userModel.value.schoolName;
+      major = userController.userModel.value.major;
+    }
+  }catch(e){
+    Navigator.pop(context);
+  }
+
+
+
+
 
   return Center(
     child: Stack(
@@ -36,7 +81,7 @@ Widget chatProfileModal(BuildContext context) {
             width: 228.h,
             height: 228.h,
             child: Image.asset(
-              'assets/profile/${userController.userModel.value.image}.png',
+              'assets/profile/$imageIndex.png',
               height: 30.h,
             ),
             decoration: BoxDecoration(
@@ -61,7 +106,7 @@ Widget chatProfileModal(BuildContext context) {
           top: 237.h,
           left: 49.w,
           child: Text(
-            "${userController.userModel.value.nickname}",
+            "$nickName",
             style: TextStyle(
               fontFamily: 'nanumsquareround',
               fontSize: 30.w,
@@ -77,7 +122,7 @@ Widget chatProfileModal(BuildContext context) {
           top: 249.h,
           left: 200.w,
           child: Text(
-            "${userController.userModel.value.birthday}년생 | ${userController.userModel.value.schoolNum}학번",
+            "$birthday년생 | $schoolNum학번",
             style: TextStyle(
               fontFamily: 'nanumsquareround',
               fontSize: 15.w,
@@ -120,7 +165,7 @@ Widget chatProfileModal(BuildContext context) {
           top: 338.h,
           left: 110.w,
           child: Text(
-            "부산대학교",
+            "$univ",
             style: TextStyle(
               fontFamily: 'nanumsquareround',
               fontSize: 21.w,
@@ -146,7 +191,7 @@ Widget chatProfileModal(BuildContext context) {
           top: 422.h,
           left: 110.w,
           child: Text(
-            "${userController.userModel.value.major}",
+            "$major",
             style: TextStyle(
               fontFamily: 'nanumsquareround',
               fontSize: 21.w,

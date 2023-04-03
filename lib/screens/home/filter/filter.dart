@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ting_flutter/components/myAppBar.dart';
+import 'package:ting_flutter/components/appBar/myAppBar.dart';
 import 'package:ting_flutter/components/myText.dart';
 
 class FilterScreen extends StatefulWidget {

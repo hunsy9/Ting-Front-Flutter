@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ting_flutter/components/myAppBar.dart';
+import 'package:ting_flutter/components/appBar/myAppBar.dart';
 
 class RecommendedPlaceScreen extends StatefulWidget {
   const RecommendedPlaceScreen({Key? key}) : super(key: key);

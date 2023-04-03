@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:ting_flutter/basic_components/basictext.dart';
-import 'package:ting_flutter/components/homeAppbar.dart';
+import 'package:ting_flutter/components/appBar/homeAppbar.dart';
 import 'package:ting_flutter/getX/controller/userInfoController.dart';
 import 'package:ting_flutter/named_routing/config.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -15,7 +15,6 @@ import 'package:get/get.dart';
 import 'package:ting_flutter/screens/home/controller/MainButtonController.dart';
 import 'package:ting_flutter/screens/home/controller/ProfileController.dart';
 import 'package:ting_flutter/getX/model/userInfo.dart';
-
 
 class MyProfileScreen extends StatefulWidget {
   const MyProfileScreen({Key? key}) : super(key: key);
@@ -25,7 +24,6 @@ class MyProfileScreen extends StatefulWidget {
 }
 
 class _MyProfileScreenState extends State<MyProfileScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -33,13 +31,10 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
-      backgroundColor: Color(0xff484749),
-      extendBodyBehindAppBar: true,
-      body: Stack(
-        clipBehavior: Clip.none,
-        children: [
+        backgroundColor: Color(0xff484749),
+        extendBodyBehindAppBar: true,
+        body: Stack(clipBehavior: Clip.none, children: [
           Positioned(
             bottom: 0,
             child: Container(
@@ -47,7 +42,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               height: 600.h,
               decoration: BoxDecoration(
                   color: Color(0xffffffff),
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(45), topRight: Radius.circular(45)),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(45),
+                      topRight: Radius.circular(45)),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.25),
@@ -58,8 +55,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   ]),
             ),
           ),
-
-          Obx( () {
+          Obx(() {
             UserController userController = Get.put(UserController());
             String myImage = userController.userModel.value.image ?? '0';
             String imageLink = "assets/profile/${myImage}.png";
@@ -88,8 +84,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               ),
             );
           }),
-
-          Obx( () {
+          Obx(() {
             UserController userController = Get.put(UserController());
             String nickName = userController.userModel.value.nickname!;
             return Positioned(
@@ -98,20 +93,19 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 width: 447.w,
                 child: Center(
                   child: Text(
-                      nickName,
-                      style: TextStyle(
-                        fontFamily: 'nanumsquareround',
-                        fontSize: 30.w,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xff978e9b),
-                      ),
-                      textAlign: TextAlign.start,
+                    nickName,
+                    style: TextStyle(
+                      fontFamily: 'nanumsquareround',
+                      fontSize: 30.w,
+                      fontWeight: FontWeight.w800,
+                      color: Color(0xff978e9b),
                     ),
+                    textAlign: TextAlign.start,
+                  ),
                 ),
               ),
-              );
+            );
           }),
-
           Obx(() {
             UserController userController = Get.put(UserController());
             String birthYear = userController.userModel.value.birthday!;
@@ -135,7 +129,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               ),
             );
           }),
-
           Obx(() {
             UserController userController = Get.put(UserController());
             String introduction = "한재안입니다.";
@@ -158,11 +151,10 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               ),
             );
           }),
-
           Obx(() {
             UserController userController = Get.put(UserController());
             String schoolName = userController.userModel.value.schoolName!;
-            
+
             return Positioned(
               top: 570.h,
               child: Container(
@@ -188,39 +180,68 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               ),
             );
           }),
-
-
           Obx(() {
             UserController userController = Get.put(UserController());
             String major = userController.userModel.value.major!;
-            
+
             return Positioned(
               top: 620.h,
               child: Container(
                 width: 447.w,
                 child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Column(
                     children: [
-                      Image.asset("assets/images/home/crown.png"),
-                      Text(
-                        major,
-                        style: TextStyle(
-                          fontFamily: 'nanumsquareround',
-                          fontSize: 20.w,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xff4d4d4d),
-                        ),
-                        textAlign: TextAlign.start,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset("assets/images/home/crown.png"),
+                          Text(
+                            major,
+                            style: TextStyle(
+                              fontFamily: 'nanumsquareround',
+                              fontSize: 20.w,
+                              fontWeight: FontWeight.w800,
+                              color: Color(0xff4d4d4d),
+                            ),
+                            textAlign: TextAlign.start,
+                          ),
+                        ],
                       ),
+                      ElevatedButton(
+                        onPressed: () => {Navigator.pushNamed(context, "/testAuth")},
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xfff4f2fb),
+                            minimumSize: Size(54.w, 26.h),
+                            elevation: 0),
+                        child: const Text(
+                          '테스트 페이지',
+                          style: TextStyle(
+                              color: Color(0xff986cbf),
+                              fontFamily: 'nanumsquareround',
+                              fontSize: 12),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () => {Navigator.pushNamed(context, "/chatRoom")},
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xfff4f2fb),
+                            minimumSize: Size(54.w, 26.h),
+                            elevation: 0),
+                        child: const Text(
+                          '채팅 페이지',
+                          style: TextStyle(
+                              color: Color(0xff986cbf),
+                              fontFamily: 'nanumsquareround',
+                              fontSize: 12),
+                        ),
+                      ),
+
                     ],
                   ),
                 ),
               ),
             );
           }),
-        ]
-      )
-    );
+        ]));
   }
 }

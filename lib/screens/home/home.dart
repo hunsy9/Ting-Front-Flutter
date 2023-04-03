@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:ting_flutter/basic_components/basictext.dart';
-import 'package:ting_flutter/components/homeAppbar.dart';
+import 'package:ting_flutter/components/appBar/homeAppbar.dart';
 import 'package:ting_flutter/getX/controller/userInfoController.dart';
 import 'package:ting_flutter/named_routing/config.dart';
 import 'package:carousel_slider/carousel_slider.dart';
